@@ -14,11 +14,7 @@ class LineCharts extends Component {
     }
 
 
-
-
     render() {
-
-        
 
         return (
 
@@ -55,7 +51,8 @@ class LineCharts extends Component {
                 </Rnd>
 
             </div>
-        );
+
+        )
     }
 
 
