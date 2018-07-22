@@ -67,6 +67,7 @@ class App2 extends Component {
                 <button onClick={()=>this.addLineChart()}>Add Line Chart</button>
                 <button onClick={()=>this.getComponentDetails()}>Get Component Details</button>
                 <div id="container">
+                    {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item,i)=>
                         <Rnd style={{border: "1px solid grey"}}
                             // intialize components x,y,height and width

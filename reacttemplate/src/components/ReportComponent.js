@@ -7,7 +7,6 @@ class ReportComponent extends Component {
     }
 
     render() {
-        let component = "";
         // based on the item type, render a type of component
         if (this.props.type === "line") {
             return(
