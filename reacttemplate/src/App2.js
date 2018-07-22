@@ -27,9 +27,18 @@ class App2 extends Component {
             components: [
                 {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
                 {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
-                {type:"text", x:10, y:320, height:50, width:200, properties:{text:"<p>Hello World!</p>"}}
+                {type:"text", x:10, y:220, height:50, width:200, properties:{text:"<p>Hello World!</p>"}}
             ]
         }
+    }
+
+    addTextbox = () => {
+        let components = this.state.components;
+        components.push(
+            {type:"text", x:0, y:0, height:50, width:200, properties:{text:"<p><br></p>"}}
+        );
+
+        this.setState({components});
     }
 
     addBarChart = () => {
@@ -45,12 +54,10 @@ class App2 extends Component {
 
     addLineChart = () => {
         let components = this.state.components;
-        // adds new component to state
         components.push(
             {type:"line", x:0, y:0, height:200, width:300, data:lineChartData}
         );
 
-        // updates state
         this.setState({components});
     }
 
@@ -58,10 +65,9 @@ class App2 extends Component {
         console.log(this.state.components);
     }
 
+    // i represents index of current item in this.state.components
+    // convert style data to integer. e.g. 10px -> 10
     onResizeStop (ref, i){
-        // i represents index of current item in this.state.components
-        // convert style data to integer. e.g. 10px -> 10
-        // good practice to not update state directly, but through setState
         let components = this.state.components;
         components[i].height = parseInt(ref.style.height,10);
         components[i].width = parseInt(ref.style.width,10);
@@ -70,7 +76,6 @@ class App2 extends Component {
     }
 
     onDragStop (ref, i){
-        // i represents index of current item in this.state.components
         let components = this.state.components;
         components[i].x = ref.x;
         components[i].y = ref.y;
@@ -78,10 +83,17 @@ class App2 extends Component {
         console.log(components);
     }
 
+    updateProperties = (properties, i) => {
+        let components = this.state.components;
+        components[i].properties = properties;
+        this.setState({properties});
+    }
+
     render() {
         // "self" references the App component, as "this" may be changed when in method scope
         return (
             <div>
+                <button onClick={this.addTextbox}>Add Textbox</button>
                 <button onClick={this.addBarChart}>Add Bar Chart</button>
                 <button onClick={this.addLineChart}>Add Line Chart</button>
                 <button onClick={this.getComponentDetails}>Get Component Details</button>
@@ -97,6 +109,9 @@ class App2 extends Component {
                                 height: item.height
                             }}
 
+                            // to limit the drag area to a particular class
+                            dragHandleClassName={"dragHandle"}
+
                             // update height and width onResizeStop
                             // onResizeStop will activate a callback function containing these params
                             // ref represents item that was resized
@@ -107,7 +122,10 @@ class App2 extends Component {
                             // ref represents item that was dragged
                             onDragStop={(event, ref)=>this.onDragStop(ref,i)}
                         >
-                            <ReportComponent type={item.type} data={item.data} properties={item.properties}/>
+                            <ReportComponent type={item.type} data={item.data} 
+                                properties={item.properties} i={i}
+                                updateProperties={this.updateProperties.bind(this)}    
+                            />
                         </Rnd>
                     )}  
                 </div>

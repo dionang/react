@@ -5,15 +5,18 @@ import {ResponsiveContainer} from 'recharts';
 class Textbox extends Component {
     constructor(props) {
         super(props);
+        // initialize state with what was passed by the props
         this.state = {
+            // converts the markup value into the value used by this component
             value: RichTextEditor.createValueFromString(this.props.text, 'html'),
             htmlValue: this.props.text
         }
     }
 
     onChange = (value) => {
+        // converts the value in state
         this.setState({value:value, htmlValue:value.toString('html')});
-        console.log(value.toString('html'));
+        this.props.updateProperties({text:this.state.htmlValue}, this.props.i);
     };
 
     render() {
@@ -32,6 +35,7 @@ class Textbox extends Component {
                 value={this.state.value}
                 onChange={this.onChange}
                 toolbarConfig={toolbarConfig}
+                toolbarClassName={"dragHandle"}
                 style={{width:"100%", height:"100%"}}
             />
         );

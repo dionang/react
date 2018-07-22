@@ -11,7 +11,7 @@ class ReportComponent extends Component {
         // based on the item type, render a type of component
         if (this.props.type === "line") {
             return(
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer className="dragHandle" width="100%" height="100%">
                     <LineChart style={{width:"100%", height:"100%"}} data={this.props.data}>
                         <XAxis dataKey="name" />
                         <YAxis />
@@ -25,7 +25,7 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type === "bar") {
             return(
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer className="dragHandle" width="100%" height="100%">
                     <BarChart style={{width:"100%", height:"100%"}} data={this.props.data}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
@@ -40,7 +40,8 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type === "text") {
             return(
-                <Textbox text={this.props.properties.text}/>
+                <Textbox i={this.props.i} text={this.props.properties.text} 
+                    updateProperties={this.props.updateProperties}/>
             );
         }
     }
