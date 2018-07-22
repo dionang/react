@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
-import ReportComponent from './components/ReportComponent'
+import ReportComponent from './components/ReportComponent';
 
 const barChartData = [
     { name: 'Telstra', positive: 50, neutral: 20, negative: 2 },
@@ -20,19 +20,19 @@ const lineChartData = [
 ];
 
 class App2 extends Component {
-    
     constructor(props) {
         super(props);
         this.state = {
             // initial state has two line charts
             components: [
                 {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
-                {type:"bar", x:320, y:10, height:300, width:400, data:barChartData}
+                {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
+                {type:"text", x:10, y:320, height:50, width:200, properties:{text:"<p>Hello World!</p>"}}
             ]
         }
     }
 
-    addBarChart(){
+    addBarChart = () => {
         let components = this.state.components;
         // adds new component to state
         components.push(
@@ -43,7 +43,7 @@ class App2 extends Component {
         this.setState({components});
     }
 
-    addLineChart(){
+    addLineChart = () => {
         let components = this.state.components;
         // adds new component to state
         components.push(
@@ -54,22 +54,41 @@ class App2 extends Component {
         this.setState({components});
     }
 
-    getComponentDetails(){
+    getComponentDetails = () => {
         console.log(this.state.components);
     }
 
-    render () {
+    onResizeStop (ref, i){
+        // i represents index of current item in this.state.components
+        // convert style data to integer. e.g. 10px -> 10
+        // good practice to not update state directly, but through setState
+        let components = this.state.components;
+        components[i].height = parseInt(ref.style.height,10);
+        components[i].width = parseInt(ref.style.width,10);
+        this.setState({components});
+        console.log(components);
+    }
+
+    onDragStop (ref, i){
+        // i represents index of current item in this.state.components
+        let components = this.state.components;
+        components[i].x = ref.x;
+        components[i].y = ref.y;
+        this.setState({components});
+        console.log(components);
+    }
+
+    render() {
         // "self" references the App component, as "this" may be changed when in method scope
-        let self = this;
         return (
             <div>
-                <button onClick={()=>this.addBarChart()}>Add Bar Chart</button>
-                <button onClick={()=>this.addLineChart()}>Add Line Chart</button>
-                <button onClick={()=>this.getComponentDetails()}>Get Component Details</button>
+                <button onClick={this.addBarChart}>Add Bar Chart</button>
+                <button onClick={this.addLineChart}>Add Line Chart</button>
+                <button onClick={this.getComponentDetails}>Get Component Details</button>
                 <div id="container">
                     {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item,i)=>
-                        <Rnd style={{border: "1px solid grey"}}
+                        <Rnd key={i} style={{border: "1px solid grey"}}
                             // intialize components x,y,height and width
                             default={{
                                 x: item.x,
@@ -81,32 +100,16 @@ class App2 extends Component {
                             // update height and width onResizeStop
                             // onResizeStop will activate a callback function containing these params
                             // ref represents item that was resized
-                            onResizeStop={(event, dir, ref)=>{
-                                // i represents index of current item in this.state.components
-                                // convert style data to integer. e.g. 10px -> 10
-                                // good practice to not update state directly, but through setState
-                                let components = self.state.components;
-                                components[i].height = parseInt(ref.style.height,10);
-                                components[i].width = parseInt(ref.style.width,10);
-                                self.setState({components});
-                                console.log(components);
-                            }}
+                            onResizeStop={(event, dir, ref)=>this.onResizeStop(ref,i)}
 
                             // update height and width onResizeStop
                             // onDragStop will activate a callback function containing these params
                             // ref represents item that was dragged
-                            onDragStop={(event, ref)=>{
-                                // i represents index of current item in this.state.components
-                                let components = self.state.components;
-                                components[i].x = ref.x;
-                                components[i].y = ref.y;
-                                self.setState({components});
-                                console.log(components);
-                            }}
+                            onDragStop={(event, ref)=>this.onDragStop(ref,i)}
                         >
-                            <ReportComponent type={item.type} data={item.data}/>
+                            <ReportComponent type={item.type} data={item.data} properties={item.properties}/>
                         </Rnd>
-                    )}
+                    )}  
                 </div>
             </div>
         ) 

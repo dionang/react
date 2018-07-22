@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import Textbox from './Textbox';
 
 class ReportComponent extends Component {
     constructor(props) {
@@ -36,6 +37,10 @@ class ReportComponent extends Component {
                         <Bar dataKey="negative" fill="grey" />
                     </BarChart>
                 </ResponsiveContainer>
+            );
+        } else if (this.props.type === "text") {
+            return(
+                <Textbox text={this.props.properties.text}/>
             );
         }
     }
