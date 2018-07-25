@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Textbox from './Textbox';
+import BasicForm from './BasicForm';
 
 class ReportComponent extends Component {
     constructor(props) {
@@ -43,6 +44,13 @@ class ReportComponent extends Component {
                 <Textbox i={this.props.i} text={this.props.properties.text} 
                     updateProperties={this.props.updateProperties}/>
             );
+        } else if (this.props.type === "basic"){
+            return(
+                <ResponsiveContainer className="dragHandle" width="100%" height="100%">
+                    <BasicForm ></BasicForm>
+                </ResponsiveContainer>
+                
+            )
         }
     }
 }

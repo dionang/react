@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import ReportComponent from './components/ReportComponent';
+import BasicForm from './components/BasicForm';
 
 const barChartData = [
     { name: 'Telstra', positive: 50, neutral: 20, negative: 2 },
@@ -89,6 +90,14 @@ class App2 extends Component {
         this.setState({properties});
     }
 
+    getForm = () =>{
+        let components = this.state.components;
+        components.push(
+            {type:"basic"}
+        );
+        this.setState({components});
+    }
+
     render() {
         // "self" references the App component, as "this" may be changed when in method scope
         return (
@@ -97,6 +106,7 @@ class App2 extends Component {
                 <button onClick={this.addBarChart}>Add Bar Chart</button>
                 <button onClick={this.addLineChart}>Add Line Chart</button>
                 <button onClick={this.getComponentDetails}>Get Component Details</button>
+                <button onClick={this.getForm}>Show the form</button>
                 <div id="container">
                     {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item,i)=>
