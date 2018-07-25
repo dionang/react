@@ -28,9 +28,9 @@ class App2 extends Component {
         this.state = {
             // initial state has two line charts
             components: [
-                // {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
-                // {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
-                // {type:"text", x:10, y:220, height:50, width:200, properties:{text:"<p>Hello World!</p>"}}
+                {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
+                {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
+                {type:"text", x:10, y:220, height:50, width:200, properties:{text:"<p>Hello World!</p>"}}
             ]
         }
     }
@@ -61,6 +61,14 @@ class App2 extends Component {
             {type:"line", x:0, y:0, height:200, width:300, data:lineChartData}
         );
 
+        this.setState({components});
+    }
+
+    getForm = () =>{
+        let components = this.state.components;
+        components.push(
+            {type:"basic"}
+        );
         this.setState({components});
     }
 
@@ -131,6 +139,7 @@ class App2 extends Component {
                 <button onClick={this.addBarChart}>Add Bar Chart</button>
                 <button onClick={this.addLineChart}>Add Line Chart</button>
                 <button onClick={this.getComponentDetails}>Get Component Details</button>
+                <button onClick={this.getForm}>Show the form</button>
                 <button onClick={this.saveTemplate}>Save Template</button>
                 <button onClick={this.loadTemplate}>Load Template</button>
                 <input type="number" id="template" defaultValue="1"/>
