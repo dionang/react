@@ -13,7 +13,7 @@ class Textbox extends Component {
         }
     }
 
-    onChange = (value) => {
+    onChange(value){
         // converts the value in state
         this.setState({value:value, htmlValue:value.toString('html')});
         this.props.updateProperties({text:this.state.htmlValue}, this.props.i);
@@ -33,7 +33,7 @@ class Textbox extends Component {
         return(
             <RichTextEditor
                 value={this.state.value}
-                onChange={this.onChange}
+                onChange={(e)=>this.onChange(e)}
                 toolbarConfig={toolbarConfig}
                 toolbarClassName={"dragHandle"}
                 style={{width:"100%", height:"100%"}}

@@ -3,10 +3,6 @@ import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, L
 import Textbox from './Textbox';
 
 class ReportComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         // based on the item type, render a type of component
         if (this.props.type === "line") {

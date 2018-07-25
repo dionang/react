@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import ReportComponent from './components/ReportComponent';
+import request from 'request';
 
 const barChartData = [
     { name: 'Telstra', positive: 50, neutral: 20, negative: 2 },
@@ -19,15 +20,17 @@ const lineChartData = [
     { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
 ];
 
+const api = 'http://localhost:8084/';
+
 class App2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
             // initial state has two line charts
             components: [
-                {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
-                {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
-                {type:"text", x:10, y:220, height:50, width:200, properties:{text:"<p>Hello World!</p>"}}
+                // {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
+                // {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
+                // {type:"text", x:10, y:220, height:50, width:200, properties:{text:"<p>Hello World!</p>"}}
             ]
         }
     }
@@ -65,6 +68,38 @@ class App2 extends Component {
         console.log(this.state.components);
     }
 
+    loadTemplate = () => {
+        let self = this;
+        let templateId = parseInt(document.getElementById("template").value, 10);
+        request.post({
+            url:  api + 'loadComponents',
+            json: true,
+            body: {operation:"loadComponents", templateId: templateId}
+        }, function(error, response, body){
+            let components = body.components;
+            for (let component of components){
+                if (component.type == "bar") {
+                    component.data = barChartData;
+                } else if (component.type == "line") {
+                    component.data = lineChartData;
+                }
+            }
+            console.log(body);
+            self.setState({components});
+        });
+    }
+
+    saveTemplate = () => {
+        let templateId = parseInt(document.getElementById("template").value, 10);
+        request.post({
+            url:  api + 'saveComponents',
+            json: true,
+            body: {operation:"saveComponents", templateId: templateId, components:this.state.components}
+        }, function(error, response, body){
+            console.log(body);
+        });
+    }
+
     // i represents index of current item in this.state.components
     // convert style data to integer. e.g. 10px -> 10
     onResizeStop (ref, i){
@@ -90,24 +125,22 @@ class App2 extends Component {
     }
 
     render() {
-        // "self" references the App component, as "this" may be changed when in method scope
         return (
             <div>
                 <button onClick={this.addTextbox}>Add Textbox</button>
                 <button onClick={this.addBarChart}>Add Bar Chart</button>
                 <button onClick={this.addLineChart}>Add Line Chart</button>
                 <button onClick={this.getComponentDetails}>Get Component Details</button>
+                <button onClick={this.saveTemplate}>Save Template</button>
+                <button onClick={this.loadTemplate}>Load Template</button>
+                <input type="number" id="template" defaultValue="1"/>
                 <div id="container">
                     {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item,i)=>
                         <Rnd key={i} style={{border: "1px solid grey"}}
                             // intialize components x,y,height and width
-                            default={{
-                                x: item.x,
-                                y: item.y,
-                                width: item.width,
-                                height: item.height
-                            }}
+                            position = {{x: item.x, y: item.y}}
+                            size = {{width: item.width, height: item.height}}
 
                             // to limit the drag area to a particular class
                             dragHandleClassName={"dragHandle"}
