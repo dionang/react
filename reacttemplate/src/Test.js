@@ -1,54 +1,73 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { withFormik, Form, Field } from 'formik';
 import Rnd from 'react-rnd';
-import Textbox from './components/Textbox';
+import Yup from 'yup'
 
-class Test extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            // initial state has two line charts
-            components: [
-                {type:"text", x:10, y:320, height:50, width:200, properties:{text:"<p>Hello World!</p>"}}
-            ]
-        }
-    }
+var datasources = [];
+var options = ['Sales', 'Costs', 'Forecast', 'Appointment', 'Profits'];
 
-    getComponentDetails = () => {
-        console.log(this.state.components);
-    }
+const App = props => {
+    const {
+        values,
+        touched,
+        handleChange,
+        isSubmitting 
+    } = props;
 
-    // i represents index of current item in this.state.components
-    // convert style data to integer. e.g. 10px -> 10
-    onResizeStop (ref, i){
-        let components = this.state.components;
-        components[i].height = parseInt(ref.style.height,10);
-        components[i].width = parseInt(ref.style.width,10);
-        this.setState({components});
-        console.log(components);
-    }
-
-    onDragStop (ref, i){
-        let components = this.state.components;
-        components[i].x = ref.x;
-        components[i].y = ref.y;
-        this.setState({components});
-        console.log(components);
-    }
-
-    updateProperties = (properties, i) => {
-        let components = this.state.components;
-        components[i].properties = properties;
-        this.setState({properties});
-    }
-
-    render() {
-        return (
-            <Rnd dragHandleClassName={"dragHandle"}> 
-                <div style={{height:20,width:20,backgroundColor:"blue",float:"right"}} className="dragHandle"></div>
-                <Textbox i={0} text="<p>Hello World!</p>" updateProperties={this.updateProperties.bind(this)}/>
-            </Rnd>
-        ) 
-    }
+    return (
+        <Form>
+            <label className="label">Chart Title</label>
+            <Field className="input" type="text" name="title" placeholder="Chart Title"/><br/>
+            <label className="checkbox">Join our newsletter?</label>
+            <Field type="checkbox" name="newsletter" checked={values.newsletter}/><br/>
+                
+            <Field component="select" name="editor" >
+              <option value="atom">Atom</option>
+              <option value="sublime">Sublime Text</option>
+            </Field>
+            {console.log(props)}
+            <label className="label">Do you test your code?</label>
+            <button disabled={isSubmitting}>Submit</button>
+            <DisplayFormikState {...props} />
+        </Form>
+    );
 }
 
-export default Test;
+const DisplayFormikState = props =>
+    <div style={{ margin: '1rem 0', background: '#f6f8fa', padding: '.5rem' }}>
+        <strong>Injected Formik props (the form's state)</strong>
+        <div>
+            <code>errors:</code> {JSON.stringify(props.errors, null, 2)}
+        </div>
+        <div>
+            <code>values:</code> {JSON.stringify(props.values, null, 2)}
+        </div>
+        <div>
+            <code>isSubmitting:</code> {JSON.stringify(props.isSubmitting, null, 2)}
+        </div>
+    </div>;
+
+const FormikApp = withFormik({
+    mapPropsToValues({ email, password, newsletter, editor, test }) {
+        return {
+            email: email || '',
+            password: password || '',
+            newsletter: newsletter || false,
+            editor: editor || 'atom',
+            test: test || ''
+        }
+    },
+
+    handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+        setTimeout(() => {
+            if (values.email === 'yomi@gmail.io') {
+                setErrors({ email: 'That email is already taken' })
+            } else {
+                resetForm()
+            }
+            setSubmitting(false)
+        }, 2000)
+    }
+})(App)
+
+export default FormikApp

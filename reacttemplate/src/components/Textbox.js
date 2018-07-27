@@ -32,11 +32,11 @@ class Textbox extends Component {
 
         return(
             <RichTextEditor
+                rootStyle={{height:"calc(100% - 2px)", minHeight:80, minWidth:120}}
                 value={this.state.value}
                 onChange={(e)=>this.onChange(e)}
                 toolbarConfig={toolbarConfig}
-                toolbarClassName={"dragHandle"}
-                style={{width:"100%", height:"100%"}}
+                toolbarClassName={"draggable"}
             />
         );
     }

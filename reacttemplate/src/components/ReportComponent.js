@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Textbox from './Textbox';
-import BasicForm from './BasicForm';
+import BasicForm from './Form';
 
 class ReportComponent extends Component {
     render() {
         // based on the item type, render a type of component
         if (this.props.type === "line") {
             return(
-                <ResponsiveContainer className="dragHandle" width="100%" height="100%">
+                <ResponsiveContainer className="draggable" width="100%" height="100%">
                     <LineChart style={{width:"100%", height:"100%"}} data={this.props.data}>
                         <XAxis dataKey="name" />
                         <YAxis />
@@ -22,7 +22,7 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type === "bar") {
             return(
-                <ResponsiveContainer className="dragHandle" width="100%" height="100%">
+                <ResponsiveContainer className="draggable" width="100%" height="100%">
                     <BarChart style={{width:"100%", height:"100%"}} data={this.props.data}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
@@ -38,14 +38,11 @@ class ReportComponent extends Component {
         } else if (this.props.type === "text") {
             return(
                 <Textbox i={this.props.i} text={this.props.properties.text} 
-                    updateProperties={this.props.updateProperties}/>
+                    updateProperties={this.props.updateProperties} />
             );
         } else if (this.props.type === "basic"){
             return(
-                <ResponsiveContainer className="dragHandle" width="100%" height="100%">
-                    <BasicForm ></BasicForm>
-                </ResponsiveContainer>
-                
+                <BasicForm/>
             )
         }
     }
