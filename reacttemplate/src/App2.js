@@ -28,10 +28,10 @@ class App2 extends Component {
         this.state = {
             // initial state has two line charts
             components: [
-                // {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
+                {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
                 // {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
-                {type:"text", x:10, y:310, height:100, width:150, properties:{text:"<p>Hello World!</p>"}},
-                {type:"basic", x:0, y:0, height:300, width:200}
+                // {type:"text", x:10, y:310, height:100, width:150, properties:{text:"<p>Hello World!</p>"}},
+                // {type:"basic", x:0, y:0, height:300, width:200}
             ]
         }
     }

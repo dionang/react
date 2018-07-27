@@ -2,26 +2,17 @@ import React, { Component } from 'react';
 import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Textbox from './Textbox';
 import BasicForm from './Form';
+import Linechart from './Linechart.jsx';
 
 class ReportComponent extends Component {
     render() {
         // based on the item type, render a type of component
         if (this.props.type === "line") {
             return(
-                <ResponsiveContainer className="draggable" width="100%" height="100%">
-                    <LineChart style={{width:"100%", height:"100%"}} data={this.props.data}>
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" />
-                        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                    </LineChart>
-                </ResponsiveContainer>
+                <Linechart data={this.props.data}/>
             );
         } else if (this.props.type === "bar") {
-            return(
+            return (
                 <ResponsiveContainer className="draggable" width="100%" height="100%">
                     <BarChart style={{width:"100%", height:"100%"}} data={this.props.data}>
                         <CartesianGrid strokeDasharray="3 3" />
