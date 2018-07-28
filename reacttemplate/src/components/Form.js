@@ -41,7 +41,7 @@ class BasicForm extends Component {
                     </Field>
                     <br/><br/>
                     <button type="submit">Submit</button>
-                    {/* <DisplayFormikState {...props}/> */}
+                    {/* <DisplayFormikState {...this.props}/> */}
                 </Form>
             </Formik>
         );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Textbox from './Textbox';
 import BasicForm from './Form';
 import Linechart from './Linechart.jsx';
@@ -34,7 +34,7 @@ class ReportComponent extends Component {
         } else if (this.props.type === "basic"){
             return(
                 <BasicForm/>
-            )
+            );
         }
     }
 }

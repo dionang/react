@@ -13,7 +13,7 @@ class Textbox extends Component {
         }
     }
 
-    onChange(value){
+    onChange = (value) => {
         // converts the value in state
         this.setState({value:value, htmlValue:value.toString('html')});
         this.props.updateProperties({text:this.state.htmlValue}, this.props.i);
@@ -34,7 +34,7 @@ class Textbox extends Component {
             <RichTextEditor
                 rootStyle={{height:"calc(100% - 2px)", minHeight:80, minWidth:120}}
                 value={this.state.value}
-                onChange={(e)=>this.onChange(e)}
+                onChange={this.onChange}
                 toolbarConfig={toolbarConfig}
                 toolbarClassName={"draggable"}
             />

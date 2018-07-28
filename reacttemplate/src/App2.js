@@ -39,7 +39,7 @@ class App2 extends Component {
     addTextbox = () => {
         let components = this.state.components;
         components.push(
-            {type:"text", x:0, y:0, height:50, width:200, properties:{text:"<p><br></p>"}}
+            {type:"text", x:0, y:0, height:100, width:200, properties:{text:"<p><br></p>"}}
         );
 
         this.setState({components});
@@ -111,12 +111,14 @@ class App2 extends Component {
 
     // i represents index of current item in this.state.components
     // convert style data to integer. e.g. 10px -> 10
-    onResizeStop (ref, i){
+    onResize (ref, position, i){
         let components = this.state.components;
+        components[i].x = position.x;
+        components[i].y = position.y;
         components[i].height = parseInt(ref.style.height,10);
         components[i].width = parseInt(ref.style.width,10);
+        
         this.setState({components});
-        console.log(components);
     }
 
     onDragStop (ref, i){
@@ -127,7 +129,7 @@ class App2 extends Component {
         console.log(components);
     }
 
-    updateProperties = (properties, i) => {
+    updateProperties(properties, i) {
         let components = this.state.components;
         components[i].properties = properties;
         this.setState({properties});
@@ -149,6 +151,7 @@ class App2 extends Component {
                     {this.state.components.map((item,i)=>
                         <Rnd key={i} style={{border: "1px solid grey"}}
                             // intialize components x,y,height and width
+                            // default={{x: item.x, y: item.y, width: item.width, height: item.height}}
                             position = {{x: item.x, y: item.y}}
                             size = {{width: item.width, height: item.height}}
 
@@ -161,7 +164,7 @@ class App2 extends Component {
                             // update height and width onResizeStop
                             // onResizeStop will activate a callback function containing these params
                             // ref represents item that was resized
-                            onResizeStop={(event, dir, ref)=>this.onResizeStop(ref,i)}
+                            onResize={(event, dir, ref, delta, position)=>this.onResize(ref, position, i)}
 
                             // update height and width onResizeStop
                             // onDragStop will activate a callback function containing these params
