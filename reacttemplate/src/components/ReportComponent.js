@@ -3,6 +3,7 @@ import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, L
 import Textbox from './Textbox';
 import BasicForm from './Form';
 import Linechart from './Linechart.jsx';
+import UploadImage from './UploadImage';
 
 class ReportComponent extends Component {
     render() {
@@ -34,6 +35,10 @@ class ReportComponent extends Component {
         } else if (this.props.type === "basic"){
             return(
                 <BasicForm/>
+            )
+        } else if (this.props.type ==="image"){
+            return(
+                <UploadImage className = "draggable"/>
             )
         }
     }
