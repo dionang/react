@@ -4,6 +4,7 @@ import Textbox from './Textbox';
 import BasicForm from './Form';
 import Linechart from './Linechart.jsx';
 import UploadImage from './UploadImage';
+import AddTable from './AddTable';
 
 class ReportComponent extends Component {
     render() {
@@ -40,6 +41,14 @@ class ReportComponent extends Component {
             return(
                 <UploadImage className = "draggable"/>
             )
+        } else if (this.props.type ==="table"){
+            return(
+            <ResponsiveContainer className="draggable" height="auto">
+                <AddTable/>
+            </ResponsiveContainer>
+            )
+                   
+               
         }
     }
 }
