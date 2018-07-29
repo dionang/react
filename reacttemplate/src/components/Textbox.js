@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RichTextEditor from 'react-rte';
+import {ResponsiveContainer} from 'recharts';
 
 class Textbox extends Component {
     constructor(props) {
@@ -12,11 +13,10 @@ class Textbox extends Component {
         }
     }
 
-    onChange = (value) => {
+    onChange(value){
         // converts the value in state
-        let htmlValue = value.toString('html');
-        this.setState({value:value, htmlValue:htmlValue});
-        this.props.updateProperties({text:htmlValue}, this.props.i);
+        this.setState({value:value, htmlValue:value.toString('html')});
+        this.props.updateProperties({text:this.state.htmlValue}, this.props.i);
     };
 
     render() {
@@ -34,7 +34,7 @@ class Textbox extends Component {
             <RichTextEditor
                 rootStyle={{height:"calc(100% - 2px)", minHeight:80, minWidth:120}}
                 value={this.state.value}
-                onChange={this.onChange}
+                onChange={(e)=>this.onChange(e)}
                 toolbarConfig={toolbarConfig}
                 toolbarClassName={"draggable"}
             />

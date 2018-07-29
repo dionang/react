@@ -13,7 +13,6 @@ class BasicForm extends Component {
     }
 
     render() {
-        
         return (
             <Formik 
                 // initialize values to use in form

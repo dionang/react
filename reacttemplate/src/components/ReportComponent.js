@@ -5,7 +5,7 @@ import BasicForm from './Form';
 import Barchart from './Barchart';
 import Linechart from './Linechart';
 import Image from './Image';
-import AddTable from './AddTable';
+import BasicTable from './BasicTable';
 
 class ReportComponent extends Component {
     render() {
@@ -26,18 +26,17 @@ class ReportComponent extends Component {
         } else if (this.props.type === "basic"){
             return(
                 <BasicForm/>
-            );
+            )
         } else if (this.props.type ==="image"){
             return(
-                <Image i={this.props.i} properties={this.props.properties} 
-                updateProperties={this.props.updateProperties}/>
-            );
+                <Image className = "draggable"/>
+            )
         } else if (this.props.type ==="table"){
             return(
-                <ResponsiveContainer className="draggable" height="auto">
-                    <AddTable/>
-                </ResponsiveContainer>
-            );
+            <ResponsiveContainer className="draggable" height="100%" width="100%" boarder="none">
+                <BasicTable/>
+            </ResponsiveContainer>
+            )
         }
     }
 }
