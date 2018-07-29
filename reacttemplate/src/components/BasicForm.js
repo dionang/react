@@ -7,6 +7,11 @@ var options = ['Sales', 'Costs', 'Forecast', 'Appointment', 'Profits'],
         return <option>{X}</option>;
     };
 
+var options2 = ['Sales2', 'Costs2', 'Forecast2', 'Appointment2', 'Profits2'],
+    MakeItem = function (X) {
+        return <option>{X}</option>;
+    };
+
 
 const lineChartData = [
     { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
@@ -37,7 +42,7 @@ class BasicForm extends Component {
                     }, 1000);
                 }}
             >
-                <Form style={{textAlign: "center" }}>
+                <Form style={{ textAlign: "center" }}>
                     <label>Enter the Chart Name</label>
                     <Field
                         name="chartName"
@@ -55,7 +60,7 @@ class BasicForm extends Component {
                     <br />
 
                     <label >Choose the data set  </label>
-                    <select name="dataSource" style={{marginLeft:10}}>
+                    <select name="dataSource" style={{ marginLeft: 10 }}>
                         {options.map(MakeItem)}
                     </select>
 
@@ -63,7 +68,7 @@ class BasicForm extends Component {
                     <br />
 
                     <label name="xAxisName" >Choose the X-Axis  </label>
-                    <select name="xAxis" style={{marginLeft:10}}>
+                    <select name="xAxis" style={{ marginLeft: 10 }}>
                         {options.map(MakeItem)}
                     </select>
 
@@ -71,16 +76,16 @@ class BasicForm extends Component {
                     <br />
 
                     <label name="yAixsName" >Choose the Y-Axis  </label>
-                    <select name="yAixs" style={{marginLeft:10}}>
+                    <select name="yAixs" style={{ marginLeft: 10 }}>
                         {options.map(MakeItem)}
                     </select>
 
                     <br />
                     <br />
 
-                    <div style={{textAlign: "right"}}>
-                        <button type="submit" onClick={this.submitData}>Submit</button>
-                        
+                    <div style={{ textAlign: "right" }}>
+                        <button type="submit" onClick={this.onSubmit}>Submit</button>
+
                     </div>
                 </Form>
             </Formik>

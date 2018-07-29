@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import RichTextEditor from 'react-rte';
-import {ResponsiveContainer} from 'recharts';
 
 class Textbox extends Component {
     constructor(props) {
@@ -15,8 +14,9 @@ class Textbox extends Component {
 
     onChange = (value) => {
         // converts the value in state
-        this.setState({value:value, htmlValue:value.toString('html')});
-        this.props.updateProperties({text:this.state.htmlValue}, this.props.i);
+        let htmlValue = value.toString('html');
+        this.setState({value:value, htmlValue:htmlValue});
+        this.props.updateProperties({text:htmlValue}, this.props.i);
     };
 
     render() {

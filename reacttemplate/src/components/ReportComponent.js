@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Textbox from './Textbox';
 import BasicForm from './Form';
-import Linechart from './Linechart.jsx';
+import Linechart from './Linechart';
+import Image from './Image';
+import AddTable from './AddTable';
 
 class ReportComponent extends Component {
     render() {
@@ -34,6 +36,17 @@ class ReportComponent extends Component {
         } else if (this.props.type === "basic"){
             return(
                 <BasicForm/>
+            );
+        } else if (this.props.type ==="image"){
+            return(
+                <Image i={this.props.i} properties={this.props.properties} 
+                updateProperties={this.props.updateProperties}/>
+            );
+        } else if (this.props.type ==="table"){
+            return(
+                <ResponsiveContainer className="draggable" height="auto">
+                    <AddTable/>
+                </ResponsiveContainer>
             );
         }
     }

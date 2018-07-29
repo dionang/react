@@ -20,6 +20,17 @@ const lineChartData = [
     { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
 ];
 
+var products = [{
+    id: 1,
+    name: "Product1",
+    price: 120
+}, {
+    id: 2,
+    name: "Product2",
+    price: 80
+}];
+
+
 const api = 'http://localhost:8084/';
 
 class App2 extends Component {
@@ -28,7 +39,8 @@ class App2 extends Component {
         this.state = {
             // initial state has two line charts
             components: [
-                {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
+                {type:"image", x:0, y:0, height:200, width:200, properties:{imageUrl:''}}
+                // {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
                 // {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
                 // {type:"text", x:10, y:310, height:100, width:150, properties:{text:"<p>Hello World!</p>"}},
                 // {type:"basic", x:0, y:0, height:300, width:200}
@@ -65,10 +77,29 @@ class App2 extends Component {
         this.setState({components});
     }
 
+
+    addTable = () => {
+        let components = this.state.components;
+        components.push(
+            {type:"table", x:0, y:0, height:200, width:300}
+        );
+
+        this.setState({components});
+    }
+
+
     addForm = () =>{
         let components = this.state.components;
         components.push(
             {type:"basic", x:0, y:0, height:200, width:200}
+        );
+        this.setState({components});
+    }
+
+    addImage = () =>{
+        let components = this.state.components;
+        components.push(
+            {type:"image", x:0, y:0, height:200, width:200}
         );
         this.setState({components});
     }
@@ -87,9 +118,9 @@ class App2 extends Component {
         }, function(error, response, body){
             let components = body.components;
             for (let component of components){
-                if (component.type == "bar") {
+                if (component.type === "bar") {
                     component.data = barChartData;
-                } else if (component.type == "line") {
+                } else if (component.type === "line") {
                     component.data = lineChartData;
                 }
             }
@@ -141,11 +172,13 @@ class App2 extends Component {
                 <button onClick={this.addTextbox}>Add Textbox</button>
                 <button onClick={this.addBarChart}>Add Bar Chart</button>
                 <button onClick={this.addLineChart}>Add Line Chart</button>
+                <button onClick={this.addTable}>Add Table</button>
                 <button onClick={this.getComponentDetails}>Get Component Details</button>
                 <button onClick={this.addForm}>Show the form</button>
+                <button onClick={this.addImage}>Add Image</button>
                 <button onClick={this.saveTemplate}>Save Template</button>
                 <button onClick={this.loadTemplate}>Load Template</button>
-                <input type="number" id="template" defaultValue="1"/>
+                
                 <div id="container">
                     {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item,i)=>
