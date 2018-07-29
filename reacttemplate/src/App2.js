@@ -132,12 +132,13 @@ class App2 extends Component {
 
     // i represents index of current item in this.state.components
     // convert style data to integer. e.g. 10px -> 10
-    onResizeStop (ref, i){
+    onResize (ref, pos, i){
         let components = this.state.components;
         components[i].height = parseInt(ref.style.height,10);
         components[i].width = parseInt(ref.style.width,10);
+        components[i].x = pos.x;
+        components[i].y = pos.y;
         this.setState({components});
-        console.log(components);
     }
 
     onDragStop (ref, i){
@@ -149,8 +150,6 @@ class App2 extends Component {
 
     updateProperties = (properties, i) => {
         let components = this.state.components;
-        console.log(properties);
-        console.log(i);
         components[i].properties = properties;
         this.setState({properties});
     }
@@ -185,7 +184,7 @@ class App2 extends Component {
                             // update height and width onResizeStop
                             // onResizeStop will activate a callback function containing these params
                             // ref represents item that was resized
-                            onResizeStop={(event, dir, ref)=>this.onResizeStop(ref,i)}
+                            onResize={(event, dir, ref, delta, pos)=>this.onResize(ref, pos, i)}
 
                             // update height and width onResizeStop
                             // onDragStop will activate a callback function containing these params

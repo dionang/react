@@ -29,7 +29,7 @@ class ReportComponent extends Component {
             )
         } else if (this.props.type ==="image"){
             return(
-                <Image className="draggable" i={this.props.i}  
+                <Image i={this.props.i}  
                     properties={this.props.properties}
                     updateProperties={this.props.updateProperties}/>
             )
