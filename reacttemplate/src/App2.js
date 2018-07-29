@@ -39,6 +39,7 @@ class App2 extends Component {
         this.state = {
             // initial state has two line charts
             components: [
+                {type:"table", x:0, y:0, height:200, width:200}
                 //{type:"image", x:0, y:0, height:200, width:200}
                 // {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
                 // {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
@@ -81,7 +82,7 @@ class App2 extends Component {
     addTable = () => {
         let components = this.state.components;
         components.push(
-            {type:"table", x:0, y:0, height:200, width:300}
+            {type:"table", x:0, y:0, height:200, width:300, data:products}
         );
 
         this.setState({components});

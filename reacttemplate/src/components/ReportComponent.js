@@ -4,7 +4,7 @@ import Textbox from './Textbox';
 import BasicForm from './Form';
 import Linechart from './Linechart.jsx';
 import UploadImage from './UploadImage';
-import AddTable from './AddTable';
+import BasicTable from './BasicTable';
 
 class ReportComponent extends Component {
     render() {
@@ -43,8 +43,8 @@ class ReportComponent extends Component {
             )
         } else if (this.props.type ==="table"){
             return(
-            <ResponsiveContainer className="draggable" height="auto">
-                <AddTable/>
+            <ResponsiveContainer className="draggable" height="100%" width="100%" boarder="none">
+                <BasicTable/>
             </ResponsiveContainer>
             )
                    
