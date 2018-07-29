@@ -1,0 +1,344 @@
+{
+    "status": "success",
+    "furnitures": [
+      {
+        "name": "Bush Somerset Collection Bookcase",
+        "sales": 261.96,
+        "quantity": 2,
+        "discount": 0.0,
+        "profit": 41.9136
+      },
+      {
+        "name": "Hon Deluxe Fabric Upholstered Stacking Chairs, Rounded Back",
+        "sales": 731.94,
+        "quantity": 3,
+        "discount": 0.0,
+        "profit": 219.582
+      },
+      {
+        "name": "Bretford CR4500 Series Slim Rectangular Table",
+        "sales": 957.5775,
+        "quantity": 5,
+        "discount": 0.45,
+        "profit": -383.031
+      },
+      {
+        "name": "Eldon Expressions Wood and Plastic Desk Accessories, Cherry Wood",
+        "sales": 48.86,
+        "quantity": 7,
+        "discount": 0.0,
+        "profit": 14.1694
+      },
+      {
+        "name": "Chromcraft Rectangular Conference Tables",
+        "sales": 1706.184,
+        "quantity": 9,
+        "discount": 0.2,
+        "profit": 85.3092
+      },
+      {
+        "name": "Global Deluxe Stacking Chair, Gray",
+        "sales": 71.372,
+        "quantity": 2,
+        "discount": 0.3,
+        "profit": -1.0196
+      },
+      {
+        "name": "Bretford CR4500 Series Slim Rectangular Table",
+        "sales": 1044.63,
+        "quantity": 3,
+        "discount": 0.0,
+        "profit": 240.2649
+      },
+      {
+        "name": "Riverside Palais Royal Lawyers Bookcase, Royale Cherry Finish",
+        "sales": 3083.43,
+        "quantity": 7,
+        "discount": 0.5,
+        "profit": -1665.0522
+      },
+      {
+        "name": "Howard Miller 13-3/4\" Diameter Brushed Chrome Round Wall Clock",
+        "sales": 124.2,
+        "quantity": 3,
+        "discount": 0.2,
+        "profit": 15.525
+      },
+      {
+        "name": "Electrix Architect\u0027s Clamp-On Swing Arm Lamp, Black",
+        "sales": 190.92,
+        "quantity": 5,
+        "discount": 0.6,
+        "profit": -147.963
+      },
+      {
+        "name": "Atlantic Metals Mobile 3-Shelf Bookcases, Custom Colors",
+        "sales": 532.3992,
+        "quantity": 3,
+        "discount": 0.32,
+        "profit": -46.9764
+      },
+      {
+        "name": "Global Fabric Manager\u0027s Chair, Dark Gray",
+        "sales": 212.058,
+        "quantity": 3,
+        "discount": 0.3,
+        "profit": -15.147
+      },
+      {
+        "name": "Longer-Life Soft White Bulbs",
+        "sales": 6.16,
+        "quantity": 2,
+        "discount": 0.0,
+        "profit": 2.9568
+      },
+      {
+        "name": "Global Leather Task Chair, Black",
+        "sales": 89.99,
+        "quantity": 1,
+        "discount": 0.0,
+        "profit": 17.0981
+      },
+      {
+        "name": "Novimex Turbo Task Chair",
+        "sales": 319.41,
+        "quantity": 5,
+        "discount": 0.1,
+        "profit": 7.098
+      },
+      {
+        "name": "Luxo Economy Swing Arm Lamp",
+        "sales": 79.76,
+        "quantity": 4,
+        "discount": 0.0,
+        "profit": 22.3328
+      },
+      {
+        "name": "Global Value Mid-Back Manager\u0027s Chair, Gray",
+        "sales": 213.115,
+        "quantity": 5,
+        "discount": 0.3,
+        "profit": -15.2225
+      },
+      {
+        "name": "High-Back Leather Manager\u0027s Chair",
+        "sales": 831.936,
+        "quantity": 8,
+        "discount": 0.2,
+        "profit": -114.3912
+      },
+      {
+        "name": "Tenex Traditional Chairmats for Medium Pile Carpet, Standard Lip, 36\" x 48\"",
+        "sales": 97.04,
+        "quantity": 2,
+        "discount": 0.2,
+        "profit": 1.213
+      },
+      {
+        "name": "6\" Cubicle Wall Clock, Black",
+        "sales": 9.708,
+        "quantity": 3,
+        "discount": 0.6,
+        "profit": -5.8248
+      },
+      {
+        "name": "Eldon Expressions Desk Accessory, Wood Pencil Holder, Oak",
+        "sales": 19.3,
+        "quantity": 5,
+        "discount": 0.6,
+        "profit": -14.475
+      },
+      {
+        "name": "Novimex Swivel Fabric Task Chair",
+        "sales": 301.96,
+        "quantity": 2,
+        "discount": 0.0,
+        "profit": 33.2156
+      },
+      {
+        "name": "Seth Thomas 13 1/2\" Wall Clock",
+        "sales": 53.34,
+        "quantity": 3,
+        "discount": 0.0,
+        "profit": 16.5354
+      },
+      {
+        "name": "9-3/4 Diameter Round Wall Clock",
+        "sales": 96.53,
+        "quantity": 7,
+        "discount": 0.0,
+        "profit": 40.5426
+      }
+    ],
+    "customers": [
+      {
+        "customer_id": "CG-12520",
+        "customer_name": "Claire Gute",
+        "city": "Henderson",
+        "order_id": "CA-2016-152156",
+        "order_date": "8/11/2016"
+      },
+      {
+        "customer_id": "CG-12520",
+        "customer_name": "Claire Gute",
+        "city": "Henderson",
+        "order_id": "CA-2016-152156",
+        "order_date": "8/11/2016"
+      },
+      {
+        "customer_id": "SO-20335",
+        "customer_name": "Sean O\u0027Donnell",
+        "city": "Fort Lauderdale",
+        "order_id": "US-2015-108966",
+        "order_date": "11/10/2015"
+      },
+      {
+        "customer_id": "BH-11710",
+        "customer_name": "Brosina Hoffman",
+        "city": "Los Angeles",
+        "order_id": "CA-2014-115812",
+        "order_date": "9/6/2014"
+      },
+      {
+        "customer_id": "BH-11710",
+        "customer_name": "Brosina Hoffman",
+        "city": "Los Angeles",
+        "order_id": "CA-2014-115812",
+        "order_date": "9/6/2014"
+      },
+      {
+        "customer_id": "SF-20065",
+        "customer_name": "Sandra Flanagan",
+        "city": "Philadelphia",
+        "order_id": "US-2017-156909",
+        "order_date": "16/7/2017"
+      },
+      {
+        "customer_id": "EB-13870",
+        "customer_name": "Emily Burns",
+        "city": "Orem",
+        "order_id": "CA-2015-106320",
+        "order_date": "25/9/2015"
+      },
+      {
+        "customer_id": "TB-21520",
+        "customer_name": "Tracy Blumstein",
+        "city": "Philadelphia",
+        "order_id": "US-2015-150630",
+        "order_date": "17/9/2015"
+      },
+      {
+        "customer_id": "TB-21520",
+        "customer_name": "Tracy Blumstein",
+        "city": "Philadelphia",
+        "order_id": "US-2015-150630",
+        "order_date": "17/9/2015"
+      },
+      {
+        "customer_id": "GH-14485",
+        "customer_name": "Gene Hale",
+        "city": "Richardson",
+        "order_id": "CA-2016-117590",
+        "order_date": "8/12/2016"
+      },
+      {
+        "customer_id": "SN-20710",
+        "customer_name": "Steve Nguyen",
+        "city": "Houston",
+        "order_id": "CA-2015-117415",
+        "order_date": "27/12/2015"
+      },
+      {
+        "customer_id": "SN-20710",
+        "customer_name": "Steve Nguyen",
+        "city": "Houston",
+        "order_id": "CA-2015-117415",
+        "order_date": "27/12/2015"
+      },
+      {
+        "customer_id": "DP-13000",
+        "customer_name": "Darren Powers",
+        "city": "New Albany",
+        "order_id": "CA-2015-115742",
+        "order_date": "18/4/2015"
+      },
+      {
+        "customer_id": "DP-13000",
+        "customer_name": "Darren Powers",
+        "city": "New Albany",
+        "order_id": "CA-2015-115742",
+        "order_date": "18/4/2015"
+      },
+      {
+        "customer_id": "TB-21055",
+        "customer_name": "Ted Butterfield",
+        "city": "Troy",
+        "order_id": "CA-2016-111682",
+        "order_date": "17/6/2016"
+      },
+      {
+        "customer_id": "KM-16720",
+        "customer_name": "Kunst Miller",
+        "city": "Los Angeles",
+        "order_id": "CA-2015-135545",
+        "order_date": "24/11/2015"
+      },
+      {
+        "customer_id": "PS-18970",
+        "customer_name": "Paul Stevenson",
+        "city": "Chicago",
+        "order_id": "US-2015-164175",
+        "order_date": "30/4/2015"
+      },
+      {
+        "customer_id": "JE-15745",
+        "customer_name": "Joel Eaton",
+        "city": "Memphis",
+        "order_id": "US-2015-134026",
+        "order_date": "26/4/2015"
+      },
+      {
+        "customer_id": "JE-15745",
+        "customer_name": "Joel Eaton",
+        "city": "Memphis",
+        "order_id": "US-2015-134026",
+        "order_date": "26/4/2015"
+      },
+      {
+        "customer_id": "KB-16600",
+        "customer_name": "Ken Brennan",
+        "city": "Houston",
+        "order_id": "US-2017-118038",
+        "order_date": "9/12/2017"
+      },
+      {
+        "customer_id": "JE-15745",
+        "customer_name": "Joel Eaton",
+        "city": "Houston",
+        "order_id": "US-2014-147606",
+        "order_date": "26/11/2014"
+      },
+      {
+        "customer_id": "PO-18865",
+        "customer_name": "Patrick O\u0027Donnell",
+        "city": "Columbia",
+        "order_id": "CA-2017-140088",
+        "order_date": "28/5/2017"
+      },
+      {
+        "customer_id": "KB-16315",
+        "customer_name": "Karl Braun",
+        "city": "Minneapolis",
+        "order_id": "CA-2015-149587",
+        "order_date": "31/1/2015"
+      },
+      {
+        "customer_id": "PN-18775",
+        "customer_name": "Parhena Norris",
+        "city": "New York City",
+        "order_id": "CA-2017-161018",
+        "order_date": "9/11/2017"
+      }
+    ]
+}
+  

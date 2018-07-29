@@ -1,4 +1,3 @@
-import React from "react";
 import namor from "namor";
 
 const range = len => {

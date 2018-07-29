@@ -20,17 +20,6 @@ const lineChartData = [
     { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
 ];
 
-var products = [{
-    id: 1,
-    name: "Product1",
-    price: 120
-}, {
-    id: 2,
-    name: "Product2",
-    price: 80
-}];
-
-
 const api = 'http://localhost:8084/';
 
 class App2 extends Component {
@@ -39,8 +28,8 @@ class App2 extends Component {
         this.state = {
             // initial state has two line charts
             components: [
-                {type:"image", x:0, y:0, height:200, width:200, properties:{imageUrl:''}}
-                // {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
+                // {type:"image", x:0, y:0, height:200, width:200, properties:{imageUrl:''}}
+                {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
                 // {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
                 // {type:"text", x:10, y:310, height:100, width:150, properties:{text:"<p>Hello World!</p>"}},
                 // {type:"basic", x:0, y:0, height:300, width:200}
@@ -157,7 +146,6 @@ class App2 extends Component {
         components[i].x = ref.x;
         components[i].y = ref.y;
         this.setState({components});
-        console.log(components);
     }
 
     updateProperties(properties, i) {

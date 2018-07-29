@@ -1,49 +1,68 @@
 import React, {Component} from 'react';
 import { Formik, Form, Field } from 'formik';
-import Yup from 'yup'
 
-var datasets = ['Furniture', 'Category'];
-var options = ['Sales', 'Costs', 'Revenue', 'Profits'];
+import apiData from './ApiData';
+import JsonProcessor from './JsonProcessor'
+
+let jsonProcessor = new JsonProcessor(apiData);
+var datasets = jsonProcessor.getDatasetNames();
 
 class BasicForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        }
     }
 
     render() {
+        
         return (
-            <Formik onSubmit={this.props.initializeChart}>
-                <Form className="draggable" style={{textAlign: "center"}}>
-                    <label>Chart Title</label>
-                    <Field className="input" type="text" name="title" placeholder="Chart Title"/>
-                    <br/><br/>
-                    <label>Choose the dataset</label>
-                    <Field component="select" name="dataset">
-                        {datasets.map((dataset)=>
-                            <option key={dataset}>{dataset}</option>
-                        )}
-                    </Field>
-                    <br/><br/>
-                    <label>Choose the X-Axis</label> 
-                    <Field component="select" name="xAxis">
-                        {options.map((option)=>
-                            <option key={option}>{option}</option>
-                        )}
-                    </Field>
-                    <br/><br/>
-                    <label>Choose the Y-Axis</label> 
-                    <Field component="select" name="yAxis">
-                        {options.map((option)=>
-                            <option key={option}>{option}</option>
-                        )}
-                    </Field>
-                    <br/><br/>
-                    <button type="submit">Submit</button>
-                    {/* <DisplayFormikState {...this.props}/> */}
-                </Form>
-            </Formik>
+            <Formik 
+                // initialize values to use in form
+                initialValues={{
+                    title:'', 
+                    dataset: datasets[0], 
+                    xAxis: jsonProcessor.getOptions(datasets[0])[0], 
+                    yAxis: jsonProcessor.getOptions(datasets[0])[0], 
+                    processor:jsonProcessor
+                }}
+
+                // pass values to the charts
+                onSubmit={this.props.initializeChart}
+
+                // render form
+                render={formProps=>(
+                    <Form className="draggable" style={{textAlign: "center"}}>
+                        <label>Chart Title</label>
+                        <Field className="input" type="text" name="title" placeholder="Chart Title"/>
+                        <br/><br/>
+                        <label>Choose the dataset</label>
+                        <Field component="select" name="dataset">
+                            {datasets.map((dataset)=>
+                                <option key={dataset}>{dataset}</option>
+                            )}
+                        </Field>
+                        <br/><br/>
+                        <label>Choose the X-Axis</label> 
+                        <Field component="select" name="xAxis">
+                            {/* gets the option based on selected dataset */}
+                            {jsonProcessor.getOptions(formProps.values.dataset)
+                            .map((option)=>
+                                <option key={option}>{option}</option>
+                            )}
+                        </Field>
+                        <br/><br/>
+                        <label>Choose the Y-Axis</label> 
+                        <Field component="select" name="yAxis">
+                            {jsonProcessor.getOptions(formProps.values.dataset)
+                            .map((option)=>
+                                <option key={option}>{option}</option>
+                            )}
+                        </Field>
+                        <br/><br/>
+                        <button type="submit">Submit</button>
+                        {/* <DisplayFormikState {...this.props}/> */}
+                    </Form>
+                )}
+            />
         );
     }
 }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import {ResponsiveContainer} from 'recharts';
 import Textbox from './Textbox';
 import BasicForm from './Form';
+import Barchart from './Barchart';
 import Linechart from './Linechart';
 import Image from './Image';
 import AddTable from './AddTable';
@@ -15,18 +16,7 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type === "bar") {
             return (
-                <ResponsiveContainer className="draggable" width="100%" height="100%">
-                    <BarChart style={{width:"100%", height:"100%"}} data={this.props.data}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="positive" fill="blue" />
-                        <Bar dataKey="neutral" fill="orange" />
-                        <Bar dataKey="negative" fill="grey" />
-                    </BarChart>
-                </ResponsiveContainer>
+                <Barchart/>
             );
         } else if (this.props.type === "text") {
             return(

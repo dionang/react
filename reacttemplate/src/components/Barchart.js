@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import BasicForm from './Form';
 
-class Linechart extends Component {
+class Barchart extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,9 +14,12 @@ class Linechart extends Component {
     }
 
     initializeChart = (values) => {
-        //set settings of linechart
+        //set settings of barchart
         let processor = values.processor;
         let data = processor.getDataset(values.dataset);
+        console.log(data);
+        console.log(values.xAxis);
+
         this.setState({
             initialized:true,
             xAxis: values.xAxis,
@@ -28,18 +31,19 @@ class Linechart extends Component {
     render() {
         return this.state.initialized ?
             <ResponsiveContainer className="draggable" width="100%" height="100%">
-                <LineChart style={{width:"100%", height:"100%"}} data={this.state.data}>
-                    <XAxis dataKey={this.state.xAxis}/>
-                    <YAxis />
+                <BarChart style={{width:"100%", height:"100%"}} data={this.state.data}>
                     <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey={this.state.xAxis} />
+                    <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
-                    {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
-                </LineChart>
+                    <Bar dataKey={this.state.yAxis} fill="blue" />
+                    {/* <Bar dataKey="neutral" fill="orange" /> */}
+                    {/* <Bar dataKey="negative" fill="grey" /> */}
+                </BarChart>
             </ResponsiveContainer>
             :   <BasicForm initializeChart={this.initializeChart}/>
     }
 }
 
-export default Linechart;
+export default Barchart;

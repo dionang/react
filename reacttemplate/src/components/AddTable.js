@@ -1,6 +1,5 @@
 import React from "react";
-import { render } from "react-dom";
-import { makeData, Logo, Tips } from "./Utils";
+import { makeData } from "./Utils";
 
 // Import React Table
 import ReactTable from "react-table";
@@ -14,11 +13,9 @@ class AddTable extends React.Component {
     };
   }
   render() {
-    const { data } = this.state;
     return ( 
-      <div>
         <ReactTable
-          data={data}
+          data={this.state.data}
           columns={[
             {
               Header: "Name",
@@ -60,8 +57,6 @@ class AddTable extends React.Component {
           defaultPageSize={5}
           className="-striped -highlight"
         />
-        <br />
-      </div>
     );
   }
 }
