@@ -16,15 +16,55 @@ class Linechart extends Component {
     initializeChart = (values) => {
         //set settings of linechart
         let processor = values.processor;
-        let data = processor.getDataset(values.dataset);
-        let types = processor.getTypes(values.dataset);
-        console.log(types);
-        this.setState({
-            initialized:true,
-            xAxis: values.xAxis,
-            yAxis: values.yAxis,
-            data: data
-        })
+        let xAxis = values.xAxis;
+        let yAxis = values.yAxis;
+        let dataset = values.dataset;
+        let data = processor.getDataset(dataset);
+
+        let xDetails = processor.getDetails(dataset, xAxis);
+        let yDetails = processor.getDetails(dataset, xAxis);
+        
+        // if x-axis is of a type that can be sorted, 
+        // sort data in ascending order by x-axis
+        if (xDetails.type !== "string"){
+            data.sort((a, b) => a[xAxis] - b[xAxis]);
+            this.setState({
+                initialized:true,
+                xAxis: values.xAxis,
+                yAxis: values.yAxis,
+                data: data
+            });
+        // combine values of a same category
+        } else {
+            let summarizedData = {};
+            console.log(data);
+            // initialize newData with total value 0
+            for (let category in xDetails.categories) {
+                summarizedData[category] = 0;
+            }
+
+            // add value to the appropriate categpry
+            for (let obj of data){
+                let category = obj[xAxis];
+                let value = obj[yAxis];
+                summarizedData[category] += value;
+            }
+
+            // replace data with new format
+            data = Object.keys(summarizedData).map((key) => {
+                return {x: key, y: summarizedData[key]};
+            });
+
+            console.log(data);
+            this.setState({
+                initialized:true,
+                xAxis: "x",
+                yAxis: "y",
+                data: data
+            })
+        }
+
+        
     }
 
     render() {
@@ -32,7 +72,7 @@ class Linechart extends Component {
             <ResponsiveContainer className="draggable" width="100%" height="100%">
                 <LineChart style={{width:"100%", height:"100%"}} data={this.state.data}>
                     <XAxis dataKey={this.state.xAxis}/>
-                    <YAxis />
+                    <YAxis dataKey={this.state.yAxis}/>
                     <CartesianGrid strokeDasharray="3 3" />
                     <Tooltip />
                     <Legend />
