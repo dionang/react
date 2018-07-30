@@ -26,43 +26,47 @@ class Barchart extends Component {
         
         // if x-axis is of a type that can be sorted, 
         // sort data in ascending order by x-axis
-        if (xDetails.type !== "string"){
-            data.sort((a, b) => a[xAxis] - b[xAxis]);
+        // if (xDetails.type !== "string"){
+        //     data.sort((a, b) => a[xAxis] - b[xAxis]);
+        //     this.setState({
+        //         initialized:true,
+        //         xAxis: values.xAxis,
+        //         yAxis: values.yAxis,
+        //         data: data
+        //     });
+        // // combine values of a same category
+        // } else {
+        //     let summarizedData = {};
+        //     console.log(data);
+        //     // initialize newData with total value 0
+        //     for (let category in xDetails.categories) {
+        //         summarizedData[category] = 0;
+        //     }
+
+        //     // add value to the appropriate categpry
+        //     for (let obj of data){
+        //         let category = obj[xAxis];
+        //         let value = obj[yAxis];
+        //         summarizedData[category] += value;
+        //     }
+
+        //     // replace data with new format
+        //     data = Object.keys(summarizedData).map((key) => {
+        //         let obj = {};
+        //         obj[xAxis] = key;
+        //         obj[yAxis] = summarizedData[key];
+        //         console.log(obj);
+        //         return obj;
+        //     });
+
+            // console.log(data);
             this.setState({
                 initialized:true,
-                xAxis: values.xAxis,
-                yAxis: values.yAxis,
-                data: data
-            });
-        // combine values of a same category
-        } else {
-            let summarizedData = {};
-            console.log(data);
-            // initialize newData with total value 0
-            for (let category in xDetails.categories) {
-                summarizedData[category] = 0;
-            }
-
-            // add value to the appropriate categpry
-            for (let obj of data){
-                let category = obj[xAxis];
-                let value = obj[yAxis];
-                summarizedData[category] += value;
-            }
-
-            // replace data with new format
-            data = Object.keys(summarizedData).map((key) => {
-                return {x: key, y: summarizedData[key]};
-            });
-
-            console.log(data);
-            this.setState({
-                initialized:true,
-                xAxis: "x",
-                yAxis: "y",
+                xAxis: xAxis,
+                yAxis: yAxis,
                 data: data
             })
-        }
+        // }
     }
 
     render() {
@@ -70,10 +74,9 @@ class Barchart extends Component {
             <ResponsiveContainer className="draggable" width="100%" height="100%">
                 <BarChart style={{width:"100%", height:"100%"}} data={this.state.data}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey={this.state.xAxis} />
-                    <YAxis name={this.state.yAxis}/>
+                    <XAxis dataKey={this.state.xAxis} type="category" allowDuplicatedCategory={false} label={this.state.xAxis}/>
+                    <YAxis dataKey={this.state.yAxis} name={this.state.yAxis} label={this.state.yAxis}/>
                     <Tooltip />
-                    <Legend />
                     <Bar dataKey={this.state.yAxis} fill="blue" />
                     {/* <Bar dataKey="neutral" fill="orange" /> */}
                     {/* <Bar dataKey="negative" fill="grey" /> */}
