@@ -74,12 +74,13 @@ class Barchart extends Component {
             <ResponsiveContainer className="draggable" width="100%" height="100%">
                 <BarChart style={{width:"100%", height:"100%"}} data={this.state.data}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey={this.state.xAxis} type="category" allowDuplicatedCategory={false} label={this.state.xAxis}/>
-                    <YAxis dataKey={this.state.yAxis} name={this.state.yAxis} label={this.state.yAxis}/>
+                    <XAxis dataKey={this.state.xAxis} type="category" allowDuplicatedCategory={false}/>
+                    <YAxis dataKey={this.state.yAxis} name={this.state.yAxis} />
                     <Tooltip />
                     <Bar dataKey={this.state.yAxis} fill="blue" />
                     {/* <Bar dataKey="neutral" fill="orange" /> */}
                     {/* <Bar dataKey="negative" fill="grey" /> */}
+                    <Legend/>
                 </BarChart>
             </ResponsiveContainer>
             :   <BasicForm initializeChart={this.initializeChart}/>

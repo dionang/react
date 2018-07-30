@@ -94,6 +94,12 @@ class App2 extends Component {
         this.setState({components});
     }
 
+    deleteComponent(i) {
+        let components = this.state.components;
+        components.splice(i,1);
+        this.setState({components});
+    }
+
     getComponentDetails = () => {
         console.log(this.state.components);
     }
@@ -191,6 +197,11 @@ class App2 extends Component {
                             // ref represents item that was dragged
                             onDragStop={(event, ref)=>this.onDragStop(ref,i)}
                         >
+                            <div style={{float:"right"}}>
+                                <i style={{margin:2}} className="fa fa-wrench" zIndex={1}></i>
+                                <i style={{margin:2}} className="fa fa-times" zIndex={1}
+                                    onClick={()=>this.deleteComponent(i)}></i>
+                            </div>
                             <ReportComponent type={item.type} data={item.data} 
                                 properties={item.properties} i={i}
                                 updateProperties={this.updateProperties.bind(this)}    
