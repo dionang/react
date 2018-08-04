@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import request from 'request';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import BasicForm from './Form';
 
@@ -6,19 +7,33 @@ class Barchart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            initialized: false,
-            xAxis:'',
-            yAxis:'',
-            data:[]
+            ...this.props.properties,
+            chartData:[]
+        }
+    }
+
+    componentWillMount(){
+        let self = this;
+        let url = this.props.properties.datasourceUrl;
+        if (url){
+            request.get({
+                url: url,
+            }, function(error, response, body){
+                let data = JSON.parse(body);
+                let chartData = data[self.props.properties.dataset];
+                self.setState({chartData});
+            });
         }
     }
 
     initializeChart = (values) => {
         //set settings of barchart
         let processor = values.processor;
+        let datasourceUrl = values.datasourceUrl;
+        let dataset = values.dataset;
+        let title = values.title;
         let xAxis = values.xAxis;
         let yAxis = values.yAxis;
-        let dataset = values.dataset;
         let data = processor.getDataset(dataset);
 
         let xDetails = processor.getDetails(dataset, xAxis);
@@ -62,17 +77,23 @@ class Barchart extends Component {
             // console.log(data);
             this.setState({
                 initialized:true,
+                datasourceUrl: datasourceUrl,
+                dataset: dataset,
+                title: title,
                 xAxis: xAxis,
                 yAxis: yAxis,
-                data: data
+                chartData: data
             })
         // }
+        
+        let {chartData, ...other} = this.state;
+        this.props.updateProperties(other, this.props.i);
     }
 
     render() {
         return this.state.initialized ?
             <ResponsiveContainer className="draggable" width="100%" height="100%">
-                <BarChart style={{width:"100%", height:"100%"}} data={this.state.data}>
+                <BarChart style={{width:"100%", height:"100%"}} data={this.state.chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey={this.state.xAxis} type="category" allowDuplicatedCategory={false}/>
                     <YAxis dataKey={this.state.yAxis} name={this.state.yAxis} />

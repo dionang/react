@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
-import ReportComponent from './components/ReportComponent';
 import request from 'request';
+import ReportComponent from './components/ReportComponent';
 
 const barChartData = [
     { name: 'Telstra', positive: 50, neutral: 20, negative: 2 },
@@ -33,12 +33,14 @@ class App2 extends Component {
                 // {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
                 {type:"bar", x:320, y:10, height:300, width:400, 
                     properties:{
-                        initialized:false, 
-                        datasourceId:'', 
-                        dataset:'', 
-                        xAxis:'', 
-                        yAxis:''}
-                    },
+                        initialized:true, 
+                        datasourceUrl:'http://localhost:8084/Dummy_API/getFurnituresByCategory?category=Furniture', 
+                        dataset:'furnitures',
+                        title: 'Furniture Sales By Region',  
+                        xAxis:'Region', 
+                        yAxis:'Sales'
+                    }
+                },
                 // {type:"text", x:10, y:310, height:100, width:150, properties:{text:"<p>Hello World!</p>"}},
                 // {type:"basic", x:0, y:0, height:300, width:200}
             ]
@@ -61,8 +63,9 @@ class App2 extends Component {
             {type:"bar", x:0, y:0, height:200, width:300, 
                 properties:{
                     initialized:false, 
-                    datasourceId:'', 
+                    datasourceUrl:'', 
                     dataset:'', 
+                    title: '', 
                     xAxis:'', 
                     yAxis:''
                 }
@@ -78,9 +81,10 @@ class App2 extends Component {
         components.push(
             {type:"line", x:0, y:0, height:200, width:300, 
                 properties:{
-                    initialized:false, 
-                    datasourceId:'', 
+                    initialized:false,
+                    datasourceUrl:'', 
                     dataset:'', 
+                    title: '', 
                     xAxis:'', 
                     yAxis:''
                 }
@@ -178,7 +182,6 @@ class App2 extends Component {
     }
 
     updateProperties = (properties, i) => {
-        console.log(properties)
         let components = this.state.components;
         components[i].properties = properties;
         this.setState({properties});
@@ -209,6 +212,7 @@ class App2 extends Component {
                             minHeight={80} minWidth={120}
 
                             // to limit the drag area to a particular class
+                            cancel={".nonDraggable"}
                             dragHandleClassName={"draggable"}
 
                             // update height and width onResizeStop

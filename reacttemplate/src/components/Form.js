@@ -4,8 +4,11 @@ import { Formik, Form, Field } from 'formik';
 import apiData from './ApiData';
 import JsonProcessor from './JsonProcessor'
 
+// hard coded for now
+let datasourceUrl = 'http://localhost:8084/Dummy_API/getFurnituresByCategory?category=Furniture';
+
 let jsonProcessor = new JsonProcessor(apiData);
-var datasets = jsonProcessor.getDatasetNames();
+let datasets = jsonProcessor.getDatasetNames();
 
 class BasicForm extends Component {
     constructor(props) {
@@ -18,7 +21,8 @@ class BasicForm extends Component {
                 // initialize values to use in form
                 initialValues={{
                     title:'', 
-                    dataset: datasets[0], 
+                    dataset: datasets[0],
+                    datasourceUrl: datasourceUrl,
                     xAxis: jsonProcessor.getOptions(datasets[0])[0], 
                     yAxis: jsonProcessor.getOptions(datasets[0])[0], 
                     processor:jsonProcessor
@@ -29,9 +33,9 @@ class BasicForm extends Component {
 
                 // render form
                 render={formProps=>(
-                    <Form className="draggable" style={{textAlign: "center"}}>
+                    <Form className="draggable" style={{textAlign: "center", zIndex: -1}}>
                         <label>Chart Title</label>
-                        <Field className="input" type="text" name="title" placeholder="Chart Title"/>
+                        <Field className="nonDraggable" type="text" name="title" placeholder="Chart Title"/>
                         <br/><br/>
                         <label>Choose the dataset</label>
                         <Field component="select" name="dataset">
