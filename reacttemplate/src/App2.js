@@ -31,7 +31,14 @@ class App2 extends Component {
                 // {type:"table", x:0, y:0, height:200, width:200}
                 // {type:"image", x:0, y:0, height:200, width:200, properties: {imageUrl:''}}
                 // {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
-                {type:"bar", x:320, y:10, height:300, width:400, data:barChartData},
+                {type:"bar", x:320, y:10, height:300, width:400, 
+                    properties:{
+                        initialized:false, 
+                        datasourceId:'', 
+                        dataset:'', 
+                        xAxis:'', 
+                        yAxis:''}
+                    },
                 // {type:"text", x:10, y:310, height:100, width:150, properties:{text:"<p>Hello World!</p>"}},
                 // {type:"basic", x:0, y:0, height:300, width:200}
             ]
@@ -51,7 +58,15 @@ class App2 extends Component {
         let components = this.state.components;
         // adds new component to state
         components.push(
-            {type:"bar", x:0, y:0, height:200, width:300, data:barChartData}
+            {type:"bar", x:0, y:0, height:200, width:300, 
+                properties:{
+                    initialized:false, 
+                    datasourceId:'', 
+                    dataset:'', 
+                    xAxis:'', 
+                    yAxis:''
+                }
+            }
         );
 
         // updates state
@@ -61,7 +76,15 @@ class App2 extends Component {
     addLineChart = () => {
         let components = this.state.components;
         components.push(
-            {type:"line", x:0, y:0, height:200, width:300, data:lineChartData}
+            {type:"line", x:0, y:0, height:200, width:300, 
+                properties:{
+                    initialized:false, 
+                    datasourceId:'', 
+                    dataset:'', 
+                    xAxis:'', 
+                    yAxis:''
+                }
+            }
         );
 
         this.setState({components});
@@ -155,6 +178,7 @@ class App2 extends Component {
     }
 
     updateProperties = (properties, i) => {
+        console.log(properties)
         let components = this.state.components;
         components[i].properties = properties;
         this.setState({properties});
@@ -172,7 +196,7 @@ class App2 extends Component {
                 <button onClick={this.addImage}>Add Image</button>
                 <button onClick={this.saveTemplate}>Save Template</button>
                 <button onClick={this.loadTemplate}>Load Template</button>
-                
+                <input type="number" id="template" defaultValue="0"/>
                 <div id="container">
                     {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item,i)=>
@@ -198,9 +222,9 @@ class App2 extends Component {
                             onDragStop={(event, ref)=>this.onDragStop(ref,i)}
                         >
                             <div style={{float:"right"}}>
-                                <i style={{margin:2}} className="fa fa-wrench" zIndex={1}></i>
-                                <i style={{margin:2}} className="fa fa-times" zIndex={1}
-                                    onClick={()=>this.deleteComponent(i)}></i>
+                                <i style={{margin:2}} className="fa fa-wrench"></i>
+                                <i style={{margin:2}} className="fa fa-times"
+                                    onMouseDown={()=>this.deleteComponent(i)}></i>
                             </div>
                             <ReportComponent type={item.type} data={item.data} 
                                 properties={item.properties} i={i}

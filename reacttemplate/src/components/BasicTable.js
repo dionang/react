@@ -4,7 +4,6 @@ import cellEditFactory from 'react-bootstrap-table2-editor';
 
 
 class BasicTable extends React.Component {
-
     render() {
         const columns = [{
             dataField: 'id',

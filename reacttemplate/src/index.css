@@ -5,3 +5,8 @@ body {
   font-weight: 300;
   font-size: 14px;
 }
+
+/* to allow close button to be clickable */
+.recharts-responsive-container {
+  z-index: -1;
+}

@@ -6,10 +6,8 @@ class Linechart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            initialized: false,
-            xAxis:'',
-            yAxis:'',
-            data:[]
+            ...this.props.properties,
+            chartData:[]
         }
     }
 
@@ -26,51 +24,54 @@ class Linechart extends Component {
         
         // if x-axis is of a type that can be sorted, 
         // sort data in ascending order by x-axis
-        if (xDetails.type !== "string"){
-            data.sort((a, b) => a[xAxis] - b[xAxis]);
+        // if (xDetails.type !== "string"){
+        //     data.sort((a, b) => a[xAxis] - b[xAxis]);
+        //     this.setState({
+        //         initialized:true,
+        //         xAxis: values.xAxis,
+        //         yAxis: values.yAxis,
+        //         dataset: dataset,
+        //         chartData: data
+        //     });
+
+        // // combine values of a same category
+        // } else {
+        //     let summarizedData = {};
+        //     // initialize newData with total value 0
+        //     for (let category in xDetails.categories) {
+        //         summarizedData[category] = 0;
+        //     }
+
+        //     // add value to the appropriate categpry
+        //     for (let obj of data){
+        //         let category = obj[xAxis];
+        //         let value = obj[yAxis];
+        //         summarizedData[category] += value;
+        //     }
+
+        //     // replace data with new format
+        //     data = Object.keys(summarizedData).map((key) => {
+        //         return {x: key, y: summarizedData[key]};
+        //     });
+
             this.setState({
                 initialized:true,
-                xAxis: values.xAxis,
-                yAxis: values.yAxis,
-                data: data
+                xAxis: xAxis,
+                yAxis: yAxis,
+                dataset: dataset,
+                chartData: data
             });
-        // combine values of a same category
-        } else {
-            let summarizedData = {};
-            console.log(data);
-            // initialize newData with total value 0
-            for (let category in xDetails.categories) {
-                summarizedData[category] = 0;
-            }
+        // }
 
-            // add value to the appropriate categpry
-            for (let obj of data){
-                let category = obj[xAxis];
-                let value = obj[yAxis];
-                summarizedData[category] += value;
-            }
-
-            // replace data with new format
-            data = Object.keys(summarizedData).map((key) => {
-                return {x: key, y: summarizedData[key]};
-            });
-
-            console.log(data);
-            this.setState({
-                initialized:true,
-                xAxis: "x",
-                yAxis: "y",
-                data: data
-            })
-        }
-
-        
+        let {chartData, ...other} = this.state;
+        this.props.updateProperties(other, this.props.i);
     }
+
 
     render() {
         return this.state.initialized ?
-            <ResponsiveContainer className="draggable" width="100%" height="100%">
-                <LineChart style={{width:"100%", height:"100%"}} data={this.state.data}>
+            <ResponsiveContainer className="draggable" style={{zIndex:-1}} width="100%" height="100%">
+                <LineChart style={{width:"100%", height:"100%"}} data={this.state.chartData}>
                     <XAxis dataKey={this.state.xAxis}/>
                     <YAxis dataKey={this.state.yAxis}/>
                     <CartesianGrid strokeDasharray="3 3" />

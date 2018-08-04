@@ -12,11 +12,11 @@ class ReportComponent extends Component {
         // based on the item type, render a type of component
         if (this.props.type === "line") {
             return(
-                <Linechart data={this.props.data}/>
+                <Linechart i={this.props.i} properties={this.props.properties} updateProperties={this.props.updateProperties}/>
             );
         } else if (this.props.type === "bar") {
             return (
-                <Barchart/>
+                <Barchart i={this.props.i} properties={this.props.properties} updateProperties={this.props.updateProperties}/>
             );
         } else if (this.props.type === "text") {
             return(
