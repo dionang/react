@@ -11,10 +11,6 @@ let jsonProcessor = new JsonProcessor(apiData);
 let datasets = jsonProcessor.getDatasetNames();
 
 class BasicForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <Formik 
@@ -24,7 +20,7 @@ class BasicForm extends Component {
                     dataset: datasets[0],
                     datasourceUrl: datasourceUrl,
                     xAxis: jsonProcessor.getOptions(datasets[0])[0], 
-                    yAxis: jsonProcessor.getOptions(datasets[0])[0], 
+                    yAxis: jsonProcessor.getNumericalOptions(datasets[0])[0], 
                     processor:jsonProcessor
                 }}
 
@@ -35,7 +31,7 @@ class BasicForm extends Component {
                 render={formProps=>(
                     <Form className="draggable" style={{textAlign: "center", zIndex: -1}}>
                         <label>Chart Title</label>
-                        <Field className="nonDraggable" type="text" name="title" placeholder="Chart Title"/>
+                        <Field type="text" name="title" placeholder="Chart Title"/>
                         <br/><br/>
                         <label>Choose the dataset</label>
                         <Field component="select" name="dataset">
@@ -55,12 +51,10 @@ class BasicForm extends Component {
                         <br/><br/>
                         <label>Choose the Y-Axis</label> 
                         <Field component="select" name="yAxis">
-                            {jsonProcessor.getOptions(formProps.values.dataset)
-                            .map((option)=> {
-                                if(jsonProcessor.getDetails(formProps.values.dataset,option).type === "number"){
-                                   return <option key={option}>{option}</option>
-                                }
-                            })}
+                            {jsonProcessor.getNumericalOptions(formProps.values.dataset)
+                            .map((option)=> 
+                                <option key={option}>{option}</option>
+                            )}
                         </Field>
                         <br/><br/>
                         <button type="submit">Submit</button>

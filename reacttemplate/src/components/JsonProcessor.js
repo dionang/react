@@ -3,6 +3,10 @@ function JsonProcessor(json) {
     if (!(this instanceof JsonProcessor)){
         return new JsonProcessor(json);
     }
+
+    if (json === undefined) {
+        return;
+    }
     
     this.json = json;
     this.result = {datasets:{}};
@@ -134,6 +138,21 @@ JsonProcessor.prototype.getOptions = function(dataset){
     }
 };
 
+JsonProcessor.prototype.getNumericalOptions = function(dataset){
+    let ds = this.result.datasets[dataset];
+    if (ds === undefined){
+        return [];
+    } else {
+        let options = [];
+        for (let option of ds.options) {
+            if (this.getDetails(dataset, option).type === "number") {
+                options.push(option);
+            }
+        }
+        return options;
+    }
+};
+
 JsonProcessor.prototype.getTypes = function(dataset){
     let list = this.result.datasets[dataset];
     let result = {};
@@ -143,9 +162,39 @@ JsonProcessor.prototype.getTypes = function(dataset){
     return result;
 };
 
+JsonProcessor.prototype.getType = function(dataset, option){
+    return this.result.datasets[dataset][option].type;
+};
+
 JsonProcessor.prototype.getDetails = function(dataset, option){
     return this.result.datasets[dataset][option];
 };
+
+JsonProcessor.prototype.getAggregatedData = function(data, xAxis, yAxis, operation){
+    let aggregatedData = {};
+    // add value to the appropriate categpry
+    for (let obj of data){
+        let category = obj[xAxis];
+        let value = obj[yAxis];
+        if (aggregatedData[category] === undefined) {
+            aggregatedData[category] = [];
+        }
+        aggregatedData[category].push(value);
+    }
+
+    // do appropriate aggregation
+    let newData = [];
+    for (let category in aggregatedData) {
+        let values = aggregatedData[category];
+        let obj = {};
+        obj[xAxis] = category;
+        if (operation === "sum"){
+            obj[yAxis] = values.reduce((prev, curr) => prev + curr);
+        }
+        newData.push(obj);
+    }
+    return newData;
+}
 
 function parseDate(dateString){
     var m = dateString.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);

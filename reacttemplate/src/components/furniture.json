@@ -1,242 +1,232 @@
 [
-    {
-      "Name": "Bush Somerset Collection Bookcase",
-      "Sales": 261.96,
-      "Quantity": 2,
-      "Discount": 0.0,
-      "Profit": 41.9136,
-      "Ship Mode": "Second Class",
-      "Order Date": "8/11/2016",
-      "Region": "South"
-    },
-    {
-      "Name": "Hon Deluxe Fabric Upholstered Stacking Chairs, Rounded Back",
-      "Sales": 731.94,
-      "Quantity": 3,
-      "Discount": 0.0,
-      "Profit": 219.582,
-      "Ship Mode": "Second Class",
-      "Order Date": "8/11/2016",
-      "Region": "South"
-    },
-    {
-      "Name": "Bretford CR4500 Series Slim Rectangular Table",
-      "Sales": 957.5775,
-      "Quantity": 5,
-      "Discount": 0.45,
-      "Profit": -383.031,
-      "Ship Mode": "Standard Class",
-      "Order Date": "11/10/2015",
-      "Region": "South"
-    },
-    {
-      "Name": "Eldon Expressions Wood and Plastic Desk Accessories, Cherry Wood",
-      "Sales": 48.86,
-      "Quantity": 7,
-      "Discount": 0.0,
-      "Profit": 14.1694,
-      "Ship Mode": "Standard Class",
-      "Order Date": "9/6/2014",
-      "Region": "West"
-    },
-    {
-      "Name": "Chromcraft Rectangular Conference Tables",
-      "Sales": 1706.184,
-      "Quantity": 9,
-      "Discount": 0.2,
-      "Profit": 85.3092,
-      "Ship Mode": "Standard Class",
-      "Order Date": "9/6/2014",
-      "Region": "West"
-    },
-    {
-      "Name": "Global Deluxe Stacking Chair, Gray",
-      "Sales": 71.372,
-      "Quantity": 2,
-      "Discount": 0.3,
-      "Profit": -1.0196,
-      "Ship Mode": "Second Class",
-      "Order Date": "16/7/2017",
-      "Region": "East"
-    },
-    {
-      "Name": "Bretford CR4500 Series Slim Rectangular Table",
-      "Sales": 1044.63,
-      "Quantity": 3,
-      "Discount": 0.0,
-      "Profit": 240.2649,
-      "Ship Mode": "Standard Class",
-      "Order Date": "25/9/2015",
-      "Region": "West"
-    },
-    {
-      "Name": "Riverside Palais Royal Lawyers Bookcase, Royale Cherry Finish",
-      "Sales": 3083.43,
-      "Quantity": 7,
-      "Discount": 0.5,
-      "Profit": -1665.0522,
-      "Ship Mode": "Standard Class",
-      "Order Date": "17/9/2015",
-      "Region": "East"
-    },
-    {
-      "Name": "Howard Miller 13-3/4\" Diameter Brushed Chrome Round Wall Clock",
-      "Sales": 124.2,
-      "Quantity": 3,
-      "Discount": 0.2,
-      "Profit": 15.525,
-      "Ship Mode": "Standard Class",
-      "Order Date": "17/9/2015",
-      "Region": "East"
-    },
-    {
-      "Name": "Electrix Architect\u0027s Clamp-On Swing Arm Lamp, Black",
-      "Sales": 190.92,
-      "Quantity": 5,
-      "Discount": 0.6,
-      "Profit": -147.963,
-      "Ship Mode": "First Class",
-      "Order Date": "8/12/2016",
-      "Region": "Central"
-    },
-    {
-      "Name": "Atlantic Metals Mobile 3-Shelf Bookcases, Custom Colors",
-      "Sales": 532.3992,
-      "Quantity": 3,
-      "Discount": 0.32,
-      "Profit": -46.9764,
-      "Ship Mode": "Standard Class",
-      "Order Date": "27/12/2015",
-      "Region": "Central"
-    },
-    {
-      "Name": "Global Fabric Manager\u0027s Chair, Dark Gray",
-      "Sales": 212.058,
-      "Quantity": 3,
-      "Discount": 0.3,
-      "Profit": -15.147,
-      "Ship Mode": "Standard Class",
-      "Order Date": "27/12/2015",
-      "Region": "Central"
-    },
-    {
-      "Name": "Longer-Life Soft White Bulbs",
-      "Sales": 6.16,
-      "Quantity": 2,
-      "Discount": 0.0,
-      "Profit": 2.9568,
-      "Ship Mode": "Standard Class",
-      "Order Date": "18/4/2015",
-      "Region": "Central"
-    },
-    {
-      "Name": "Global Leather Task Chair, Black",
-      "Sales": 89.99,
-      "Quantity": 1,
-      "Discount": 0.0,
-      "Profit": 17.0981,
-      "Ship Mode": "Standard Class",
-      "Order Date": "18/4/2015",
-      "Region": "Central"
-    },
-    {
-      "Name": "Novimex Turbo Task Chair",
-      "Sales": 319.41,
-      "Quantity": 5,
-      "Discount": 0.1,
-      "Profit": 7.098,
-      "Ship Mode": "First Class",
-      "Order Date": "17/6/2016",
-      "Region": "East"
-    },
-    {
-      "Name": "Luxo Economy Swing Arm Lamp",
-      "Sales": 79.76,
-      "Quantity": 4,
-      "Discount": 0.0,
-      "Profit": 22.3328,
-      "Ship Mode": "Standard Class",
-      "Order Date": "24/11/2015",
-      "Region": "West"
-    },
-    {
-      "Name": "Global Value Mid-Back Manager\u0027s Chair, Gray",
-      "Sales": 213.115,
-      "Quantity": 5,
-      "Discount": 0.3,
-      "Profit": -15.2225,
-      "Ship Mode": "Standard Class",
-      "Order Date": "30/4/2015",
-      "Region": "Central"
-    },
-    {
-      "Name": "High-Back Leather Manager\u0027s Chair",
-      "Sales": 831.936,
-      "Quantity": 8,
-      "Discount": 0.2,
-      "Profit": -114.3912,
-      "Ship Mode": "Standard Class",
-      "Order Date": "26/4/2015",
-      "Region": "South"
-    },
-    {
-      "Name": "Tenex Traditional Chairmats for Medium Pile Carpet, Standard Lip, 36\" x 48\"",
-      "Sales": 97.04,
-      "Quantity": 2,
-      "Discount": 0.2,
-      "Profit": 1.213,
-      "Ship Mode": "Standard Class",
-      "Order Date": "26/4/2015",
-      "Region": "South"
-    },
-    {
-      "Name": "6\" Cubicle Wall Clock, Black",
-      "Sales": 9.708,
-      "Quantity": 3,
-      "Discount": 0.6,
-      "Profit": -5.8248,
-      "Ship Mode": "First Class",
-      "Order Date": "9/12/2017",
-      "Region": "Central"
-    },
-    {
-      "Name": "Eldon Expressions Desk Accessory, Wood Pencil Holder, Oak",
-      "Sales": 19.3,
-      "Quantity": 5,
-      "Discount": 0.6,
-      "Profit": -14.475,
-      "Ship Mode": "Second Class",
-      "Order Date": "26/11/2014",
-      "Region": "Central"
-    },
-    {
-      "Name": "Novimex Swivel Fabric Task Chair",
-      "Sales": 301.96,
-      "Quantity": 2,
-      "Discount": 0.0,
-      "Profit": 33.2156,
-      "Ship Mode": "Second Class",
-      "Order Date": "28/5/2017",
-      "Region": "South"
-    },
-    {
-      "Name": "Seth Thomas 13 1/2\" Wall Clock",
-      "Sales": 53.34,
-      "Quantity": 3,
-      "Discount": 0.0,
-      "Profit": 16.5354,
-      "Ship Mode": "Second Class",
-      "Order Date": "31/1/2015",
-      "Region": "Central"
-    },
-    {
-      "Name": "9-3/4 Diameter Round Wall Clock",
-      "Sales": 96.53,
-      "Quantity": 7,
-      "Discount": 0.0,
-      "Profit": 40.5426,
-      "Ship Mode": "Second Class",
-      "Order Date": "9/11/2017",
-      "Region": "East"
-    }
+  {
+    "Name": "Bush Somerset Collection Bookcase",
+    "Sales": 261.96,
+    "Quantity": 2,
+    "Discount": 0.0,
+    "Profit": 41.9136,
+    "Ship Mode": "Second Class",
+    "Order Date": "8/11/2016",
+    "Region": "South"
+  },
+  {
+    "Name": "Hon Deluxe Fabric Upholstered Stacking Chairs, Rounded Back",
+    "Sales": 731.94,
+    "Quantity": 3,
+    "Discount": 0.0,
+    "Profit": 219.582,
+    "Ship Mode": "Second Class",
+    "Order Date": "8/11/2016",
+    "Region": "South"
+  },
+  {
+    "Name": "Bretford CR4500 Series Slim Rectangular Table",
+    "Sales": 957.5775,
+    "Quantity": 5,
+    "Discount": 0.45,
+    "Profit": -383.031,
+    "Ship Mode": "Standard Class",
+    "Order Date": "11/10/2015",
+    "Region": "South"
+  },
+  {
+    "Name": "Eldon Expressions Wood and Plastic Desk Accessories, Cherry Wood",
+    "Sales": 48.86,
+    "Quantity": 7,
+    "Discount": 0.0,
+    "Profit": 14.1694,
+    "Ship Mode": "Standard Class",
+    "Order Date": "9/6/2014",
+    "Region": "West"
+  },
+  {
+    "Name": "Chromcraft Rectangular Conference Tables",
+    "Sales": 1706.184,
+    "Quantity": 9,
+    "Discount": 0.2,
+    "Profit": 85.3092,
+    "Ship Mode": "Standard Class",
+    "Order Date": "9/6/2014",
+    "Region": "West"
+  },
+  {
+    "Name": "Global Deluxe Stacking Chair, Gray",
+    "Sales": 71.372,
+    "Quantity": 2,
+    "Discount": 0.3,
+    "Profit": -1.0196,
+    "Ship Mode": "Second Class",
+    "Order Date": "16/7/2017",
+    "Region": "East"
+  },
+  {
+    "Name": "Bretford CR4500 Series Slim Rectangular Table",
+    "Sales": 1044.63,
+    "Quantity": 3,
+    "Discount": 0.0,
+    "Profit": 240.2649,
+    "Ship Mode": "Standard Class",
+    "Order Date": "25/9/2015",
+    "Region": "West"
+  },
+  {
+    "Name": "Howard Miller 13-3/4\" Diameter Brushed Chrome Round Wall Clock",
+    "Sales": 124.2,
+    "Quantity": 3,
+    "Discount": 0.2,
+    "Profit": 15.525,
+    "Ship Mode": "Standard Class",
+    "Order Date": "17/9/2015",
+    "Region": "East"
+  },
+  {
+    "Name": "Electrix Architect\u0027s Clamp-On Swing Arm Lamp, Black",
+    "Sales": 190.92,
+    "Quantity": 5,
+    "Discount": 0.6,
+    "Profit": -147.963,
+    "Ship Mode": "First Class",
+    "Order Date": "8/12/2016",
+    "Region": "Central"
+  },
+  {
+    "Name": "Atlantic Metals Mobile 3-Shelf Bookcases, Custom Colors",
+    "Sales": 532.3992,
+    "Quantity": 3,
+    "Discount": 0.32,
+    "Profit": -46.9764,
+    "Ship Mode": "Standard Class",
+    "Order Date": "27/12/2015",
+    "Region": "Central"
+  },
+  {
+    "Name": "Global Fabric Manager\u0027s Chair, Dark Gray",
+    "Sales": 212.058,
+    "Quantity": 3,
+    "Discount": 0.3,
+    "Profit": -15.147,
+    "Ship Mode": "Standard Class",
+    "Order Date": "27/12/2015",
+    "Region": "Central"
+  },
+  {
+    "Name": "Longer-Life Soft White Bulbs",
+    "Sales": 6.16,
+    "Quantity": 2,
+    "Discount": 0.0,
+    "Profit": 2.9568,
+    "Ship Mode": "Standard Class",
+    "Order Date": "18/4/2015",
+    "Region": "Central"
+  },
+  {
+    "Name": "Global Leather Task Chair, Black",
+    "Sales": 89.99,
+    "Quantity": 1,
+    "Discount": 0.0,
+    "Profit": 17.0981,
+    "Ship Mode": "Standard Class",
+    "Order Date": "18/4/2015",
+    "Region": "Central"
+  },
+  {
+    "Name": "Novimex Turbo Task Chair",
+    "Sales": 319.41,
+    "Quantity": 5,
+    "Discount": 0.1,
+    "Profit": 7.098,
+    "Ship Mode": "First Class",
+    "Order Date": "17/6/2016",
+    "Region": "East"
+  },
+  {
+    "Name": "Luxo Economy Swing Arm Lamp",
+    "Sales": 79.76,
+    "Quantity": 4,
+    "Discount": 0.0,
+    "Profit": 22.3328,
+    "Ship Mode": "Standard Class",
+    "Order Date": "24/11/2015",
+    "Region": "West"
+  },
+  {
+    "Name": "Global Value Mid-Back Manager\u0027s Chair, Gray",
+    "Sales": 213.115,
+    "Quantity": 5,
+    "Discount": 0.3,
+    "Profit": -15.2225,
+    "Ship Mode": "Standard Class",
+    "Order Date": "30/4/2015",
+    "Region": "Central"
+  },
+  {
+    "Name": "High-Back Leather Manager\u0027s Chair",
+    "Sales": 831.936,
+    "Quantity": 8,
+    "Discount": 0.2,
+    "Profit": -114.3912,
+    "Ship Mode": "Standard Class",
+    "Order Date": "26/4/2015",
+    "Region": "South"
+  },
+  {
+    "Name": "Tenex Traditional Chairmats for Medium Pile Carpet, Standard Lip, 36\" x 48\"",
+    "Sales": 97.04,
+    "Quantity": 2,
+    "Discount": 0.2,
+    "Profit": 1.213,
+    "Ship Mode": "Standard Class",
+    "Order Date": "26/4/2015",
+    "Region": "South"
+  },
+  {
+    "Name": "6\" Cubicle Wall Clock, Black",
+    "Sales": 9.708,
+    "Quantity": 3,
+    "Discount": 0.6,
+    "Profit": -5.8248,
+    "Ship Mode": "First Class",
+    "Order Date": "9/12/2017",
+    "Region": "Central"
+  },
+  {
+    "Name": "Eldon Expressions Desk Accessory, Wood Pencil Holder, Oak",
+    "Sales": 19.3,
+    "Quantity": 5,
+    "Discount": 0.6,
+    "Profit": -14.475,
+    "Ship Mode": "Second Class",
+    "Order Date": "26/11/2014",
+    "Region": "Central"
+  },
+  {
+    "Name": "Novimex Swivel Fabric Task Chair",
+    "Sales": 301.96,
+    "Quantity": 2,
+    "Discount": 0.0,
+    "Profit": 33.2156,
+    "Ship Mode": "Second Class",
+    "Order Date": "28/5/2017",
+    "Region": "South"
+  },
+  {
+    "Name": "Seth Thomas 13 1/2\" Wall Clock",
+    "Sales": 53.34,
+    "Quantity": 3,
+    "Discount": 0.0,
+    "Profit": 16.5354,
+    "Ship Mode": "Second Class",
+    "Order Date": "31/1/2015",
+    "Region": "Central"
+  },
+  {
+    "Name": "9-3/4 Diameter Round Wall Clock",
+    "Sales": 96.53,
+    "Quantity": 7,
+    "Discount": 0.0,
+    "Profit": 40.5426,
+    "Ship Mode": "Second Class",
+    "Order Date": "9/11/2017",
+    "Region": "East"
+  }
 ]

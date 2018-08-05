@@ -14,15 +14,15 @@ class App2 extends Component {
                 // {type:"table", x:0, y:0, height:200, width:200}
                 // {type:"image", x:0, y:0, height:200, width:200, properties: {imageUrl:''}}
                 // {type:"line", x:10, y:10, height:200, width:300, data:lineChartData},
-                {type:"bar", x:320, y:10, height:300, width:400, 
+                {type:"bar", x:320, y:10, height:300, width:400, display:true,
                     properties:{
                         initialized:true, 
                         datasourceUrl:'http://localhost:8084/Dummy_API/getFurnituresByCategory?category=Furniture', 
                         dataset:'furnitures',
                         title: 'Furniture Sales By Region',  
                         xAxis:'Region', 
-                        xType:'category',
-                        yAxis:'Sales'
+                        yAxis:'Sales',
+                        aggregate:'sum'
                     }
                 },
                 // {type:"text", x:10, y:310, height:100, width:150, properties:{text:"<p>Hello World!</p>"}},
@@ -34,7 +34,7 @@ class App2 extends Component {
     addTextbox = () => {
         let components = this.state.components;
         components.push(
-            {type:"text", x:0, y:0, height:50, width:200, properties:{text:"<p><br></p>"}}
+            {type:"text", x:0, y:0, height:50, width:200, display:true, properties:{text:"<p><br></p>"}}
         );
 
         this.setState({components});
@@ -44,7 +44,7 @@ class App2 extends Component {
         let components = this.state.components;
         // adds new component to state
         components.push(
-            {type:"bar", x:0, y:0, height:200, width:300, 
+            {type:"bar", x:0, y:0, height:200, width:300, display:true,
                 properties:{
                     initialized:false, 
                     datasourceUrl:'', 
@@ -63,7 +63,7 @@ class App2 extends Component {
     addLineChart = () => {
         let components = this.state.components;
         components.push(
-            {type:"line", x:0, y:0, height:200, width:300, 
+            {type:"line", x:0, y:0, height:200, width:300, display:true,
                 properties:{
                     initialized:false,
                     datasourceUrl:'', 
@@ -82,32 +82,23 @@ class App2 extends Component {
     addTable = () => {
         let components = this.state.components;
         components.push(
-            {type:"table", x:0, y:0, height:200, width:300}
+            {type:"table", x:0, y:0, height:200, width:300, display:true}
         );
 
-        this.setState({components});
-    }
-
-
-    addForm = () =>{
-        let components = this.state.components;
-        components.push(
-            {type:"basic", x:0, y:0, height:200, width:200}
-        );
         this.setState({components});
     }
 
     addImage = () =>{
         let components = this.state.components;
         components.push(
-            {type:"image", x:0, y:0, height:200, width:200, properties: {imageUrl:''}}
+            {type:"image", x:0, y:0, height:200, width:200, display:true, properties: {imageUrl:''}}
         );
         this.setState({components});
     }
 
     deleteComponent(i) {
         let components = this.state.components;
-        components.splice(i,1);
+        components[i].display = false;
         this.setState({components});
     }
 
@@ -179,47 +170,48 @@ class App2 extends Component {
                 <button onClick={this.addLineChart}>Add Line Chart</button>
                 <button onClick={this.addTable}>Add Table</button>
                 <button onClick={this.getComponentDetails}>Get Component Details</button>
-                <button onClick={this.addForm}>Show the form</button>
                 <button onClick={this.addImage}>Add Image</button>
                 <button onClick={this.saveTemplate}>Save Template</button>
                 <button onClick={this.loadTemplate}>Load Template</button>
                 <input type="number" id="template" defaultValue="0"/>
                 <div id="container">
                     {/* map does a for loop over all the components in the state */}
-                    {this.state.components.map((item,i)=>
-                        <Rnd key={i} style={{border: "1px solid grey"}}
-                            // intialize components x,y,height and width
-                            position = {{x: item.x, y: item.y}}
-                            size = {{width: item.width, height: item.height}}
+                    {this.state.components.map((item,i)=>{
+                        if (item.display){
+                            return <Rnd key={i} style={{border: "1px solid grey"}}
+                                // intialize components x,y,height and width
+                                position = {{x: item.x, y: item.y}}
+                                size = {{width: item.width, height: item.height}}
 
-                            // min height and size
-                            minHeight={80} minWidth={120}
+                                // min height and size
+                                minHeight={80} minWidth={120}
 
-                            // to limit the drag area to a particular class
-                            cancel={".nonDraggable"}
-                            dragHandleClassName={"draggable"}
+                                // to limit the drag area to a particular class
+                                cancel={".nonDraggable"}
+                                dragHandleClassName={"draggable"}
 
-                            // update height and width onResizeStop
-                            // onResizeStop will activate a callback function containing these params
-                            // ref represents item that was resized
-                            onResize={(event, dir, ref, delta, pos)=>this.onResize(ref, pos, i)}
+                                // update height and width onResizeStop
+                                // onResizeStop will activate a callback function containing these params
+                                // ref represents item that was resized
+                                onResize={(event, dir, ref, delta, pos)=>this.onResize(ref, pos, i)}
 
-                            // update height and width onResizeStop
-                            // onDragStop will activate a callback function containing these params
-                            // ref represents item that was dragged
-                            onDragStop={(event, ref)=>this.onDragStop(ref,i)}
-                        >
-                            <div style={{float:"right"}}>
-                                <i style={{margin:2}} className="fa fa-wrench"></i>
-                                <i style={{margin:2}} className="fa fa-times"
-                                    onMouseDown={()=>this.deleteComponent(i)}></i>
-                            </div>
-                            <ReportComponent type={item.type} data={item.data} 
-                                properties={item.properties} i={i}
-                                updateProperties={this.updateProperties.bind(this)}    
-                            />
-                        </Rnd>
-                    )}  
+                                // update height and width onResizeStop
+                                // onDragStop will activate a callback function containing these params
+                                // ref represents item that was dragged
+                                onDragStop={(event, ref)=>this.onDragStop(ref,i)}
+                            >
+                                <div style={{float:"right"}}>
+                                    <i style={{margin:2}} className="fa fa-wrench"></i>
+                                    <i style={{margin:2}} className="fa fa-times"
+                                        onMouseDown={()=>this.deleteComponent(i)}></i>
+                                </div>
+                                <ReportComponent type={item.type}
+                                    properties={item.properties} i={i}
+                                    updateProperties={this.updateProperties.bind(this)}    
+                                />
+                            </Rnd>
+                        }
+                    })}  
                 </div>
             </div>
         ) 
