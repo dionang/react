@@ -23,9 +23,11 @@ class Barchart extends Component {
             }, function(error, response, body){
                 let data = JSON.parse(body);
                 let chartData = data[self.props.properties.dataset];
-                if (aggregate){
-                    let xAxis = self.props.properties.xAxis;
-                    let yAxis = self.props.properties.yAxis;
+                let xAxis = self.props.properties.xAxis;
+                let yAxis = self.props.properties.yAxis;
+                if (aggregate === ""){
+                    chartData.sort((a, b) => a[xAxis] - b[xAxis]);
+                } else {
                     chartData = new JsonProcessor().getAggregatedData(chartData, xAxis, yAxis, aggregate);
                 }
                 self.setState({chartData});

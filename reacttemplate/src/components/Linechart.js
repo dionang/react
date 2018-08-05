@@ -23,9 +23,11 @@ class Linechart extends Component {
             }, function(error, response, body){
                 let data = JSON.parse(body);
                 let chartData = data[self.props.properties.dataset];
-                if (aggregate){
-                    let xAxis = self.props.properties.xAxis;
-                    let yAxis = self.props.properties.yAxis;
+                let xAxis = self.props.properties.xAxis;
+                let yAxis = self.props.properties.yAxis;
+                if (aggregate === ""){
+                    chartData.sort((a, b) => a[xAxis] - b[xAxis]);
+                } else {
                     chartData = new JsonProcessor().getAggregatedData(chartData, xAxis, yAxis, aggregate);
                 }
                 self.setState({chartData});
@@ -43,13 +45,14 @@ class Linechart extends Component {
         let title = values.title;
         let xAxis = values.xAxis;
         let yAxis = values.yAxis;
-        let aggregate = "sum";
+        let aggregate = "";
 
         // if x-axis is non-categorical, 
         // sort data in ascending order by x-axis
         if (processor.getType(dataset, xAxis) !== "string"){
             data.sort((a, b) => a[xAxis] - b[xAxis]);
         } else {
+            aggregate = "sum";
             data = processor.getAggregatedData(data, xAxis, yAxis, aggregate);
         }
         

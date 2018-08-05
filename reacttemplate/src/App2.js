@@ -173,7 +173,7 @@ class App2 extends Component {
                 <button onClick={this.addImage}>Add Image</button>
                 <button onClick={this.saveTemplate}>Save Template</button>
                 <button onClick={this.loadTemplate}>Load Template</button>
-                <input type="number" id="template" defaultValue="0"/>
+                <input type="number" id="template" defaultValue="1"/>
                 <div id="container">
                     {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item,i)=>{
