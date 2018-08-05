@@ -96,6 +96,12 @@ class App2 extends Component {
         this.setState({components});
     }
 
+    changeSettings(i) {
+        let components = this.state.components;
+        components[i].properties.initialized = false;
+        this.setState({components});
+    }
+
     deleteComponent(i) {
         let components = this.state.components;
         components[i].display = false;
@@ -201,9 +207,10 @@ class App2 extends Component {
                                 onDragStop={(event, ref)=>this.onDragStop(ref,i)}
                             >
                                 <div style={{float:"right"}}>
-                                    <i style={{margin:2}} className="fa fa-wrench"></i>
+                                    <i style={{margin:2}} className="fa fa-wrench"
+                                        onClick={()=>this.changeSettings(i)}></i>
                                     <i style={{margin:2}} className="fa fa-times"
-                                        onMouseDown={()=>this.deleteComponent(i)}></i>
+                                        onClick={()=>this.deleteComponent(i)}></i>
                                 </div>
                                 <ReportComponent type={item.type}
                                     properties={item.properties} i={i}

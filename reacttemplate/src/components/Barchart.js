@@ -13,6 +13,14 @@ class Barchart extends Component {
         }
     }
 
+    // update state of initialized when props change
+    componentWillReceiveProps(nextProps){
+        if (nextProps.properties.initialized != this.state.initialized){
+            this.setState({initialized: nextProps.properties.initialized});
+        }
+    }
+
+    // do API call to render chartData upon loading of component from DB
     componentWillMount(){
         let self = this;
         let url = this.props.properties.datasourceUrl;
