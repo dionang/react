@@ -39,48 +39,29 @@ class Linechart extends Component {
         let xDetails = processor.getDetails(dataset, xAxis);
         let yDetails = processor.getDetails(dataset, xAxis);
         
+        // will assume string types are category for now
+        let xType = xDetails.type === "number" ? "number" : "category";
+        let xMin = xDetails.min;
+        let xMax = xDetails.max;
+        let yType = xDetails.type === "number" ? "number" : "category";
+
         // if x-axis is of a type that can be sorted, 
-        // sort data in ascending order by x-axis
-        // if (xDetails.type !== "string"){
-        //     data.sort((a, b) => a[xAxis] - b[xAxis]);
-        //     this.setState({
-        //         initialized:true,
-        //         xAxis: values.xAxis,
-        //         yAxis: values.yAxis,
-        //         dataset: dataset,
-        //         chartData: data
-        //     });
+        // sort data in ascending order by x-axis.
+        // this will keep the line ordered correctly
+        if (xType === "number"){
+            data.sort((a, b) => a[xAxis] - b[xAxis]);
+        }
 
-        // // combine values of a same category
-        // } else {
-        //     let summarizedData = {};
-        //     // initialize newData with total value 0
-        //     for (let category in xDetails.categories) {
-        //         summarizedData[category] = 0;
-        //     }
-
-        //     // add value to the appropriate categpry
-        //     for (let obj of data){
-        //         let category = obj[xAxis];
-        //         let value = obj[yAxis];
-        //         summarizedData[category] += value;
-        //     }
-
-        //     // replace data with new format
-        //     data = Object.keys(summarizedData).map((key) => {
-        //         return {x: key, y: summarizedData[key]};
-        //     });
-
-            this.setState({
-                initialized:true,
-                datasourceUrl: datasourceUrl,
-                dataset: dataset,
-                title: title,
-                xAxis: xAxis,
-                yAxis: yAxis,
-                chartData: data
-            });
-        // }
+        this.setState({
+            initialized:true,
+            datasourceUrl: datasourceUrl,
+            dataset: dataset,
+            title: title,
+            xAxis: xAxis,
+            xType: xType,
+            yAxis: yAxis,
+            chartData: data
+        });
 
         let {chartData, ...other} = this.state;
         this.props.updateProperties(other, this.props.i);
@@ -90,7 +71,7 @@ class Linechart extends Component {
         return this.state.initialized ?
             <ResponsiveContainer className="draggable" width="100%" height="100%">
                 <LineChart style={{width:"100%", height:"100%"}} data={this.state.chartData}>
-                    <XAxis dataKey={this.state.xAxis}/>
+                    <XAxis dataKey={this.state.xAxis} type={this.state.xType} allowDuplicatedCategory={false}/>
                     <YAxis dataKey={this.state.yAxis}/>
                     <CartesianGrid strokeDasharray="3 3" />
                     <Tooltip />

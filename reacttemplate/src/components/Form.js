@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Formik, Form, Field } from 'formik';
 
 import apiData from './ApiData';
-import JsonProcessor from './JsonProcessor'
+import JsonProcessor from './JsonProcessor';
 
 // hard coded for now
 let datasourceUrl = 'http://localhost:8084/Dummy_API/getFurnituresByCategory?category=Furniture';
@@ -56,9 +56,11 @@ class BasicForm extends Component {
                         <label>Choose the Y-Axis</label> 
                         <Field component="select" name="yAxis">
                             {jsonProcessor.getOptions(formProps.values.dataset)
-                            .map((option)=>
-                                <option key={option}>{option}</option>
-                            )}
+                            .map((option)=> {
+                                if(jsonProcessor.getDetails(formProps.values.dataset,option).type === "number"){
+                                   return <option key={option}>{option}</option>
+                                }
+                            })}
                         </Field>
                         <br/><br/>
                         <button type="submit">Submit</button>

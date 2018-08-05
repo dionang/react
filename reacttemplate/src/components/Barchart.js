@@ -8,7 +8,9 @@ class Barchart extends Component {
         super(props);
         this.state = {
             ...this.props.properties,
-            chartData:[]
+            chartData:[],
+            xType: '',
+            yType: ''
         }
     }
 
@@ -38,6 +40,13 @@ class Barchart extends Component {
 
         let xDetails = processor.getDetails(dataset, xAxis);
         let yDetails = processor.getDetails(dataset, xAxis);
+
+        // will assume string types are category for now
+        let xType = xDetails.type === "number" ? "number" : "category";
+        let xMin = xDetails.min;
+        let xMax = xDetails.max;
+        console.log(xDetails);
+        let yType = xDetails.type === "number" ? "number" : "category";
         
         // if x-axis is of a type that can be sorted, 
         // sort data in ascending order by x-axis
@@ -81,6 +90,9 @@ class Barchart extends Component {
                 dataset: dataset,
                 title: title,
                 xAxis: xAxis,
+                xType: xType,
+                xMin: xMin,
+                xMax: xMax,
                 yAxis: yAxis,
                 chartData: data
             })
@@ -91,12 +103,13 @@ class Barchart extends Component {
     }
 
     render() {
+        console.log(this.state.xMax);
         return this.state.initialized ?
             <ResponsiveContainer className="draggable" width="100%" height="100%">
                 <BarChart style={{width:"100%", height:"100%"}} data={this.state.chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey={this.state.xAxis} type="category" allowDuplicatedCategory={false}/>
-                    <YAxis dataKey={this.state.yAxis} name={this.state.yAxis} />
+                    <XAxis dataKey={this.state.xAxis} type={this.state.xType} domain={["auto", "auto"]} allowDuplicatedCategory={false}/>
+                    <YAxis dataKey={this.state.yAxis}  />
                     <Tooltip />
                     <Bar dataKey={this.state.yAxis} fill="blue" />
                     {/* <Bar dataKey="neutral" fill="orange" /> */}
