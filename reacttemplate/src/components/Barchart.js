@@ -29,6 +29,7 @@ class Barchart extends Component {
             request.get({
                 url: url,
             }, function(error, response, body){
+                console.log(body);
                 let data = JSON.parse(body);
                 let chartData = data[self.props.properties.dataset];
                 let xAxis = self.props.properties.xAxis;

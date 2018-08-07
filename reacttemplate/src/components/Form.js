@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import { Formik, Form, Field } from 'formik';
 
-import apiData from './ApiData';
+import apiData from './ApiData2';
 import JsonProcessor from './JsonProcessor';
 
 // hard coded for now
-let datasourceUrl = 'http://localhost:8084/Dummy_API/getFurnituresByCategory?category=Furniture';
+let datasourceUrl = 'http://localhost:8084/Dummy_API/getCustomerOrders';
 
 let jsonProcessor = new JsonProcessor(apiData);
 let datasets = jsonProcessor.getDatasetNames();

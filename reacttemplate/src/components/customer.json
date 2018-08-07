@@ -1,0 +1,85 @@
+[
+    {
+    "Order ID": "CA-2017-141789",
+    "Product Name": "GBC DocuBind TL300 Electric Binding System",
+    "Product ID": "OFF-BI-10001359",
+    "Category": "Office Supplies",
+    "Sub-Category": "Office Supplies",
+    "Quantity": 2,
+    "Sales": 1793.98
+    },
+    {
+    "Order ID": "CA-2015-164441",
+    "Product Name": "Storex Dura Pro Binders",
+    "Product ID": "OFF-BI-10001922",
+    "Category": "Office Supplies",
+    "Sub-Category": "Office Supplies",
+    "Quantity": 11,
+    "Sales": 52.272
+    },
+    {
+    "Order ID": "CA-2015-164441",
+    "Product Name": "Great White Multi-Use Recycled Paper (20Lb. and 84 Bright)",
+    "Product ID": "OFF-PA-10001667",
+    "Category": "Office Supplies",
+    "Sub-Category": "Office Supplies",
+    "Quantity": 3,
+    "Sales": 17.94
+    },
+    {
+    "Order ID": "CA-2017-158729",
+    "Product Name": "Martin Yale Chadless Opener Electric Letter Opener",
+    "Product ID": "OFF-SU-10002881",
+    "Category": "Office Supplies",
+    "Sub-Category": "Office Supplies",
+    "Quantity": 2,
+    "Sales": 1665.62
+    },
+    {
+    "Order ID": "CA-2016-163573",
+    "Product Name": "Ibico Hi-Tech Manual Binding System",
+    "Product ID": "OFF-BI-10004632",
+    "Category": "Office Supplies",
+    "Sub-Category": "Office Supplies",
+    "Quantity": 5,
+    "Sales": 1219.96
+    },
+    {
+    "Order ID": "CA-2016-116232",
+    "Product Name": "Acco Suede Grain Vinyl Round Ring Binder",
+    "Product ID": "OFF-BI-10004022",
+    "Category": "Office Supplies",
+    "Sub-Category": "Office Supplies",
+    "Quantity": 9,
+    "Sales": 7.506
+    },
+    {
+    "Order ID": "CA-2016-116232",
+    "Product Name": "Avery Address/Shipping Labels for Typewriters, 4\" x 2\"",
+    "Product ID": "OFF-LA-10001158",
+    "Category": "Office Supplies",
+    "Sub-Category": "Office Supplies",
+    "Quantity": 2,
+    "Sales": 16.56
+    },
+    {
+    "Order ID": "US-2014-167262",
+    "Product Name": "Plantronics HL10 Handset Lifter",
+    "Product ID": "TEC-PH-10000486",
+    "Category": "Technology",
+    "Sub-Category": "Technology",
+    "Quantity": 8,
+    "Sales": 742.336
+    },
+    {
+    "Order ID": "US-2015-106495",
+    "Product Name": "Belkin Standard 104 key USB Keyboard",
+    "Product ID": "TEC-AC-10002718",
+    "Category": "Technology",
+    "Sub-Category": "Technology",
+    "Quantity": 1,
+    "Sales": 11.672
+    }
+]
+
+  
