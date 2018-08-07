@@ -31,7 +31,7 @@ class Textbox extends Component {
         };
 
         return(
-            <RichTextEditor
+            <RichTextEditor style={{border:"hidden"}}
                 rootStyle={{height:"calc(100% - 2px)", minHeight:80, minWidth:120}}
                 value={this.state.value}
                 onChange={(e)=>this.onChange(e)}
