@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import { Formik, Form, Field } from 'formik';
+import { Button } from 'react-bootstrap';
+import '../bootstrap.css';
 
 import apiData from './ApiData';
 import JsonProcessor from './JsonProcessor';
@@ -29,7 +31,7 @@ class BasicForm extends Component {
 
                 // render form
                 render={formProps=>(
-                    <Form className="draggable" style={{textAlign: "center", zIndex: -1}}>
+                    <Form className="draggable" style={{textAlign: "center", zIndex: -1,height:"100%",width:"100%"}}>
                         <label>Chart Title</label>
                         <Field type="text" name="title" placeholder="Chart Title"/>
                         <br/><br/>
@@ -57,7 +59,7 @@ class BasicForm extends Component {
                             )}
                         </Field>
                         <br/><br/>
-                        <button type="submit">Submit</button>
+                        <Button bsStyle="default" bsSize="medium" type="submit">Submit</Button>
                         {/* <DisplayFormikState {...this.props}/> */}
                     </Form>
                 )}

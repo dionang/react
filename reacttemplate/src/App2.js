@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import request from 'request';
 import ReportComponent from './components/ReportComponent';
-import { FormGroup, FormControl,Navbar, Nav, NavItem, NavDropdown, MenuItem, ButtonToolbar, Row, Col, Grid, Button } from 'react-bootstrap';
-import './components/bootstrap.css';
+import { FormGroup, FormControl, Navbar, Nav, NavItem, NavDropdown, MenuItem, ButtonToolbar, Row, Col, Grid, Button } from 'react-bootstrap';
+import './bootstrap.css';
 
 const api = 'http://localhost:8084/';
 
@@ -40,7 +40,7 @@ class App2 extends Component {
     addTextbox = () => {
         let components = this.state.components;
         components.push(
-            { type: "text", x: 0, y: 0, height: 50, width: 200, display: true, properties: { text: "<p><br></p>" } }
+            { type: "text", x: 0, y: 0, height: 50, width: 200, display: true, properties: { text: "<p><br></p>" }, editButtonValue: this.state.editButtonValue }
         );
 
         this.setState({ components });
@@ -201,32 +201,30 @@ class App2 extends Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <Button bsStyle="default" onClick={this.addTextbox} style={{marginTop:10}}>Add Textbox</Button>
-                            <Button bsStyle="default" onClick={this.addBarChart}style={{marginTop:10}}>Add Bar Chart</Button>
-                            <Button bsStyle="default" onClick={this.addLineChart}style={{marginTop:10}}>Add Line Chart</Button>
-                            <Button bsStyle="default" onClick={this.addTable}style={{marginTop:10}}>Add Table</Button>
-                            <Button bsStyle="default" onClick={this.addImage}style={{marginTop:10}}>Add Image</Button>
-                            
+                            <Button bsStyle="default" onClick={this.addTextbox} style={{ marginTop: 10 }}>Add Textbox</Button>
+                            <Button bsStyle="default" onClick={this.addBarChart} style={{ marginTop: 10 }}>Add Bar Chart</Button>
+                            <Button bsStyle="default" onClick={this.addLineChart} style={{ marginTop: 10 }}>Add Line Chart</Button>
+                            <Button bsStyle="default" onClick={this.addTable} style={{ marginTop: 10 }}>Add Table</Button>
+                            <Button bsStyle="default" onClick={this.addImage} style={{ marginTop: 10 }}>Add Image</Button>
+
                         </Nav>
                         <Nav pullRight>
-                        <Button bsStyle="info" onClick={this.saveTemplate}style={{marginTop:10}}>Save Template</Button>
-                        <Button bsStyle="success" onClick={this.leaveEditMode}style={{marginTop:10}}>{this.state.editButtonValue}</Button>
+                            <Button bsStyle="info" onClick={this.saveTemplate} style={{ marginTop: 10 }}>Save Template</Button>
+                            <Button bsStyle="success" onClick={this.leaveEditMode} style={{ marginTop: 10 }}>{this.state.editButtonValue}</Button>
                         </Nav>
                     </Navbar.Collapse>
-                </Navbar>;
-                
-                
-                
-                
+                </Navbar>
+
+
                 <input type="number" id="template" defaultValue="1" />
-                <Button bsStyle="info" onClick={this.getComponentDetails}style={{marginTop:10}}>Get Component Details</Button>
-                            <Button bsStyle="info" onClick={this.loadTemplate}style={{marginTop:10}}>Load Template</Button>
+                <Button bsStyle="info" onClick={this.getComponentDetails} style={{ marginTop: 10 }}>Get Component Details</Button>
+                <Button bsStyle="info" onClick={this.loadTemplate} style={{ marginTop: 10 }}>Load Template</Button>
 
                 <div id="container">
                     {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item, i) => {
                         if (item.display) {
-                            return <Rnd key={i} style={{ "borderStyle": this.state.border, "borderWidth": 2, width:"fit-content", height:"fit-content", backgroundColor:"white", borderColor:'grey'}}
+                            return <Rnd key={i} style={{ "borderStyle": this.state.border, "borderWidth": 2, width: "fit-content", height: "fit-content", backgroundColor: "white", borderColor: 'grey' }}
 
                                 // intialize components x,y,height and width
                                 position={{ x: item.x, y: item.y }}

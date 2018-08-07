@@ -9,7 +9,8 @@ class Textbox extends Component {
         this.state = {
             // converts the markup value into the value used by this component
             value: RichTextEditor.createValueFromString(this.props.text, 'html'),
-            htmlValue: this.props.text
+            ...this.props.properties,
+            
         }
     }
 
@@ -24,14 +25,14 @@ class Textbox extends Component {
             // Optionally specify the groups to display (displayed in the order listed).
             display: ['INLINE_STYLE_BUTTONS'],
             INLINE_STYLE_BUTTONS: [
-              {label: 'Bold', style: 'BOLD', className: 'custom-css-class'},
+              {label: 'Bold', style: 'BOLD', className: 'custom-css-class', visibility: this.state.editButtonValue},
               {label: 'Italic', style: 'ITALIC'},
               {label: 'Underline', style: 'UNDERLINE'}
             ]
         };
 
         return(
-            <RichTextEditor style={{border:"hidden"}}
+            <RichTextEditor style={{border:"hidden", height:"100%"}}
                 rootStyle={{height:"calc(100% - 2px)", minHeight:80, minWidth:120}}
                 value={this.state.value}
                 onChange={(e)=>this.onChange(e)}
