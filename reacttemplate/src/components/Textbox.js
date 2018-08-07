@@ -37,8 +37,6 @@ class Textbox extends Component {
             ]
         };
 
-        console.log(this.state.editMode)
-
         return(
             <RichTextEditor style={{border:"hidden"}}
                 rootStyle={{height:"100%", minHeight:100, minWidth:150}}
@@ -46,7 +44,7 @@ class Textbox extends Component {
                 onChange={this.onChange}
                 toolbarConfig={toolbarConfig}
                 toolbarClassName={"draggable"}
-                toolbarStyle={{"display": this.state.editMode ? "" : "none"}}
+                toolbarStyle={{display: this.state.editMode ? "" : "none"}}
             />
         );
     }

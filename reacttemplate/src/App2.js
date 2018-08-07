@@ -3,7 +3,7 @@ import Rnd from 'react-rnd';
 import request from 'request';
 import ReportComponent from './components/ReportComponent';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, ButtonToolbar, Row, Col, Grid, Button } from 'react-bootstrap';
-import './components/bootstrap.css';
+import './bootstrap.css';
 
 const api = 'http://localhost:8084/';
 
@@ -183,7 +183,7 @@ class App2 extends Component {
                         <Navbar.Toggle />
                     </Navbar.Header>
                     {/* <Navbar.Collapse> */}
-                        {/* <Nav style={{paddingTop:10}}> */}
+                        <div style={{paddingTop:7}}>
                             <Button bsStyle="default" onClick={this.addTextbox}>Add Textbox</Button>
                             <Button bsStyle="default" onClick={this.addBarChart}>Add Bar Chart</Button>
                             <Button bsStyle="default" onClick={this.addLineChart}>Add Line Chart</Button>
@@ -197,7 +197,7 @@ class App2 extends Component {
                             <Button bsStyle="success" onClick={this.toggleEditMode}>
                                 {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
                             </Button>
-                        {/* </Nav> */}
+                        </div>
                     {/* </Navbar.Collapse> */}
                 </Navbar>
                 
