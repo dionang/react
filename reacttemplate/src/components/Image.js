@@ -28,7 +28,10 @@ class Image extends React.Component {
     render() {
         return (
             <div className="draggable" style={{height:"100%", width:"100%"}}>
-                {this.state.imageUrl ? <Img style={{height:"100%", width:"100%"}} src={this.state.imageUrl} />
+                {this.state.imageUrl ? 
+                <Img style={{height:"90%", width:"90%","object-fit":" contain"}} 
+                src={this.state.imageUrl} 
+                />
                 : <div>
                     <input className="fileInput" type="file" onChange={this.imageChange} /><br/>
                     Please select an Image for Preview

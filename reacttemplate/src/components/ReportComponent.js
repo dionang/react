@@ -20,7 +20,7 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type === "text") {
             return(
-                <Textbox i={this.props.i} text={this.props.properties.text} 
+                <Textbox i={this.props.i} text={this.props.properties.text} editMode={this.props.editMode}
                     updateProperties={this.props.updateProperties} />
             );
         } else if (this.props.type === "basic"){
