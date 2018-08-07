@@ -205,14 +205,11 @@ class App2 extends Component {
                             <Button bsStyle="default" onClick={this.addBarChart}style={{marginTop:10}}>Add Bar Chart</Button>
                             <Button bsStyle="default" onClick={this.addLineChart}style={{marginTop:10}}>Add Line Chart</Button>
                             <Button bsStyle="default" onClick={this.addTable}style={{marginTop:10}}>Add Table</Button>
+                            <Button bsStyle="default" onClick={this.addImage}style={{marginTop:10}}>Add Image</Button>
                             
                         </Nav>
                         <Nav pullRight>
                         <Button bsStyle="info" onClick={this.saveTemplate}style={{marginTop:10}}>Save Template</Button>
-                        <Button bsStyle="info" onClick={this.getComponentDetails}style={{marginTop:10}}>Get Component Details</Button>
-                            
-                            
-                            <Button bsStyle="info" onClick={this.loadTemplate}style={{marginTop:10}}>Load Template</Button>
                         <Button bsStyle="success" onClick={this.leaveEditMode}style={{marginTop:10}}>{this.state.editButtonValue}</Button>
                         </Nav>
                     </Navbar.Collapse>
@@ -222,18 +219,21 @@ class App2 extends Component {
                 
                 
                 <input type="number" id="template" defaultValue="1" />
+                <Button bsStyle="info" onClick={this.getComponentDetails}style={{marginTop:10}}>Get Component Details</Button>
+                            <Button bsStyle="info" onClick={this.loadTemplate}style={{marginTop:10}}>Load Template</Button>
+
                 <div id="container">
                     {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item, i) => {
                         if (item.display) {
-                            return <Rnd key={i} style={{ padding: 10, "borderStyle": this.state.border, "borderWidth": 2 }}
+                            return <Rnd key={i} style={{ "borderStyle": this.state.border, "borderWidth": 2, width:"fit-content", height:"fit-content", backgroundColor:"white", borderColor:'grey'}}
 
                                 // intialize components x,y,height and width
                                 position={{ x: item.x, y: item.y }}
                                 size={{ width: item.width, height: item.height }}
 
                                 // min height and size
-                                minHeight={80} minWidth={120}
+                                minHeight={10} minWidth={10}
 
                                 // to limit the drag area to a particular class
                                 cancel={".nonDraggable"}
