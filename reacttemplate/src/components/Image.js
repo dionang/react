@@ -1,5 +1,4 @@
 import React from 'react';
-import Img from 'react-image'
 
 class Image extends React.Component {
     constructor(props) {
@@ -29,7 +28,7 @@ class Image extends React.Component {
         return (
             <div className="draggable" style={{height:"100%", width:"100%"}}>
                 {this.state.imageUrl ? 
-                <Img style={{height:"calc(100% - 27.5px)", width:"100%"}} 
+                <img style={{height:"calc(100% - 27.5px)", width:"100%"}} 
                 src={this.state.imageUrl} 
                 />
                 : <div style={{border: "1px dotted grey", height:"100%"}}>

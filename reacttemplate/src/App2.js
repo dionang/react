@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import request from 'request';
 import ReportComponent from './components/ReportComponent';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, ButtonToolbar, Row, Col, Grid, Button } from 'react-bootstrap';
+import { Navbar, Button } from 'react-bootstrap';
 import './bootstrap.css';
 
 const api = 'http://localhost:8084/';
@@ -33,6 +33,10 @@ class App2 extends Component {
             ],
             editMode: false,
         }
+    }
+
+    componentDidMount(){
+        this.loadTemplate();
     }
 
     addTextbox = () => {
@@ -120,7 +124,7 @@ class App2 extends Component {
 
     loadTemplate = () => {
         let self = this;
-        let templateId = parseInt(document.getElementById("template").value, 10);
+        let templateId = parseInt(document.getElementById("templateId").value, 10);
         request.post({
             url: api + 'loadComponents',
             json: true,
@@ -132,13 +136,17 @@ class App2 extends Component {
     }
 
     saveTemplate = () => {
-        let templateId = parseInt(document.getElementById("template").value, 10);
+        let templateId = parseInt(document.getElementById("templateId").value, 10);
         request.post({
             url: api + 'saveComponents',
             json: true,
             body: { operation: "saveComponents", templateId: templateId, components: this.state.components }
         }, function (error, response, body) {
-            console.log(body);
+            if(body.status) {
+                alert("Saved successfully!");
+            } else {
+                alert("Failed to save!");
+            }
         });
     }
 
@@ -172,7 +180,6 @@ class App2 extends Component {
     }
 
     render() {
-        console.log(this.state.editMode);
         return (
             <div>
                 <Navbar inverse collapseOnSelect>
@@ -201,11 +208,11 @@ class App2 extends Component {
                     {/* </Navbar.Collapse> */}
                 </Navbar>
                 
-                <input type="number" id="template" defaultValue="1" />
+                <input type="number" id="templateId" defaultValue="1" />
                 <Button bsStyle="info" onClick={this.getComponentDetails} style={{marginTop:10}}>Get Component Details</Button>
                 <Button bsStyle="info" onClick={this.loadTemplate} style={{marginTop:10}}>Load Template</Button>
 
-                <div id="container">
+                <div className="container">
                     {/* map does a for loop over all the components in the state */}
                     {this.state.components.map((item, i) => {
                         if (item.display) {

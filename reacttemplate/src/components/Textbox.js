@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import RichTextEditor from 'react-rte';
-import {ResponsiveContainer} from 'recharts';
 
 class Textbox extends Component {
     constructor(props) {
