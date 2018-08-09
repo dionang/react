@@ -7,5 +7,5 @@ import App3 from './App3';
 import FormikApp from './Test';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App3/>, document.getElementById('root'));
+ReactDOM.render(<App2/>, document.getElementById('root'));
 registerServiceWorker();

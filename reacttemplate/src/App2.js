@@ -36,8 +36,8 @@ class App2 extends Component {
     }
 
     componentDidMount(){
-        this.loadTemplate();
-    }
+         this.loadTemplate();
+     }
 
     addTextbox = () => {
         let components = this.state.components;
@@ -182,14 +182,6 @@ class App2 extends Component {
     render() {
         return (
             <div>
-                <Navbar inverse collapseOnSelect>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            Start to add Views
-                        </Navbar.Brand>
-                        <Navbar.Toggle />
-                    </Navbar.Header>
-                    {/* <Navbar.Collapse> */}
                         <div style={{paddingTop:7}}>
                             <Button bsStyle="default" onClick={this.addTextbox}>Add Textbox</Button>
                             <Button bsStyle="default" onClick={this.addBarChart}>Add Bar Chart</Button>
@@ -206,7 +198,6 @@ class App2 extends Component {
                             </Button>
                         </div>
                     {/* </Navbar.Collapse> */}
-                </Navbar>
                 
                 <input type="number" id="templateId" defaultValue="1" />
                 <Button bsStyle="info" onClick={this.getComponentDetails} style={{marginTop:10}}>Get Component Details</Button>
