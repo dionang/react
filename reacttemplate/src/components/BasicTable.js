@@ -63,10 +63,17 @@ class BasicTable extends React.Component {
 
             });
 
-        } else {
+        } else if(e==="price") {
             col.push({
                 dataField: 'price',
                 text: 'Product Price',
+                sort: true
+
+            });
+        } else {
+            col.push({
+                dataField: 'id',
+                text: 'Product ID',
                 sort: true
 
             });
@@ -104,7 +111,7 @@ class BasicTable extends React.Component {
             <div>
 
                 <ButtonToolbar>
-                    <SplitButton title="Dropup" bsStyle="info" dropup id="split-button-dropup" onSelect={this.addCol}>
+                    <SplitButton title="Add a Column" bsStyle="info" dropup id="split-button-dropup" onSelect={this.addCol}>
                         Categories
                         <MenuItem eventKey="id">Product ID</MenuItem>
                         <MenuItem eventKey="name">Product Name</MenuItem>
