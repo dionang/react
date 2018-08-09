@@ -67,22 +67,8 @@ class BasicForm extends Component {
                     <br />
                     <br />
 
-                    <label name="xAxisName" >Choose the X-Axis  </label>
-                    <select name="xAxis" style={{ marginLeft: 10 }}>
-                        {options.map(MakeItem)}
-                    </select>
-
-                    <br />
-                    <br />
-
-                    <label name="yAixsName" >Choose the Y-Axis  </label>
-                    <select name="yAixs" style={{ marginLeft: 10 }}>
-                        {options.map(MakeItem)}
-                    </select>
-
-                    <br />
-                    <br />
-
+                    
+                   
                     <div style={{ textAlign: "right" }}>
                         <button type="submit" onClick={this.onSubmit}>Submit</button>
 
