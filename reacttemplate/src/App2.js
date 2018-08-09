@@ -182,35 +182,18 @@ class App2 extends Component {
     render() {
         return (
             <div>
-                <Navbar inverse collapseOnSelect>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            Start to add Views
-                        </Navbar.Brand>
-                        <Navbar.Toggle />
-                    </Navbar.Header>
-                    {/* <Navbar.Collapse> */}
-                        <div style={{paddingTop:7}}>
-                            <Button bsStyle="default" onClick={this.addTextbox}>Add Textbox</Button>
-                            <Button bsStyle="default" onClick={this.addBarChart}>Add Bar Chart</Button>
-                            <Button bsStyle="default" onClick={this.addLineChart}>Add Line Chart</Button>
-                            <Button bsStyle="default" onClick={this.addTable}>Add Table</Button>
-                            <Button bsStyle="default" onClick={this.addImage}>Add Image</Button>
-                        {/* </Nav> */}
-                        {/* <Nav style={{paddingTop:10}} pullRight> */}
-                            <Button bsStyle="info" onClick={this.saveTemplate}>
-                                Save Template
-                            </Button>
-                            <Button bsStyle="success" onClick={this.toggleEditMode}>
-                                {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
-                            </Button>
-                        </div>
-                    {/* </Navbar.Collapse> */}
-                </Navbar>
-                
+                <Button bsStyle="default" onClick={this.addTextbox}>Add Textbox</Button>
+                <Button bsStyle="default" onClick={this.addBarChart}>Add Bar Chart</Button>
+                <Button bsStyle="default" onClick={this.addLineChart}>Add Line Chart</Button>
+                <Button bsStyle="default" onClick={this.addTable}>Add Table</Button>
+                <Button bsStyle="default" onClick={this.addImage}>Add Image</Button>
+                <Button bsStyle="info" onClick={this.saveTemplate}>Save Template</Button>
+                <Button bsStyle="success" onClick={this.toggleEditMode}>
+                    {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
+                </Button>
+                <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button>
+                <Button bsStyle="info" onClick={this.loadTemplate}>Load Template</Button>
                 <input type="number" id="templateId" defaultValue="1" />
-                <Button bsStyle="info" onClick={this.getComponentDetails} style={{marginTop:10}}>Get Component Details</Button>
-                <Button bsStyle="info" onClick={this.loadTemplate} style={{marginTop:10}}>Load Template</Button>
 
                 <div className="container">
                     {/* map does a for loop over all the components in the state */}
