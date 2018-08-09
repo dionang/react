@@ -8,7 +8,6 @@ import './bootstrap.css';
 const api = 'http://localhost:8084/';
 
 class App2 extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -45,7 +44,7 @@ class App2 extends Component {
             {type:"text", x:0, y:0, height:120, width:200, display:true, properties:{text:"<p><br></p>" }}
         );
 
-        this.setState({ components });
+        this.setState({ components, editMode:true });
     }
 
     addBarChart = () => {
@@ -66,7 +65,7 @@ class App2 extends Component {
         );
 
         // updates state
-        this.setState({ components });
+        this.setState({ components, editMode:true });
     }
 
     addLineChart = () => {
@@ -85,7 +84,7 @@ class App2 extends Component {
             }
         );
 
-        this.setState({ components });
+        this.setState({ components, editMode:true });
     }
 
 
@@ -95,7 +94,7 @@ class App2 extends Component {
             {type:"table", x:0, y:0, height:200, width:300, display:true}
         );
 
-        this.setState({ components });
+        this.setState({ components, editMode:true });
     }
 
     addImage = () => {
@@ -115,7 +114,7 @@ class App2 extends Component {
     deleteComponent(i) {
         let components = this.state.components;
         components[i].display = false;
-        this.setState({components});
+        this.setState({ components });
     }
 
     getComponentDetails = () => {

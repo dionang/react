@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import request from 'request';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
-import BasicForm from './Form';
+import ChartForm from './ChartForm';
 import JsonProcessor from './JsonProcessor';
 
 class Barchart extends Component {
@@ -93,7 +93,7 @@ class Barchart extends Component {
                     <Tooltip/>
                 </BarChart>
             </ResponsiveContainer>
-            :   <BasicForm initializeChart={this.initializeChart}/>
+            :   <ChartForm initializeChart={this.initializeChart}/>
     }
 }
 

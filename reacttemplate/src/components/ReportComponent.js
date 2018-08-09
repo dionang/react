@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {ResponsiveContainer} from 'recharts';
 import Textbox from './Textbox';
-import BasicForm from './Form';
 import Barchart from './Barchart';
 import Linechart from './Linechart';
 import Image from './Image';
-import BasicTable from './BasicTable';
+import Table from './Table';
 
 class ReportComponent extends Component {
     render() {
@@ -23,10 +22,6 @@ class ReportComponent extends Component {
                 <Textbox i={this.props.i} text={this.props.properties.text} editMode={this.props.editMode}
                     updateProperties={this.props.updateProperties} />
             );
-        } else if (this.props.type === "basic"){
-            return(
-                <BasicForm/>
-            )
         } else if (this.props.type ==="image"){
             return(
                 <Image i={this.props.i}  
@@ -35,9 +30,7 @@ class ReportComponent extends Component {
             )
         } else if (this.props.type ==="table"){
             return(
-            <ResponsiveContainer className="draggable" height="100%" width="100%" boarder="none">
-                <BasicTable/>
-            </ResponsiveContainer>
+                <Table/>
             )
         }
     }

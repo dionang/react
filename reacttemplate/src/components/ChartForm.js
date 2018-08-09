@@ -8,11 +8,10 @@ import JsonProcessor from './JsonProcessor';
 
 // hard coded for now
 let datasourceUrl = 'http://localhost:8084/Dummy_API/getCustomerOrders';
-
 let jsonProcessor = new JsonProcessor(apiData);
 let datasets = jsonProcessor.getDatasetNames();
 
-class BasicForm extends Component {
+class ChartForm extends Component {
     render() {
         return (
             <Formik 
@@ -59,7 +58,7 @@ class BasicForm extends Component {
                             )}
                         </Field>
                         <br/><br/>
-                        <Button bsStyle="default" bsSize="medium" type="submit">Submit</Button>
+                        <Button type="submit">Submit</Button>
                         {/* <DisplayFormikState {...this.props}/> */}
                     </Form>
                 )}
@@ -68,18 +67,4 @@ class BasicForm extends Component {
     }
 }
 
-const DisplayFormikState = props =>
-    <div style={{ margin: '1rem 0', background: '#f6f8fa', padding: '.5rem' }}>
-        <strong>Injected Formik props (the form's state)</strong>
-        <div>
-            <code>errors:</code> {JSON.stringify(props.errors, null, 2)}
-        </div>
-        <div>
-            <code>values:</code> {JSON.stringify(props.values, null, 2)}
-        </div>
-        <div>
-            <code>isSubmitting:</code> {JSON.stringify(props.isSubmitting, null, 2)}
-        </div>
-    </div>
-
-export default BasicForm;
+export default ChartForm;

@@ -1,16 +1,13 @@
 import BootstrapTable from 'react-bootstrap-table-next';
-import React from "react";
+import React, {Component} from "react";
 import cellEditFactory from 'react-bootstrap-table2-editor';
-import BasicFormTable from './BasicFormTable';
+import TableForm from './TableForm';
 import request from 'request';
 import JsonProcessor from './JsonProcessor';
 import { SplitButton, FormGroup, FormControl, Navbar, Nav, NavItem, NavDropdown, MenuItem, ButtonToolbar, Row, Col, Grid, Button } from 'react-bootstrap';
 import '../bootstrap.css';
 
-class BasicTable extends React.Component {
-
-
-
+class Table extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,7 +17,6 @@ class BasicTable extends React.Component {
                 dataField: 'id',
                 text: 'Product ID',
                 sort: true
-
             }],
         }
     }
@@ -31,7 +27,6 @@ class BasicTable extends React.Component {
             this.setState({initialized: nextProps.properties.initialized});
         }
     }*/
-
 
     initializeTable = (values) => {
         //set settings of barchart
@@ -109,7 +104,6 @@ class BasicTable extends React.Component {
         const rowStyle = { backgroundColor: '#c8e6c9' };
         return this.state.initialized ?
             <div>
-
                 <ButtonToolbar>
                     <SplitButton title="Add a Column" bsStyle="info" dropup id="split-button-dropup" onSelect={this.addCol}>
                         Categories
@@ -117,9 +111,7 @@ class BasicTable extends React.Component {
                         <MenuItem eventKey="name">Product Name</MenuItem>
                         <MenuItem eventKey="price">Product Price</MenuItem>
                     </SplitButton>
-
                 </ButtonToolbar>
-
 
                 <BootstrapTable keyField='id' data={products}
                     columns={this.state.columns}
@@ -130,8 +122,8 @@ class BasicTable extends React.Component {
 
 
             </div>
-            : <BasicFormTable initializeTable={this.initializeTable} />
+            : <TableForm initializeTable={this.initializeTable} />
     }
 }
 
-export default BasicTable;
+export default Table;

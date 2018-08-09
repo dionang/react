@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import request from 'request';
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
-import BasicForm from './Form';
+import ChartForm from './ChartForm';
 import JsonProcessor from './JsonProcessor';
 
 class Linechart extends Component {
@@ -91,7 +91,7 @@ class Linechart extends Component {
                     <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
                 </LineChart>
             </ResponsiveContainer>
-            :   <BasicForm initializeChart={this.initializeChart}/>
+            :   <ChartForm initializeChart={this.initializeChart}/>
     }
 }
 
