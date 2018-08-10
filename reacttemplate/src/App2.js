@@ -231,7 +231,7 @@ class App2 extends Component {
                                 // ref represents item that was dragged
                                 onDragStop={(event, ref) => this.onDragStop(ref, i)}
                             >
-                                <div style={{float:"right"}}>
+                                <div class = "draggable" style={{float:"none"}}>
                                     <i style={{marginTop:10, marginRight:6,  visibility:this.state.editMode ? "" : "hidden"}} className="fa fa-wrench"
                                         onClick={() => this.changeSettings(i)}></i>
                                     <i style={{marginTop:10, marginRight:10, visibility:this.state.editMode ? "" : "hidden"}} className="fa fa-times"

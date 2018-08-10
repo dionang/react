@@ -81,7 +81,7 @@ class Linechart extends Component {
 
     render() {
         return this.state.initialized ?
-            <ResponsiveContainer className="draggable" width="100%" height="100%">
+            <ResponsiveContainer className="draggable" width="100%" height="90%">
                 <LineChart style={{width:"100%", height:"100%"}} data={this.state.chartData}>
                     <XAxis dataKey={this.state.xAxis}/>
                     <YAxis dataKey={this.state.yAxis}/>

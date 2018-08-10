@@ -81,7 +81,7 @@ class Barchart extends Component {
 
     render() {
         return this.state.initialized ?
-            <ResponsiveContainer className="draggable" width="100%" height="100%">
+            <ResponsiveContainer className="draggable" width="100%" height="90%">
                 <BarChart style={{width:"100%", height:"100%"}} data={this.state.chartData}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey={this.state.xAxis} />
