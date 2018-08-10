@@ -1,11 +1,12 @@
 import BootstrapTable from 'react-bootstrap-table-next';
-import React, {Component} from "react";
+import React, { Component } from "react";
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import TableForm from './TableForm';
 import request from 'request';
 import JsonProcessor from './JsonProcessor';
 import { SplitButton, FormGroup, FormControl, Navbar, Nav, NavItem, NavDropdown, MenuItem, ButtonToolbar, Row, Col, Grid, Button } from 'react-bootstrap';
 import '../bootstrap.css';
+import { link } from 'fs';
 
 class Table extends Component {
     constructor(props) {
@@ -15,9 +16,13 @@ class Table extends Component {
             chartData: [],
             columns: [{
                 dataField: 'id',
-                text: 'Product ID',
+                text: 
+            <SplitButton title="Product ID" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
+                <MenuItem eventKey="1">Delete</MenuItem>
+            </SplitButton>,
                 sort: true
             }],
+            order: 1
         }
     }
 
@@ -48,33 +53,54 @@ class Table extends Component {
         //this.props.updateProperties(other, this.props.i);
     }
 
+    
     addCol = (e) => {
-        let col = this.state.columns;
+        let columns = this.state.columns;
+        let order = this.state.order+1;
+
         if (e === "name") {
-            col.push({
+            columns.push({
                 dataField: 'name',
-                text: 'Product Name',
-                sort: true
-
+                text: 
+                <SplitButton title="Product Name" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
+                <MenuItem eventKey={order}>Delete</MenuItem>
+            </SplitButton>,
+                sort: true,
             });
+            
 
-        } else if(e==="price") {
-            col.push({
+        } else if (e === "price") {
+            columns.push({
                 dataField: 'price',
-                text: 'Product Price',
+                text: 
+                <SplitButton title="Product Price" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
+                <MenuItem eventKey={order}>Delete</MenuItem>
+            </SplitButton>,
                 sort: true
 
             });
         } else {
-            col.push({
+            columns.push({
                 dataField: 'id',
-                text: 'Product ID',
+                text: 
+                <SplitButton title="Product ID" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
+                <MenuItem eventKey={order}>Delete</MenuItem>
+            </SplitButton>,
                 sort: true
 
             });
         }
 
-        this.setState({ col });
+        this.setState({ columns,order });
+        
+    }
+
+    delete = (e)=>{
+        //console.log(e);
+        const columns = this.state.columns ;
+        delete columns[(e-1)];
+        //console.log(col);
+        this.setState({columns});
     }
 
 
@@ -102,9 +128,25 @@ class Table extends Component {
         }];
 
         const rowStyle = { backgroundColor: '#c8e6c9' };
+        const { value, onUpdate, ...rest } = this.props;
+        
+        // loop through the columns to remove the empty items
+        const actualTitle = [];
+        console.log("LOOP START HERE");
+        for (var i=0; i < this.state.columns.length; i++) {
+            console.log("i" + i);
+            if(this.state.columns[i] !== undefined){
+                console.log(this.state.columns[i]);
+                actualTitle.push(this.state.columns[i]);
+            }
+        }
+
+        console.log("ACTUAL ONE"+ actualTitle);
+
         return this.state.initialized ?
-            <div>
-                <ButtonToolbar>
+        
+            <div  className="draggable">
+                <ButtonToolbar >
                     <SplitButton title="Add a Column" bsStyle="info" dropup id="split-button-dropup" onSelect={this.addCol}>
                         Categories
                         <MenuItem eventKey="id">Product ID</MenuItem>
@@ -113,10 +155,13 @@ class Table extends Component {
                     </SplitButton>
                 </ButtonToolbar>
 
+                
+
                 <BootstrapTable keyField='id' data={products}
-                    columns={this.state.columns}
-                    cellEdit={cellEditFactory({ mode: 'dbclick' })}
+                    columns={actualTitle}
+                    //cellEdit={cellEditFactory({ mode: 'dbclick' })}
                     rowStyle={rowStyle}>
+                    
                 </BootstrapTable>
 
 
