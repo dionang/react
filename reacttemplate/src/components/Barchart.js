@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import request from 'request';
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Label, Legend, Tooltip, ResponsiveContainer} from 'recharts';
 import ChartForm from './ChartForm';
 import JsonProcessor from './JsonProcessor';
 
@@ -81,15 +81,19 @@ class Barchart extends Component {
 
     render() {
         return this.state.initialized ?
-            <ResponsiveContainer className="draggable" width="100%" height="90%">
-                <BarChart style={{width:"100%", height:"100%"}} data={this.state.chartData}>
+            <ResponsiveContainer className="draggable" width="95%" height="90%">
+                <BarChart style={{width:"100%", height:"calc(100% + 20px)"}} data={this.state.chartData}>
                     <CartesianGrid strokeDasharray="3 3"/>
-                    <XAxis dataKey={this.state.xAxis} />
-                    <YAxis dataKey={this.state.yAxis} />
+                    <XAxis dataKey={this.state.xAxis}>
+                        <Label value={this.state.xAxis} offset={-5} position="insideBottomRight" />
+                    </XAxis>
+                    <YAxis dataKey={this.state.yAxis}>
+                        <Label value={this.state.yAxis} position="outside" angle={-90}/>
+                    </YAxis>
                     <Bar dataKey={this.state.yAxis} fill="blue" />
                     {/* <Bar dataKey="neutral" fill="orange" /> */}
                     {/* <Bar dataKey="negative" fill="grey" /> */}
-                    <Legend/>
+                    <Legend verticalAlign="bottom"/>
                     <Tooltip/>
                 </BarChart>
             </ResponsiveContainer>

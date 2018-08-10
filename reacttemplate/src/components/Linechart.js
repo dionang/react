@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import request from 'request';
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Label, Legend, Tooltip, ResponsiveContainer} from 'recharts';
 import ChartForm from './ChartForm';
 import JsonProcessor from './JsonProcessor';
 
@@ -81,10 +81,14 @@ class Linechart extends Component {
 
     render() {
         return this.state.initialized ?
-            <ResponsiveContainer className="draggable" width="100%" height="90%">
-                <LineChart style={{width:"100%", height:"100%"}} data={this.state.chartData}>
-                    <XAxis dataKey={this.state.xAxis}/>
-                    <YAxis dataKey={this.state.yAxis}/>
+            <ResponsiveContainer className="draggable" width="95%" height="90%">
+                <LineChart style={{width:"100%", height:"calc(100% + 20px)"}} data={this.state.chartData}>
+                    <XAxis dataKey={this.state.xAxis}>
+                        <Label value={this.state.xAxis} offset={-5} position="insideBottomRight" />
+                    </XAxis>
+                    <YAxis dataKey={this.state.yAxis}>
+                        <Label value={this.state.yAxis} position="outside" angle={-90}/>
+                    </YAxis>
                     <CartesianGrid strokeDasharray="3 3" />
                     <Legend />
                     <Tooltip />

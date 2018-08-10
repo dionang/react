@@ -4,8 +4,7 @@ import request from 'request';
 import ReportComponent from './components/ReportComponent';
 import { Button } from 'react-bootstrap';
 import './bootstrap.css';
-import './nav.css';
-import $ from 'jquery';
+import './report.css';
 
 const api = 'http://localhost:8084/';
 
@@ -16,26 +15,26 @@ class App3 extends Component {
             components: [],
             editMode: true,
             selectedSize: 'A4',
-            selectedLayout:'Portrait',
+            selectedLayout: 'Portrait',
             // w : 21*37.795276,
             // h : 29.7*37.795276,
             formVisibility: "hidden",
-            templateName:"Template Name",
+            templateName: "Template Name",
             sidebar: false
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.loadTemplate();
     }
 
     addTextbox = () => {
         let components = this.state.components;
         components.push(
-            {type:"text", x:0, y:0, height:120, width:200, display:true, properties:{text:"<p><br></p>" }}
+            { type: "text", x: 0, y: 0, height: 120, width: 200, display: true, properties: { text: "<p><br></p>" } }
         );
 
-        this.setState({ components, editMode:true });
+        this.setState({ components, editMode: true });
     }
 
     addBarChart = () => {
@@ -43,7 +42,7 @@ class App3 extends Component {
         // adds new component to state
         components.push(
             {
-                type:"bar", x:0, y:0, height:200, width:300, display: true,
+                type: "bar", x: 0, y: 0, height: 250, width: 300, display: true,
                 properties: {
                     initialized: false,
                     datasourceUrl: '',
@@ -56,14 +55,14 @@ class App3 extends Component {
         );
 
         // updates state
-        this.setState({ components, editMode:true });
+        this.setState({ components, editMode: true });
     }
 
     addLineChart = () => {
         let components = this.state.components;
         components.push(
             {
-                type: "line", x: 0, y: 0, height: 200, width: 300, display: true,
+                type: "line", x: 0, y: 0, height: 250, width: 300, display: true,
                 properties: {
                     initialized: false,
                     datasourceUrl: '',
@@ -75,23 +74,23 @@ class App3 extends Component {
             }
         );
 
-        this.setState({ components, editMode:true });
+        this.setState({ components, editMode: true });
     }
 
 
     addTable = () => {
         let components = this.state.components;
         components.push(
-            {type:"table", x:0, y:0, height:200, width:300, display:true}
+            { type: "table", x: 0, y: 0, height: 300, width: 300, display: true }
         );
 
-        this.setState({ components, editMode:true });
+        this.setState({ components, editMode: true });
     }
 
     addImage = () => {
         let components = this.state.components;
         components.push(
-            {type:"image", x:0, y:0, height:200, width:200, display:true, properties:{imageUrl:''}}
+            { type: "image", x: 0, y: 0, height: 200, width: 200, display: true, properties: { imageUrl: '' } }
         );
         this.setState({ components });
     }
@@ -117,13 +116,13 @@ class App3 extends Component {
         console.log(this.state.components);
     }
 
-    handleSizeChange= (changeEvent) => {
+    handleSizeChange = (changeEvent) => {
         this.setState({
             selectedSize: changeEvent.target.value
         });
     }
-    
-    handleLayoutChange= (changeEvent) => {
+
+    handleLayoutChange = (changeEvent) => {
         this.setState({
             selectedLayout: changeEvent.target.value
         });
@@ -132,20 +131,22 @@ class App3 extends Component {
     loadTemplate = () => {
         let self = this;
         let templateId = parseInt(document.getElementById("templateId").value, 10);
-        if (templateId !== 0){
+        if (templateId !== 0) {
             request.post({
                 url: api + 'loadComponents',
                 json: true,
                 body: { operation: "loadComponents", templateId: templateId }
             }, function (error, response, body) {
-                let components = body.components;
-                self.setState({components});
+                if(body){
+                    let components = body.components;
+                    self.setState({ components });
+                }
             });
         }
     }
 
     renameTemplate = (e) => {
-        this.setState({templateName: e.target.value});
+        this.setState({ templateName: e.target.value });
     }
 
     saveTemplate = () => {
@@ -153,10 +154,10 @@ class App3 extends Component {
         let templateId = parseInt(document.getElementById("templateId").value, 10);
         //let companyId = parseInt(document.getElementById("companyId").value, 10);
         //let userName =document.getElementById("userName").value;
-        if(templateId===0){
+        if (templateId === 0) {
             request.post({
                 url: api + 'createTemplate',
-                form: { 
+                form: {
                     operation: "createTemplate",
                     templateId: templateId,
                     templateName: self.state.templateName,
@@ -166,7 +167,7 @@ class App3 extends Component {
                     userName: 'aa'
                 }
             }, function (error, response, body) {
-                if(body === "false") {
+                if (body === "false") {
                     alert("Failed to create template!");
                 } else {
                     templateId = parseInt(body, 10);
@@ -178,12 +179,12 @@ class App3 extends Component {
                         console.log(body);
                     });
                 }
-            });  
+            });
         } else {
             request.post({
                 url: api + 'saveComponents',
                 json: true,
-                body: { operation: "saveComponents", templateId: templateId, components: self   .state.components }
+                body: { operation: "saveComponents", templateId: templateId, components: self.state.components }
             }, function (error, response, body) {
                 console.log(body);
             });
@@ -233,17 +234,17 @@ class App3 extends Component {
     }
 
     toggleEditMode = () => {
-        this.setState({editMode: !this.state.editMode})
+        this.setState({ editMode: !this.state.editMode })
     }
 
     toggleSidebar = () => {
-        this.setState({sidebar: !this.state.sidebar});
+        this.setState({ sidebar: !this.state.sidebar });
     }
 
     updateProperties = (properties, i) => {
         let components = this.state.components;
         components[i].properties = properties;
-        this.setState({properties});
+        this.setState({ properties });
     }
 
     // handleFormSubmit= (formSubmitEvent) => {
@@ -278,40 +279,28 @@ class App3 extends Component {
     render() {
         return (
             <div>
-                <input type="hidden" id="templateId" value="1"/>
+                <input type="hidden" id="templateId" value="1" />
                 <div className={this.state.sidebar ? "nav-md" : "nav-sm"} id="main">
-                    <div className="container body">
+                    <div className="container body" style={{margin:0, padding:0, width:"100%"}}>
                         <div className="main_container">
                             <div className="col-md-3 left_col">
                                 <div className="left_col scroll-view">
-                                    <div className="navbar nav_title" style={{ border:0 }}>
+                                    <div className="navbar nav_title" style={{ border: 0 }}>
                                         <a className="site_title">
-                                            <img src={this.state.sidebar ? "assets/images/logo.png" : "assets/images/logo1_1.png"} 
-                                                style={{ 
-                                                    height: this.state.sidebar ? 90 : 80, 
-                                                    width: this.state.sidebar ? 200 : 50,  
-                                                }}/>
+                                            <img src={this.state.sidebar ? "assets/images/logo.png" : "assets/images/logo1_1.png"}
+                                                style={{
+                                                    height: this.state.sidebar ? 90 : 80,
+                                                    width: this.state.sidebar ? 200 : 50,
+                                                }} />
                                         </a>
                                     </div>
                                     <div className="clearfix"></div><br />
                                     <div id="sidebar-menu" className="main_menu_side hidden-print main_menu">
                                         <div className="menu_section">
                                             <ul className="nav side-menu" id="options">
-                                                <li id="title">
-                                                    <a style={{ 
-                                                        fontSize: this.state.sidebar ? 16 : 11,
-                                                        fontWeight: 'bold'
-                                                    }}>Component</a>
-                                                </li>
-                                                <li><a id="addTextbox" onClick={this.addTextbox}><i className="fa fa-font"/> Textbox</a></li>
-                                                <li><a onClick={this.toggleChartMenu}><i className="fa fa-bar-chart"/> Charts <span className="fa fa-chevron-down"></span></a>
-                                                    <ul className="nav child_menu" id="chartMenu">
-                                                        <li><a onClick={this.addBarChart}><i className="fa fa-bar-chart a"/>Bar</a></li>
-                                                        <li><a onClick={this.addLineChart}><i className="fa fa-pie-chart a"/> Pie</a></li>
-                                                        <li><a onClick={this.addLineChart}><i className="fa fa-line-chart a"/>Line</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a id="addTable" onClick={this.addTable}><i className="fa fa-table"/> Table</a></li>
+                                                <li><a href="dashboard.jsp"><i className="fa fa-bar-chart"></i>  View Dashboard</a></li>
+                                                <li><a href="createUserAccount.jsp"><i className="fa fa-group"></i>  Create User Account</a></li>
+                                                <li><a href="templateHome.jsp"><i className="fa fa-file-image-o"></i>  Template</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -327,7 +316,7 @@ class App3 extends Component {
                                         <ul className="nav navbar-nav navbar-right">
                                             <li>
                                                 <a className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    <img src="/assets/images/user.png" />
+                                                    <img src="assets/images/user.png" />
                                                     <span className=" fa fa-angle-down"></span>
                                                 </a>
                                                 <ul className="dropdown-menu dropdown-usermenu pull-right">
@@ -339,25 +328,22 @@ class App3 extends Component {
                                     </nav>
                                 </div>
                             </div>
+
                             <div className="right_col">
-                                <div className="row">
-                                    <div className="col-md-6 col-xs-12">
-                                        <label style={{fontSize:15}}>Template Name: </label>
-                                        <input style={{fontSize:15}} value={this.state.templateName} onChange={this.renameTemplate}/>
-                                    </div>
-                                    <div className="col-md-6 col-xs-12">
-                                        {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
-                                        {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
-                                        <Button style={{float:"right"}} bsStyle="info" onClick={this.saveTemplate}>
-                                            <i className="fa fa-save"/> Save Template
-                                        </Button>
-                                        <Button style={{float:"right"}} bsStyle="success" onClick={this.toggleEditMode}>
-                                            <i className="fa fa-edit" style={{marginRight:2}}/>
-                                            {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
-                                        </Button>
-                                    </div>
+                                <div className="col-md-6 col-xs-6">
+                                    <label style={{ fontSize:15, marginRight:2 }}>Template Name:</label>
+                                    <input style={{ fontSize:15 }} value={this.state.templateName} onChange={this.renameTemplate} />
                                 </div>
-                            
+                                    {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
+                                    {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
+                                <Button className="col-md-2 col-xs-3" style={{ float:"right" }} bsStyle="info" onClick={this.saveTemplate}>
+                                    <i className="fa fa-save" /> Save Template
+                                </Button>
+                                <Button className="col-md-2 col-xs-3" style={{ float:"right"}} bsStyle="success" onClick={this.toggleEditMode}>
+                                    <i className="fa fa-edit" style={{ marginRight: 2 }} />
+                                    {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
+                                </Button>
+
 
                                 {/* <div id="size" className="modal">
                                     <div className="modal-content">
@@ -399,21 +385,31 @@ class App3 extends Component {
                                         </form>
                                     </div>
                                 </div> */}
-                                <div id="container" style={{backgroundColor:'white',overflow:'auto'}}>
+
+
+                                <div className="col-sm-12 col-xs-12" style={{ paddingTop:10, paddingBottom:10, backgroundColor:'white', borderBottom:'7px solid #EB6B2A' }}>
+                                    <Button bsStyle="primary" onClick={this.addTextbox}   style={{ marginRight:5 }}><i className="fa fa-font"/> Add Textbox</Button>
+                                    <Button bsStyle="warning" onClick={this.addBarChart}  style={{ marginRight:5 }}><i className="fa fa-bar-chart"/> Add Bar Chart</Button>
+                                    <Button bsStyle="success" onClick={this.addLineChart} style={{ marginRight:5 }}><i className="fa fa-line-chart"/> Add Line Chart</Button>
+                                    <Button bsStyle="danger"  onClick={this.addTable}     style={{ marginRight:5 }}><i className="fa fa-table"/> Add Table</Button>
+                                    <Button onClick={this.addImage} style={{ backgroundColor:"#31B0D5", color:"white", border: "1px solid #31B0D5"}}><i className="fa fa-image"/> Add Image</Button>
+                                </div>
+                                <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', overflow: 'auto', height:"100%", marginTop: -5 }}>
                                     {/* map does a for loop over all the components in the state */}
+
                                     {this.state.components.map((item, i) => {
                                         if (item.display) {
-                                            return <Rnd key={i} 
-                                                style={{ 
-                                                    borderStyle: this.state.editMode ? "dotted" : "hidden", 
-                                                    borderWidth: 2, 
-                                                    backgroundColor: "white", 
+                                            return <Rnd key={i}
+                                                style={{
+                                                    borderStyle: this.state.editMode ? "dotted" : "hidden",
+                                                    borderWidth: 2,
+                                                    backgroundColor: "white",
                                                     borderColor: 'grey'
                                                 }}
 
                                                 // intialize components x,y,height and width
-                                                position={{ x:item.x, y:item.y }}
-                                                size={{ width:item.width, height:item.height }}
+                                                position={{ x: item.x, y: item.y }}
+                                                size={{ width: item.width, height: item.height }}
 
                                                 // min height and size
                                                 minHeight={10} minWidth={10}
@@ -432,10 +428,10 @@ class App3 extends Component {
                                                 // ref represents item that was dragged
                                                 onDragStop={(event, ref) => this.onDragStop(ref, i)}
                                             >
-                                                <div style={{float:"right"}}>
-                                                    <i style={{marginTop:10, marginRight:6,  visibility:this.state.editMode ? "" : "hidden"}} className="fa fa-wrench"
+                                                <div style={{ height:27.5, float:"right" }}>
+                                                    <i style={{ marginTop: 10, marginRight: 6, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
                                                         onClick={() => this.changeSettings(i)}></i>
-                                                    <i style={{marginTop:10, marginRight:10, visibility:this.state.editMode ? "" : "hidden"}} className="fa fa-times"
+                                                    <i style={{ marginTop: 10, marginRight: 10, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-times"
                                                         onClick={() => this.deleteComponent(i)}></i>
                                                 </div>
                                                 <ReportComponent type={item.type} editMode={this.state.editMode}

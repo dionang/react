@@ -13,7 +13,6 @@ class Table extends Component {
         super(props);
         this.state = {
             ...this.props.properties,
-            chartData: [],
             columns: [{
                 dataField: 'id',
                 text: 
@@ -35,7 +34,6 @@ class Table extends Component {
 
     initializeTable = (values) => {
         //set settings of barchart
-        console.log("init table")
         let processor = values.processor;
         let datasourceUrl = values.datasourceUrl;
         let dataset = values.dataset;

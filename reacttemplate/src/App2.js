@@ -52,7 +52,7 @@ class App2 extends Component {
         // adds new component to state
         components.push(
             {
-                type:"bar", x:0, y:0, height:200, width:300, display: true,
+                type:"bar", x:0, y:0, height:300, width:300, display: true,
                 properties: {
                     initialized: false,
                     datasourceUrl: '',
@@ -72,7 +72,7 @@ class App2 extends Component {
         let components = this.state.components;
         components.push(
             {
-                type: "line", x: 0, y: 0, height: 200, width: 300, display: true,
+                type: "line", x: 0, y: 0, height: 300, width: 300, display: true,
                 properties: {
                     initialized: false,
                     datasourceUrl: '',
@@ -129,8 +129,10 @@ class App2 extends Component {
             json: true,
             body: { operation: "loadComponents", templateId: templateId }
         }, function (error, response, body) {
-            let components = body.components;
-            self.setState({components});
+            if(body){
+                let components = body.components;
+                self.setState({components});
+            }
         });
     }
 
@@ -231,7 +233,7 @@ class App2 extends Component {
                                 // ref represents item that was dragged
                                 onDragStop={(event, ref) => this.onDragStop(ref, i)}
                             >
-                                <div class = "draggable" style={{float:"none"}}>
+                                <div className = "draggable" style={{float:"none"}}>
                                     <i style={{marginTop:10, marginRight:6,  visibility:this.state.editMode ? "" : "hidden"}} className="fa fa-wrench"
                                         onClick={() => this.changeSettings(i)}></i>
                                     <i style={{marginTop:10, marginRight:10, visibility:this.state.editMode ? "" : "hidden"}} className="fa fa-times"

@@ -11,7 +11,3 @@ body {
 .recharts-responsive-container {
   z-index: -1;
 }
-
-.hideEditor {
-  display: none;
-}
