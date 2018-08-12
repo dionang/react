@@ -4,7 +4,7 @@ class Image extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            imageUrl: this.props.properties.imageUrl, 
+            imageUrl: this.props.imageUrl, 
         };
     }
 

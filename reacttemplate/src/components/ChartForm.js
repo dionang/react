@@ -30,7 +30,7 @@ class ChartForm extends Component {
 
                 // render form
                 render={formProps=>(
-                    <Form className="draggable" style={{textAlign: "center", zIndex: -1,height:"100%",width:"100%"}}>
+                    <Form name="title" className="draggable" style={{textAlign: "center", zIndex: -1,height:"100%",width:"100%"}}>
                         <label>Chart Title</label>
                         <Field type="text" name="title" placeholder="Chart Title"/>
                         <br/><br/>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import request from 'request';
 import ReportComponent from './components/ReportComponent';
-import { Button } from 'react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
 import './bootstrap.css';
 import './report.css';
 
@@ -13,18 +13,21 @@ class App3 extends Component {
         super(props);
         this.state = {
             components: [],
-            editMode: true,
+            editMode: false,
             selectedSize: 'A4',
             selectedLayout: 'Portrait',
             // w : 21*37.795276,
             // h : 29.7*37.795276,
-            formVisibility: "hidden",
             templateName: "Template Name",
-            sidebar: false
+            sidebar: true
         }
     }
 
     componentDidMount() {
+        // let templateName = document.getElementById("templateName").value;
+        // if (templateName !== "null") {
+        //     this.setState({templateName});
+        // }
         this.loadTemplate();
     }
 
@@ -149,11 +152,29 @@ class App3 extends Component {
         this.setState({ templateName: e.target.value });
     }
 
+    saveComponents(templateId){
+        let self = this;
+        request.post({
+            url: api + 'saveComponents',
+            json: true,
+            body: { operation:"saveComponents", templateId:templateId, components:self.state.components }
+        }, function (error, response, body) {
+            if (body && body.status){
+                alert("Saved succesfully");
+                // swal("saved succesfully");
+            } else {
+                alert("Error in saving");
+                // swal("error in saving");
+            }
+            
+        });
+    }
+
     saveTemplate = () => {
         let self = this;
         let templateId = parseInt(document.getElementById("templateId").value, 10);
-        //let companyId = parseInt(document.getElementById("companyId").value, 10);
-        //let userName =document.getElementById("userName").value;
+        let companyId = parseInt(document.getElementById("companyId").value, 10);
+        let userName = document.getElementById("userName").value;
         if (templateId === 0) {
             request.post({
                 url: api + 'createTemplate',
@@ -163,48 +184,39 @@ class App3 extends Component {
                     templateName: self.state.templateName,
                     templatesize: self.state.selectedSize,
                     templatelayout: self.state.selectedLayout,
-                    companyId: 1,
-                    userName: 'aa'
+                    companyId: companyId,
+                    userName: userName
                 }
             }, function (error, response, body) {
                 if (body === "false") {
                     alert("Failed to create template!");
                 } else {
-                    templateId = parseInt(body, 10);
-                    request.post({
-                        url: api + 'saveComponents',
-                        json: true,
-                        body: { operation: "saveComponents", templateId: templateId, components: self.state.components }
-                    }, function (error, response, body) {
-                        console.log(body);
-                    });
+                    // update the value of the hidden fields
+                    document.getElementById("templateId").value = body;
+                    self.saveComponents(body);
                 }
             });
         } else {
             request.post({
-                url: api + 'saveComponents',
-                json: true,
-                body: { operation: "saveComponents", templateId: templateId, components: self.state.components }
+                url: api + 'updateTemplate',
+                form: {
+                    operation: "updateTemplate",
+                    templateId: templateId,
+                    templateName: self.state.templateName,
+                    templatesize: self.state.selectedSize,
+                    templatelayout: self.state.selectedLayout,
+                    companyId: companyId,
+                    userName: userName
+                }
             }, function (error, response, body) {
-                console.log(body);
+                if (body === "false") {
+                    alert("Failed to update template!");
+                } else {
+                    this.saveComponents(templateId);
+                }
             });
         }
     }
-
-    // saveTemplate = () => {
-    //     let templateId = parseInt(document.getElementById("templateId").value, 10);
-    //     request.post({
-    //         url: api + 'saveComponents',
-    //         json: true,
-    //         body: { operation: "saveComponents", templateId: templateId, components: this.state.components }
-    //     }, function (error, response, body) {
-    //         if(body.status) {
-    //             alert("Saved successfully!");
-    //         } else {
-    //             alert("Failed to save!");
-    //         }
-    //     });
-    // }
 
     // i represents index of current item in this.state.components
     // convert style data to integer. e.g. 10px -> 10
@@ -279,7 +291,9 @@ class App3 extends Component {
     render() {
         return (
             <div>
-                <input type="hidden" id="templateId" value="1" />
+                <input type="hidden" id="templateId" value="1"/>
+                <input type="hidden" id="companyId" value="1"/>
+                <input type="hidden" id="userName" value="manager"/>
                 <div className={this.state.sidebar ? "nav-md" : "nav-sm"} id="main">
                     <div className="container body" style={{margin:0, padding:0, width:"100%"}}>
                         <div className="main_container">
@@ -312,7 +326,6 @@ class App3 extends Component {
                                         <div className="nav toggle" onClick={this.toggleSidebar}>
                                             <a id="menu_toggle"><i className="fa fa-bars"></i></a>
                                         </div>
-
                                         <ul className="nav navbar-nav navbar-right">
                                             <li>
                                                 <a className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -335,15 +348,15 @@ class App3 extends Component {
                                     <input style={{ fontSize:15 }} value={this.state.templateName} onChange={this.renameTemplate} />
                                 </div>
                                     {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
-                                    {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
-                                <Button className="col-md-2 col-xs-3" style={{ float:"right" }} bsStyle="info" onClick={this.saveTemplate}>
-                                    <i className="fa fa-save" /> Save Template
-                                </Button>
-                                <Button className="col-md-2 col-xs-3" style={{ float:"right"}} bsStyle="success" onClick={this.toggleEditMode}>
-                                    <i className="fa fa-edit" style={{ marginRight: 2 }} />
-                                    {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
-                                </Button>
-
+                                    <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button>
+                                    <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:130 }} bsStyle="info" onClick={this.saveTemplate}>
+                                        <i className="fa fa-save" /> Save Template
+                                    </Button>
+                                    <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:150 }} bsStyle="success" onClick={this.toggleEditMode}>
+                                        <i className="fa fa-edit" style={{ marginRight: 2 }} />
+                                        {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
+                                    </Button>
+                                    <br/>
 
                                 {/* <div id="size" className="modal">
                                     <div className="modal-content">
@@ -388,11 +401,17 @@ class App3 extends Component {
 
 
                                 <div className="col-sm-12 col-xs-12" style={{ paddingTop:10, paddingBottom:10, backgroundColor:'white', borderBottom:'7px solid #EB6B2A' }}>
-                                    <Button bsStyle="primary" onClick={this.addTextbox}   style={{ marginRight:5 }}><i className="fa fa-font"/> Add Textbox</Button>
-                                    <Button bsStyle="warning" onClick={this.addBarChart}  style={{ marginRight:5 }}><i className="fa fa-bar-chart"/> Add Bar Chart</Button>
-                                    <Button bsStyle="success" onClick={this.addLineChart} style={{ marginRight:5 }}><i className="fa fa-line-chart"/> Add Line Chart</Button>
-                                    <Button bsStyle="danger"  onClick={this.addTable}     style={{ marginRight:5 }}><i className="fa fa-table"/> Add Table</Button>
-                                    <Button onClick={this.addImage} style={{ backgroundColor:"#31B0D5", color:"white", border: "1px solid #31B0D5"}}><i className="fa fa-image"/> Add Image</Button>
+                                    <label> Add Component: </label>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Textbox" bsStyle="primary" 
+                                        onClick={this.addTextbox}   style={{ marginRight:5,marginLeft:6 }}><i className="fa fa-font"/></Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Bar Chart" bsStyle="warning" 
+                                        onClick={this.addBarChart}  style={{ marginRight:5 }}><i className="fa fa-bar-chart"/></Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Line Chart" bsStyle="success" 
+                                        onClick={this.addLineChart} style={{ marginRight:5 }}><i className="fa fa-line-chart"/></Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Table" bsStyle="danger"  
+                                        onClick={this.addTable}     style={{ marginRight:5 }}><i className="fa fa-table"/> </Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Image"
+                                        onClick={this.addImage}     style={{ backgroundColor:"#31B0D5", color:"white", border:"1px solid #31B0D5"}}><i className="fa fa-image"/></Button>
                                 </div>
                                 <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', overflow: 'auto', height:"100%", marginTop: -5 }}>
                                     {/* map does a for loop over all the components in the state */}
@@ -414,9 +433,9 @@ class App3 extends Component {
                                                 // min height and size
                                                 minHeight={10} minWidth={10}
 
-                                                // to limit the drag area to a particular class
+                                                // to customize the dragging and resizing behavior
                                                 cancel={".nonDraggable"}
-                                                dragHandleClassName={"draggable"}
+                                                dragHandleClassName={this.state.editMode ? "draggable" : "cannotDrag"}
 
                                                 // update height and width onResizeStop
                                                 // onResizeStop will activate a callback function containing these params
@@ -429,7 +448,7 @@ class App3 extends Component {
                                                 onDragStop={(event, ref) => this.onDragStop(ref, i)}
                                             >
                                                 <div style={{ height:27.5, float:"right" }}>
-                                                    <i style={{ marginTop: 10, marginRight: 6, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
+                                                    <i style={{ marginTop: 10, marginRight: 6,  visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
                                                         onClick={() => this.changeSettings(i)}></i>
                                                     <i style={{ marginTop: 10, marginRight: 10, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-times"
                                                         onClick={() => this.deleteComponent(i)}></i>

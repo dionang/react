@@ -24,9 +24,8 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type ==="image"){
             return(
-                <Image i={this.props.i}  
-                    properties={this.props.properties}
-                    updateProperties={this.props.updateProperties}/>
+                <Image i={this.props.i}  editMode={this.props.editMode} 
+                    imageUrl={this.props.properties.imageUrl} updateProperties={this.props.updateProperties}/>
             )
         } else if (this.props.type ==="table"){
             return(
