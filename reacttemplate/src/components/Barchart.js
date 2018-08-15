@@ -81,7 +81,6 @@ class Barchart extends Component {
 
     render() {
         return this.state.initialized ?
-        <div>
             <ResponsiveContainer className="draggable" width="95%" height="90%">
                 <BarChart style={{width:"100%", height:"calc(100% + 20px)"}} data={this.state.chartData}>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -91,14 +90,13 @@ class Barchart extends Component {
                     <YAxis dataKey={this.state.yAxis}>
                         <Label value={this.state.yAxis} position="outside" angle={-90}/>
                     </YAxis>
+                    <Tooltip/>
                     <Bar dataKey={this.state.yAxis} fill="blue" />
                     {/* <Bar dataKey="neutral" fill="orange" /> */}
                     {/* <Bar dataKey="negative" fill="grey" /> */}
                     <Legend verticalAlign="bottom"/>
-                    <Tooltip/>
                 </BarChart>
             </ResponsiveContainer>
-            </div>
             :   <ChartForm initializeChart={this.initializeChart}/>
     }
 }
