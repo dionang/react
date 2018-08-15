@@ -59,7 +59,7 @@ class Table extends Component {
             columns.push({
                 dataField: 'name',
                 text:
-                <div>Product Name <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
+                <div>Product Name <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
                 sort: true,
             });
             
@@ -68,7 +68,7 @@ class Table extends Component {
             columns.push({
                 dataField: 'price',
                 text: 
-                <div>Price <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
+                <div>Price <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
                 sort: true
 
             });
@@ -76,7 +76,7 @@ class Table extends Component {
             columns.push({
                 dataField: 'id',
                 text:  
-                <div>Product ID <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
+                <div>Product ID <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
                 sort: true
 
             });
