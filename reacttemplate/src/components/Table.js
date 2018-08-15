@@ -15,13 +15,11 @@ class Table extends Component {
             ...this.props.properties,
             columns: [{
                 dataField: 'id',
-                text: 
-            <SplitButton title="Product ID" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
-                <MenuItem eventKey="1">Delete</MenuItem>
-            </SplitButton>,
+                text: <div>Product ID<i style = {{marginRight:10, border:"0.5px solid"}} className="fa fa-times" onClick={this.delete}/></div>,
                 sort: true
             }],
-            order: 1
+            order: 1,
+            aggregateType: 'Sum'
         }
     }
 
@@ -60,7 +58,7 @@ class Table extends Component {
             columns.push({
                 dataField: 'name',
                 text: 
-                <SplitButton title="Product Name" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
+            <SplitButton title="Product Name" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
                 <MenuItem eventKey={order}>Delete</MenuItem>
             </SplitButton>,
                 sort: true,

@@ -4,8 +4,15 @@ class Image extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            imageUrl: this.props.imageUrl, 
+            initialized: this.props.properties.initialized,
+            imageUrl: this.props.properties.imageUrl, 
         };
+    }
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.properties.initialized != this.state.initialized){
+            this.setState({initialized: nextProps.properties.initialized});
+        }
     }
 
     imageChange = (e) => {
@@ -13,17 +20,19 @@ class Image extends React.Component {
         let file = e.target.files[0];
 
         reader.onloadend = () => {
-            this.setState({imageUrl: reader.result});
-            this.props.updateProperties({imageUrl: reader.result}, this.props.i);
+            this.setState({initialized: true, imageUrl: reader.result});
+            this.props.updateProperties({initialized: true, imageUrl: reader.result}, this.props.i);
         }
 
         reader.readAsDataURL(file);
     }
 
+    
+
     render() {
         return (
             <div className="draggable" style={{height:"100%", width:"100%"}}>
-                {this.state.imageUrl ? 
+                {this.state.initialized ? 
                 <img style={{height:"calc(100% - 27.5px)", width:"100%"}} 
                     src={this.state.imageUrl} 
                 />

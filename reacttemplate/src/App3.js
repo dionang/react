@@ -93,7 +93,12 @@ class App3 extends Component {
     addImage = () => {
         let components = this.state.components;
         components.push(
-            { type: "image", x: 0, y: 0, height: 200, width: 200, display: true, properties: { imageUrl: '' } }
+            { type: "image", x: 0, y: 0, height: 200, width: 200, display: true, 
+                properties: { 
+                    imageUrl: '', 
+                    initialized: false,
+                } 
+            } 
         );
         this.setState({ components });
     }

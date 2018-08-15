@@ -81,6 +81,7 @@ class Barchart extends Component {
 
     render() {
         return this.state.initialized ?
+        <div>
             <ResponsiveContainer className="draggable" width="95%" height="90%">
                 <BarChart style={{width:"100%", height:"calc(100% + 20px)"}} data={this.state.chartData}>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -97,6 +98,7 @@ class Barchart extends Component {
                     <Tooltip/>
                 </BarChart>
             </ResponsiveContainer>
+            </div>
             :   <ChartForm initializeChart={this.initializeChart}/>
     }
 }

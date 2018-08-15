@@ -30,9 +30,9 @@ class ChartForm extends Component {
 
                 // render form
                 render={formProps=>(
-                    <Form name="title" className="draggable" style={{textAlign: "center", zIndex: -1,height:"100%",width:"100%"}}>
+                    <Form name="title" className="draggable" style={{textAlign: "center", zIndex: 100,height:"100%",width:"100%"}}>
                         <label>Chart Title</label>
-                        <Field type="text" name="title" placeholder="Chart Title"/>
+                        <Field type="text" name="title" placeholder="Chart Title" style={{position:"relative"}} className = "cannotDrag"/>
                         <br/><br/>
                         <label>Choose the dataset</label>
                         <Field component="select" name="dataset">
