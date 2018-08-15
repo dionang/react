@@ -16,10 +16,7 @@ class Table extends Component {
             columns: 
             [{
                 dataField: 'id',
-                text: 
-                <SplitButton title="Product ID" bsStyle="default" dropup id="split-button-dropup" onSelect={(i)=>this.delete(i)}>
-                <MenuItem eventKey={1}>Delete</MenuItem>
-            </SplitButton>,
+                text:<div>Product ID <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
                 sort: true
             }],
             order: 1,
@@ -61,10 +58,8 @@ class Table extends Component {
         if (e === "name") {
             columns.push({
                 dataField: 'name',
-                text: 
-            <SplitButton title="Product Name" bsStyle="default" dropup id="split-button-dropup" onSelect={(i)=>this.delete(i)}>
-                <MenuItem eventKey={order}>Delete</MenuItem>
-            </SplitButton>,
+                text:
+                <div>Product Name <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
                 sort: true,
             });
             
@@ -73,19 +68,15 @@ class Table extends Component {
             columns.push({
                 dataField: 'price',
                 text: 
-                <SplitButton title="Product Price" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
-                <MenuItem eventKey={order}>Delete</MenuItem>
-            </SplitButton>,
+                <div>Price <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
                 sort: true
 
             });
         } else {
             columns.push({
                 dataField: 'id',
-                text: 
-                <SplitButton title="Product ID" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
-                <MenuItem eventKey={order}>Delete</MenuItem>
-            </SplitButton>,
+                text:  
+                <div>Product ID <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
                 sort: true
 
             });
