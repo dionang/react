@@ -13,9 +13,13 @@ class Table extends Component {
         super(props);
         this.state = {
             ...this.props.properties,
-            columns: [{
+            columns: 
+            [{
                 dataField: 'id',
-                text: <div>Product ID<i style = {{marginRight:10, border:"0.5px solid"}} className="fa fa-times" onClick={this.delete}/></div>,
+                text: 
+                <SplitButton title="Product ID" bsStyle="default" dropup id="split-button-dropup" onSelect={(i)=>this.delete(i)}>
+                <MenuItem eventKey={1}>Delete</MenuItem>
+            </SplitButton>,
                 sort: true
             }],
             order: 1,
@@ -58,7 +62,7 @@ class Table extends Component {
             columns.push({
                 dataField: 'name',
                 text: 
-            <SplitButton title="Product Name" bsStyle="default" dropup id="split-button-dropup" onSelect={this.delete}>
+            <SplitButton title="Product Name" bsStyle="default" dropup id="split-button-dropup" onSelect={(i)=>this.delete(i)}>
                 <MenuItem eventKey={order}>Delete</MenuItem>
             </SplitButton>,
                 sort: true,
@@ -91,8 +95,8 @@ class Table extends Component {
         
     }
 
-    delete = (e)=>{
-        //console.log(e);
+    delete(e){
+        console.log(e);
         const columns = this.state.columns ;
         delete columns[(e-1)];
         //console.log(col);
@@ -128,30 +132,23 @@ class Table extends Component {
         
         // loop through the columns to remove the empty items
         const actualTitle = [];
-        console.log("LOOP START HERE");
         for (var i=0; i < this.state.columns.length; i++) {
-            console.log("i" + i);
             if(this.state.columns[i] !== undefined){
-                console.log(this.state.columns[i]);
                 actualTitle.push(this.state.columns[i]);
             }
         }
-
-        console.log("ACTUAL ONE"+ actualTitle);
 
         return this.state.initialized ?
         
             <div  className="draggable">
                 <ButtonToolbar >
-                    <SplitButton title="Add a Column" bsStyle="info" dropup id="split-button-dropup" onSelect={this.addCol}>
+                    <SplitButton title="Add a Column" bsStyle="info" pullRight id="split-button-pull-right" onSelect={this.addCol}>
                         Categories
                         <MenuItem eventKey="id">Product ID</MenuItem>
                         <MenuItem eventKey="name">Product Name</MenuItem>
                         <MenuItem eventKey="price">Product Price</MenuItem>
                     </SplitButton>
                 </ButtonToolbar>
-
-                
 
                 <BootstrapTable keyField='id' data={products}
                     columns={actualTitle}
