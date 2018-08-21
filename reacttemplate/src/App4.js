@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import request from 'request';
 import ReportComponent from './components/ReportComponent';
+import PptxGenJS from 'pptxgenjs';
 import { Alert, Button } from 'react-bootstrap';
 import './bootstrap.css';
 import './report.css';
@@ -100,7 +101,7 @@ class App3 extends Component {
                 } 
             } 
         );
-        this.setState({ components });
+        this.setState({ components, editMode: true });
     }
 
     changeSettings(i) {
@@ -134,6 +135,24 @@ class App3 extends Component {
         this.setState({
             selectedLayout: changeEvent.target.value
         });
+    }
+
+    // i represents index of current item in this.state.components
+    // convert style data to integer. e.g. 10px -> 10
+    onResize(ref, pos, i) {
+        let components = this.state.components;
+        components[i].height = parseInt(ref.style.height, 10);
+        components[i].width = parseInt(ref.style.width, 10);
+        components[i].x = pos.x;
+        components[i].y = pos.y;
+        this.setState({ components });
+    }
+
+    onDragStop(ref, i) {
+        let components = this.state.components;
+        components[i].x = ref.x;
+        components[i].y = ref.y;
+        this.setState({ components });
     }
 
     loadTemplate = () => {
@@ -173,6 +192,38 @@ class App3 extends Component {
             }
             
         });
+    }
+
+    
+    savePresentation = () => {
+        var pptx = new PptxGenJS();
+        pptx.setBrowser(true);
+        let slide = pptx.addNewSlide();
+        let components = this.state.components;
+        for(let component of components) {
+            if (component.type === "text") {
+                // remove the p tags
+                let text = component.properties.text.substring(3, component.properties.text.length-4);
+                
+                // convert px to inches
+                let x = component.x / 96;
+                let y = component.y / 96;
+
+                slide.addText(text, {x:x, y:y, fontSize:14, color:'363636' });
+            } else if (component.type === "image") {
+                let imageUrl = component.properties.imageUrl;
+                console.log(imageUrl);
+                // convert px to inches
+                let x = component.x / 96;
+                let y = (component.y + 27.5) / 96;
+                let w = component.width / 96;
+                let h = (component.height - 27.5) / 96;
+                
+                slide.addImage({ path:'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg', x:x, y:y, w:w, h:h });
+                slide.addImage({ data:imageUrl, x:x, y:y, w:w, h:h });
+            }
+        }
+        pptx.save('Sample Presentation');
     }
 
     saveTemplate = () => {
@@ -222,24 +273,6 @@ class App3 extends Component {
             });
         }
         this.setState({editMode:false});
-    }
-
-    // i represents index of current item in this.state.components
-    // convert style data to integer. e.g. 10px -> 10
-    onResize(ref, pos, i) {
-        let components = this.state.components;
-        components[i].height = parseInt(ref.style.height, 10);
-        components[i].width = parseInt(ref.style.width, 10);
-        components[i].x = pos.x;
-        components[i].y = pos.y;
-        this.setState({ components });
-    }
-
-    onDragStop(ref, i) {
-        let components = this.state.components;
-        components[i].x = ref.x;
-        components[i].y = ref.y;
-        this.setState({ components });
     }
 
     toggleChartMenu = () => {
@@ -361,6 +394,9 @@ class App3 extends Component {
                                     <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:150 }} bsStyle="success" onClick={this.toggleEditMode}>
                                         <i className="fa fa-edit" style={{ marginRight: 2 }} />
                                         {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
+                                    </Button>
+                                    <Button className="col-md-2 col-xs-2" style={{ float:"right", minWidth:150 }} bsStyle="warning" onClick={this.savePresentation}>
+                                        <i className="fa fa-edit" style={{ marginRight: 2 }} /> Export as PPT
                                     </Button>
                                     <br/>
 
