@@ -19,7 +19,8 @@ class App3 extends Component {
             // w : 21*37.795276,
             // h : 29.7*37.795276,
             templateName: "Template Name",
-            sidebar: true
+            sidebar: true,
+            pageNo: 1,
         }
     }
 
@@ -37,6 +38,12 @@ class App3 extends Component {
             { type: "text", x: 0, y: 0, height: 120, width: 200, display: true, properties: { text: "<p><br></p>" } }
         );
 
+        this.setState({ components, editMode: true });
+    }
+
+    addSlideShow = () => {
+        let components = this.state.components;
+        components.push({ type: "slideshow", display: true });
         this.setState({ components, editMode: true });
     }
 
@@ -93,12 +100,13 @@ class App3 extends Component {
     addImage = () => {
         let components = this.state.components;
         components.push(
-            { type: "image", x: 0, y: 0, height: 200, width: 200, display: true, 
-                properties: { 
-                    imageUrl: '', 
+            {
+                type: "image", x: 0, y: 0, height: 200, width: 200, display: true,
+                properties: {
+                    imageUrl: '',
                     initialized: false,
-                } 
-            } 
+                }
+            }
         );
         this.setState({ components });
     }
@@ -145,7 +153,7 @@ class App3 extends Component {
                 json: true,
                 body: { operation: "loadComponents", templateId: templateId }
             }, function (error, response, body) {
-                if(body){
+                if (body) {
                     let components = body.components;
                     self.setState({ components });
                 }
@@ -153,25 +161,42 @@ class App3 extends Component {
         }
     }
 
+    previousPage =()=>
+    {
+        let pageNo = this.state.pageNo;
+        if(pageNo>1){
+            pageNo = this.state.pageNo-1;
+        }
+        
+        //console.log(col);
+        this.setState({pageNo});
+    }
+
+    nextPage = ()=>{
+        let pageNo = this.state.pageNo+1;
+        //console.log(col);
+        this.setState({pageNo});
+    }
+
     renameTemplate = (e) => {
         this.setState({ templateName: e.target.value });
     }
 
-    saveComponents(templateId){
+    saveComponents(templateId) {
         let self = this;
         request.post({
             url: api + 'saveComponents',
             json: true,
-            body: { operation:"saveComponents", templateId:templateId, components:self.state.components }
+            body: { operation: "saveComponents", templateId: templateId, components: self.state.components }
         }, function (error, response, body) {
-            if (body && body.status){
+            if (body && body.status) {
                 alert("Saved succesfully");
                 // swal("saved succesfully");
             } else {
                 alert("Error in saving");
                 // swal("error in saving");
             }
-            
+
         });
     }
 
@@ -296,11 +321,11 @@ class App3 extends Component {
     render() {
         return (
             <div>
-                <input type="hidden" id="templateId" value="1"/>
-                <input type="hidden" id="companyId" value="1"/>
-                <input type="hidden" id="userName" value="manager"/>
+                <input type="hidden" id="templateId" value={this.state.pageNo} />
+                <input type="hidden" id="companyId" value="1" />
+                <input type="hidden" id="userName" value="manager" />
                 <div className={this.state.sidebar ? "nav-md" : "nav-sm"} id="main">
-                    <div className="container body" style={{margin:0, padding:0, width:"100%"}}>
+                    <div className="container body" style={{ margin: 0, padding: 0, width: "100%" }}>
                         <div className="main_container">
                             <div className="col-md-3 left_col">
                                 <div className="left_col scroll-view">
@@ -349,19 +374,14 @@ class App3 extends Component {
 
                             <div className="right_col">
                                 <div className="col-md-6 col-xs-6">
-                                    <label style={{ fontSize:15, marginRight:2 }}>Template Name:</label>
-                                    <input style={{ fontSize:15 }} value={this.state.templateName} onChange={this.renameTemplate} />
+                                    <label style={{ fontSize: 15, marginRight: 2 }}>Template Name:</label>
+                                    <input style={{ fontSize: 15 }} value={this.state.templateName} onChange={this.renameTemplate} />
                                 </div>
-                                    {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
-                                    <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button>
-                                    <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:130 }} bsStyle="info" onClick={this.saveTemplate}>
-                                        <i className="fa fa-save" /> Save Template
-                                    </Button>
-                                    <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:150 }} bsStyle="success" onClick={this.toggleEditMode}>
-                                        <i className="fa fa-edit" style={{ marginRight: 2 }} />
-                                        {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
-                                    </Button>
-                                    <br/>
+                                {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
+                                {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
+                                
+                               
+                                <br />
 
                                 {/* <div id="size" className="modal">
                                     <div className="modal-content">
@@ -405,20 +425,52 @@ class App3 extends Component {
                                 </div> */}
 
 
-                                <div className="col-sm-12 col-xs-12" style={{ paddingTop:10, paddingBottom:10, backgroundColor:'white', borderBottom:'7px solid #EB6B2A' }}>
+                                <div className="col-sm-12 col-xs-12" style={{ paddingTop: 10, paddingBottom: 10, backgroundColor: 'white', borderBottom: '7px solid #EB6B2A' }}>
+                                    
                                     <label> Add Component: </label>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Textbox" bsStyle="primary" 
-                                        onClick={this.addTextbox}   style={{ marginRight:5,marginLeft:6 }}><i className="fa fa-font"/></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Bar Chart" bsStyle="warning" 
-                                        onClick={this.addBarChart}  style={{ marginRight:5 }}><i className="fa fa-bar-chart"/></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Line Chart" bsStyle="success" 
-                                        onClick={this.addLineChart} style={{ marginRight:5 }}><i className="fa fa-line-chart"/></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Table" bsStyle="danger"  
-                                        onClick={this.addTable}     style={{ marginRight:5 }}><i className="fa fa-table"/> </Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Textbox" bsStyle="primary"
+                                        onClick={this.addTextbox} style={{ marginRight: 5, marginLeft: 6 }}><i className="fa fa-font" /></Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Bar Chart" bsStyle="warning"
+                                        onClick={this.addBarChart} style={{ marginRight: 5 }}><i className="fa fa-bar-chart" /></Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Line Chart" bsStyle="success"
+                                        onClick={this.addLineChart} style={{ marginRight: 5 }}><i className="fa fa-line-chart" /></Button>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Table" bsStyle="danger"
+                                        onClick={this.addTable} style={{ marginRight: 5 }}><i className="fa fa-table" /> </Button>
                                     <Button data-toggle="tooltip" data-placement="bottom" title="Add Image"
-                                        onClick={this.addImage}     style={{ backgroundColor:"#31B0D5", color:"white", border:"1px solid #31B0D5"}}><i className="fa fa-image"/></Button>
+                                        onClick={this.addImage} style={{ backgroundColor: "#31B0D5", color: "white", border: "1px solid #31B0D5",  marginRight: 160 }}><i className="fa fa-image" /></Button>
+                                    <span style={{fontFamily:'Georgia', fontSize:18}}>Page Number</span>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title = "Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
+                                    style={{ marginRight: 10, marginLeft: 10}}>
+                                        <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
+                                            <path d="M0-.5h24v24H0z" fill="none">
+                                            </path>
+                                            <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" class="jWRuRT">
+                                            </path>
+                                        </svg>
+                                    </Button>                                   
+                                    <span style={{fontFamily:'Georgia', fontSize:18}}>{this.state.pageNo}</span>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title = "Next Page" bsStyle="warning" bsSize="small" onClick={this.nextPage}
+                                    style={{ marginLeft: 10}}>
+                                        <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
+                                            <path d="M0-.5h24v24H0z" fill="none">
+                                            </path>
+                                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" class="jWRuRT">
+                                            </path>
+                                        </svg>
+                                    </Button>
+
+                                    <Button bsStyle="default" bsSize="small" onClick={this.saveTemplate}
+                                    style={{ marginLeft: 10, color:'orange', border:'none' }}> <i className="fa fa-save fa-2x" />
+                                    </Button>
+
+
+                                     <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 150 }} bsStyle="success" onClick={this.toggleEditMode}>
+                                    <i className="fa fa-edit" style={{ marginRight: 2 }} />
+                                    {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
+                                </Button>
                                 </div>
-                                <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', overflow: 'auto', height:"100%", marginTop: -5 }}>
+
+                                <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', overflow: 'auto', height: "100%", marginTop: -5 }}>
                                     {/* map does a for loop over all the components in the state */}
 
                                     {this.state.components.map((item, i) => {
@@ -452,8 +504,8 @@ class App3 extends Component {
                                                 // ref represents item that was dragged
                                                 onDragStop={(event, ref) => this.onDragStop(ref, i)}
                                             >
-                                                <div style={{ height:27.5, float:"right" }}>
-                                                    <i style={{ marginTop: 10, marginRight: 6,  visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
+                                                <div style={{ height: 27.5, float: "right" }}>
+                                                    <i style={{ marginTop: 10, marginRight: 6, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
                                                         onClick={() => this.changeSettings(i)}></i>
                                                     <i style={{ marginTop: 10, marginRight: 10, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-times"
                                                         onClick={() => this.deleteComponent(i)}></i>
@@ -465,6 +517,7 @@ class App3 extends Component {
                                             </Rnd>
                                         }
                                     })}
+                                    
                                 </div>
                             </div>
                         </div>

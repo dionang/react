@@ -91,7 +91,7 @@ class Barchart extends Component {
                         <Label value={this.state.yAxis} position="outside" angle={-90}/>
                     </YAxis>
                     <Tooltip/>
-                    <Bar dataKey={this.state.yAxis} fill="blue" />
+                    <Bar dataKey={this.state.yAxis} fill="#CD5C5C" />
                     {/* <Bar dataKey="neutral" fill="orange" /> */}
                     {/* <Bar dataKey="negative" fill="grey" /> */}
                     <Legend verticalAlign="bottom"/>

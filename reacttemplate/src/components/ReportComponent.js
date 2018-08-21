@@ -5,6 +5,7 @@ import Barchart from './Barchart';
 import Linechart from './Linechart';
 import Image from './Image';
 import Table from './Table';
+import PptSlide from './PptSlide';
 
 class ReportComponent extends Component {
     render() {
@@ -30,6 +31,10 @@ class ReportComponent extends Component {
         } else if (this.props.type ==="table"){
             return(
                 <Table/>
+            )
+        } else if (this.props.type=='slideshow'){
+            return(
+                <PptSlide></PptSlide>
             )
         }
     }
