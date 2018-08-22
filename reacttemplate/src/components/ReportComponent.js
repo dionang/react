@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {ResponsiveContainer} from 'recharts';
 import Textbox from './Textbox';
 import Barchart from './Barchart';
 import Linechart from './Linechart';
@@ -26,11 +25,16 @@ class ReportComponent extends Component {
             return(
                 <Image i={this.props.i}  editMode={this.props.editMode} 
                     properties={this.props.properties} updateProperties={this.props.updateProperties}/>
-            )
+            );
         } else if (this.props.type ==="table"){
             return(
                 <Table/>
-            )
+            );
+        } else if (this.props.type === "video") {
+            return(
+                <Textbox i={this.props.i} text={this.props.properties.videoUrl} editMode={false}
+                    updateProperties={this.props.updateProperties} />
+            );
         }
     }
 }

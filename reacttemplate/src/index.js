@@ -8,5 +8,5 @@ import App4 from './App4';
 import FormikApp from './Test';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App4/>, document.getElementById('root'));
+ReactDOM.render(<App3/>, document.getElementById('root'));
 registerServiceWorker();

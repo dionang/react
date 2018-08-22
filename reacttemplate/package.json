@@ -17,6 +17,7 @@
     "react-native": "^0.56.0",
     "react-native-elements": "^1.0.0-beta5",
     "react-native-vector-icons": "^5.0.0",
+    "react-presents": "^0.7.10",
     "react-rnd": "^8.0.2",
     "react-rte": "^0.16.1",
     "react-scripts": "1.1.4",

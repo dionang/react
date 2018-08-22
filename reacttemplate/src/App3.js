@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import request from 'request';
+import PptxGenJS from 'pptxgenjs';
 import ReportComponent from './components/ReportComponent';
 import { Alert, Button } from 'react-bootstrap';
 import './bootstrap.css';
@@ -12,14 +13,15 @@ class App3 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            components: [],
+            components: {1:[]},
             editMode: false,
             selectedSize: 'A4',
             selectedLayout: 'Portrait',
             // w : 21*37.795276,
             // h : 29.7*37.795276,
             templateName: "Template Name",
-            sidebar: true
+            sidebar: true,
+            pageNo: 1,
         }
     }
 
@@ -33,7 +35,7 @@ class App3 extends Component {
 
     addTextbox = () => {
         let components = this.state.components;
-        components.push(
+        components[this.state.pageNo].push(
             { type: "text", x: 0, y: 0, height: 120, width: 200, display: true, properties: { text: "<p><br></p>" } }
         );
 
@@ -43,7 +45,7 @@ class App3 extends Component {
     addBarChart = () => {
         let components = this.state.components;
         // adds new component to state
-        components.push(
+        components[this.state.pageNo].push(
             {
                 type: "bar", x: 0, y: 0, height: 250, width: 300, display: true,
                 properties: {
@@ -63,7 +65,7 @@ class App3 extends Component {
 
     addLineChart = () => {
         let components = this.state.components;
-        components.push(
+        components[this.state.pageNo].push(
             {
                 type: "line", x: 0, y: 0, height: 250, width: 300, display: true,
                 properties: {
@@ -83,7 +85,7 @@ class App3 extends Component {
 
     addTable = () => {
         let components = this.state.components;
-        components.push(
+        components[this.state.pageNo].push(
             { type: "table", x: 0, y: 0, height: 300, width: 300, display: true }
         );
 
@@ -92,20 +94,37 @@ class App3 extends Component {
 
     addImage = () => {
         let components = this.state.components;
-        components.push(
-            { type: "image", x: 0, y: 0, height: 200, width: 200, display: true, 
-                properties: { 
-                    imageUrl: '', 
+        components[this.state.pageNo].push(
+            {
+                type: "image", x: 0, y: 0, height: 200, width: 200, display: true,
+                properties: {
+                    imageUrl: '',
                     initialized: false,
-                } 
-            } 
+                }
+            }
         );
-        this.setState({ components });
+        this.setState({ components, editMode: true });
+    }
+
+    addVideo = () => {
+        let components = this.state.components;
+        components[this.state.pageNo].push(
+            {
+                type: "video", x: 0, y: 0, height: 200, width: 200, display: true,
+                properties: {
+                    // using textbox properties for now
+                    text: '',
+                }
+            }
+        );
+        this.setState({ components, editMode: true });
     }
 
     changeSettings(i) {
         let components = this.state.components;
-        components[i].properties.initialized = false;
+        let pageNo = this.state.pageNo;
+
+        components[pageNo][i].properties.initialized = false;
         this.setState({ components });
     }
 
@@ -116,7 +135,9 @@ class App3 extends Component {
 
     deleteComponent(i) {
         let components = this.state.components;
-        components[i].display = false;
+        let pageNo = this.state.pageNo;
+
+        components[pageNo][i].display = false;
         this.setState({ components });
     }
 
@@ -124,17 +145,17 @@ class App3 extends Component {
         console.log(this.state.components);
     }
 
-    handleSizeChange = (changeEvent) => {
-        this.setState({
-            selectedSize: changeEvent.target.value
-        });
-    }
+    // handleSizeChange = (changeEvent) => {
+    //     this.setState({
+    //         selectedSize: changeEvent.target.value
+    //     });
+    // }
 
-    handleLayoutChange = (changeEvent) => {
-        this.setState({
-            selectedLayout: changeEvent.target.value
-        });
-    }
+    // handleLayoutChange = (changeEvent) => {
+    //     this.setState({
+    //         selectedLayout: changeEvent.target.value
+    //     });
+    // }
 
     loadTemplate = () => {
         let self = this;
@@ -145,7 +166,7 @@ class App3 extends Component {
                 json: true,
                 body: { operation: "loadComponents", templateId: templateId }
             }, function (error, response, body) {
-                if(body){
+                if (body) {
                     let components = body.components;
                     self.setState({ components });
                 }
@@ -153,26 +174,104 @@ class App3 extends Component {
         }
     }
 
+    previousPage = () => {
+        let pageNo = this.state.pageNo;
+        if(pageNo > 1){
+            pageNo = this.state.pageNo-1;
+            this.setState({pageNo});
+        }
+    }
+
+    nextPage = () => {
+        let components = this.state.components;
+        let pageNo = this.state.pageNo+1;
+
+        // add new page if it doesnt exist
+        if(components[pageNo] === undefined){
+            components[pageNo] = [];
+        }
+        this.setState({components, pageNo});
+    }
+
     renameTemplate = (e) => {
         this.setState({ templateName: e.target.value });
     }
 
-    saveComponents(templateId){
+    // i represents index of current item in this.state.components
+    // convert style data to integer. e.g. 10px -> 10
+    onResize(ref, pos, i) {
+        let components = this.state.components;
+        let pageNo = this.state.pageNo;
+        components[pageNo][i].height = parseInt(ref.style.height, 10);
+        components[pageNo][i].width = parseInt(ref.style.width, 10);
+        components[pageNo][i].x = pos.x;
+        components[pageNo][i].y = pos.y;
+        this.setState({ components });
+    }
+
+    onDragStop(ref, i) {
+        let components = this.state.components;
+        let pageNo = this.state.pageNo;
+        components[pageNo][i].x = ref.x;
+        components[pageNo][i].y = ref.y;
+        this.setState({ components });
+    }
+
+    saveComponents(templateId) {
         let self = this;
         request.post({
             url: api + 'saveComponents',
             json: true,
-            body: { operation:"saveComponents", templateId:templateId, components:self.state.components }
+            body: { operation: "saveComponents", templateId: templateId, components: self.state.components }
         }, function (error, response, body) {
-            if (body && body.status){
+            if (body && body.status) {
                 alert("Saved succesfully");
                 // swal("saved succesfully");
             } else {
                 alert("Error in saving");
                 // swal("error in saving");
             }
-            
+
         });
+    }
+
+    savePresentation = () => {
+        var pptx = new PptxGenJS();
+        pptx.setBrowser(true);
+        
+        for(let pageNo in this.state.components){
+            let components = this.state.components[pageNo];
+            let slide = pptx.addNewSlide();
+            for(let component of components) {
+                // convert px to inches
+                let x = component.x / 96;
+                let y = component.y / 96;
+                let w = component.width / 96;
+                let h = (component.height) / 96;
+
+                if (component.type === "text") {
+                    // remove the p tags
+                    let text = component.properties.text.substring(3, component.properties.text.length-4);
+                    slide.addText(text, {x:x, y:y,  w:w, h:h, 
+                        fontSize:14, color:'363636', bullet: {type:'number'} 
+                    });
+                } else if (component.type === "image") {
+                    let imageUrl = component.properties.imageUrl;
+
+                    // remove height of toolbar
+                    y = (component.y + 27.5) / 96;
+                    h = (component.height - 27.5) / 96;
+                    slide.addImage({ data:imageUrl, x:x, y:y, w:w, h:h });
+                } else if (component.type === "video") {
+                    // remove the p tags
+                    let videoUrl = component.properties.text.substring(3, component.properties.text.length-4);
+                    console.log(videoUrl);
+                    slide.addMedia({ type:'online', link:videoUrl, x:x, y:y, w:w, h:h });
+                }
+            }
+        }
+        
+        pptx.save('Sample Presentation');
     }
 
     saveTemplate = () => {
@@ -217,29 +316,11 @@ class App3 extends Component {
                 if (body === "false") {
                     alert("Failed to update template!");
                 } else {
-                    this.saveComponents(templateId);
+                    self.saveComponents(templateId);
                 }
             });
         }
         this.setState({editMode:false});
-    }
-
-    // i represents index of current item in this.state.components
-    // convert style data to integer. e.g. 10px -> 10
-    onResize(ref, pos, i) {
-        let components = this.state.components;
-        components[i].height = parseInt(ref.style.height, 10);
-        components[i].width = parseInt(ref.style.width, 10);
-        components[i].x = pos.x;
-        components[i].y = pos.y;
-        this.setState({ components });
-    }
-
-    onDragStop(ref, i) {
-        let components = this.state.components;
-        components[i].x = ref.x;
-        components[i].y = ref.y;
-        this.setState({ components });
     }
 
     toggleChartMenu = () => {
@@ -261,7 +342,9 @@ class App3 extends Component {
 
     updateProperties = (properties, i) => {
         let components = this.state.components;
-        components[i].properties = properties;
+        let pageNo = this.state.pageNo;
+        
+        components[pageNo][i].properties = properties;
         this.setState({ properties });
     }
 
@@ -297,11 +380,11 @@ class App3 extends Component {
     render() {
         return (
             <div>
-                <input type="hidden" id="templateId" value="1"/>
-                <input type="hidden" id="companyId" value="1"/>
-                <input type="hidden" id="userName" value="manager"/>
+                <input type="hidden" id="templateId" value={this.state.pageNo} />
+                <input type="hidden" id="companyId" value="1" />
+                <input type="hidden" id="userName" value="manager" />
                 <div className={this.state.sidebar ? "nav-md" : "nav-sm"} id="main">
-                    <div className="container body" style={{margin:0, padding:0, width:"100%"}}>
+                    <div className="container body" style={{ margin: 0, padding: 0, width: "100%" }}>
                         <div className="main_container">
                             <div className="col-md-3 left_col">
                                 <div className="left_col scroll-view">
@@ -350,8 +433,8 @@ class App3 extends Component {
 
                             <div className="right_col">
                                 <div className="col-md-6 col-xs-6">
-                                    <label style={{ fontSize:15, marginRight:2 }}>Template Name:</label>
-                                    <input style={{ fontSize:15 }} value={this.state.templateName} onChange={this.renameTemplate} />
+                                    <label style={{ fontSize: 15, marginRight: 2 }}>Template Name:</label>
+                                    <input style={{ fontSize: 15 }} value={this.state.templateName} onChange={this.renameTemplate} />
                                 </div>
                                     {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
                                     {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
@@ -361,6 +444,9 @@ class App3 extends Component {
                                     <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:150 }} bsStyle="success" onClick={this.toggleEditMode}>
                                         <i className="fa fa-edit" style={{ marginRight: 2 }} />
                                         {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
+                                    </Button>
+                                    <Button className="col-md-2 col-xs-2" style={{ float:"right", minWidth:150 }} bsStyle="warning" onClick={this.savePresentation}>
+                                        <i className="fa fa-edit" style={{ marginRight: 2 }} /> Export as PPT
                                     </Button>
                                     <br/>
 
@@ -406,25 +492,50 @@ class App3 extends Component {
                                 </div> */}
 
 
-                                <div className="col-sm-12 col-xs-12" style={{ paddingTop:10, paddingBottom:10, backgroundColor:'white', borderBottom:'7px solid #EB6B2A' }}>
+                                <div className="col-sm-12 col-xs-12" style={{ paddingTop: 10, paddingBottom: 10, backgroundColor: 'white', borderBottom: '7px solid #EB6B2A' }}>
+                                    
                                     <label> Add Component: </label>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Textbox" bsStyle="primary" 
-                                        onClick={this.addTextbox}   style={{ marginRight:5,marginLeft:6 }}><i className="fa fa-font"/></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Bar Chart" bsStyle="warning" 
-                                        onClick={this.addBarChart}  style={{ marginRight:5 }}><i className="fa fa-bar-chart"/></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Line Chart" bsStyle="success" 
-                                        onClick={this.addLineChart} style={{ marginRight:5 }}><i className="fa fa-line-chart"/></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Table" bsStyle="danger"  
-                                        onClick={this.addTable}     style={{ marginRight:5 }}><i className="fa fa-table"/> </Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Image"
-                                        onClick={this.addImage}     style={{ backgroundColor:"#31B0D5", color:"white", border:"1px solid #31B0D5"}}><i className="fa fa-image"/></Button>
+                                    <Button data-toggle="tooltip"   data-placement="bottom" title="Add Textbox" bsStyle="primary"
+                                        onClick={this.addTextbox}   style={{ marginRight:5, marginLeft: 6 }}><i className="fa fa-font" /></Button>
+                                    <Button data-toggle="tooltip"   data-placement="bottom" title="Add Bar Chart" bsStyle="warning"
+                                        onClick={this.addBarChart}  style={{ marginRight:5 }}><i className="fa fa-bar-chart" /></Button>
+                                    <Button data-toggle="tooltip"   data-placement="bottom" title="Add Line Chart" bsStyle="success"
+                                        onClick={this.addLineChart} style={{ marginRight:5 }}><i className="fa fa-line-chart" /></Button>
+                                    <Button data-toggle="tooltip"   data-placement="bottom" title="Add Table" bsStyle="danger"
+                                        onClick={this.addTable}     style={{ marginRight:5 }}><i className="fa fa-table" /> </Button>
+                                    <Button data-toggle="tooltip"   data-placement="bottom" title="Add Image"
+                                        onClick={this.addImage}     style={{ backgroundColor:"#31B0D5", color:"white", border:"1px solid #31B0D5", marginRight:5 }}><i className="fa fa-image" /></Button>
+                                    <Button data-toggle="tooltip"   data-placement="bottom" title="Add Video"
+                                        onClick={this.addVideo}     style={{ backgroundColor:"#D896FF", color:"white", border:"1px solid #D896FF", marginRight:160 }}><i className="fa fa-play-circle" /></Button>
+
+                                    <span style={{fontFamily:'Georgia', fontSize:18}}>Page Number</span>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title = "Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
+                                        style={{ marginRight: 10, marginLeft: 10}}>
+                                        <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
+                                            <path d="M0-.5h24v24H0z" fill="none"></path>
+                                            <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" className="jWRuRT"></path>
+                                        </svg>
+                                    </Button>                                   
+                                    <span style={{fontFamily:'Georgia', fontSize:18}}>{this.state.pageNo}</span>
+                                    <Button data-toggle="tooltip" data-placement="bottom" title = "Next Page" bsStyle="warning" bsSize="small" onClick={this.nextPage}
+                                        style={{ marginLeft: 10}}>
+                                        <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
+                                            <path d="M0-.5h24v24H0z" fill="none"></path>
+                                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" className="jWRuRT"></path>
+                                        </svg>
+                                    </Button>
+
+                                    <Button bsStyle="default" bsSize="small" onClick={this.saveTemplate}
+                                        style={{ marginLeft: 10, color:'orange', border:'none' }}> <i className="fa fa-save fa-2x" />
+                                    </Button>
                                 </div>
-                                <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', overflow: 'auto', height:"100%", marginTop: -5 }}>
+
+                                <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', overflow: 'auto', height: "100%", marginTop: -5 }}>
                                     {/* map does a for loop over all the components in the state */}
 
-                                    {this.state.components.map((item, i) => {
+                                    {this.state.components[this.state.pageNo].map((item, i) => {
                                         if (item.display) {
-                                            return <Rnd key={i}
+                                            return <Rnd key={this.state.pageNo + "," + i}
                                                 style={{
                                                     borderStyle: this.state.editMode ? "dotted" : "hidden",
                                                     borderWidth: 2,
@@ -453,8 +564,8 @@ class App3 extends Component {
                                                 // ref represents item that was dragged
                                                 onDragStop={(event, ref) => this.onDragStop(ref, i)}
                                             >
-                                                <div style={{ height:27.5, float:"right" }}>
-                                                    <i style={{ marginTop: 10, marginRight: 6,  visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
+                                                <div style={{ height: 27.5, float: "right" }}>
+                                                    <i style={{ marginTop: 10, marginRight: 6, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
                                                         onClick={() => this.changeSettings(i)}></i>
                                                     <i style={{ marginTop: 10, marginRight: 10, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-times"
                                                         onClick={() => this.deleteComponent(i)}></i>
@@ -466,6 +577,7 @@ class App3 extends Component {
                                             </Rnd>
                                         }
                                     })}
+                                    
                                 </div>
                             </div>
                         </div>

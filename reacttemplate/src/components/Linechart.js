@@ -84,7 +84,7 @@ class Linechart extends Component {
         
             <ResponsiveContainer className="draggable" width="95%" height="90%">
                     <LineChart style={{width:"100%", height:"calc(100% + 20px)"}} data={this.state.chartData}>
-                        <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey={this.state.xAxis}>
                             <Label value={this.state.xAxis} offset={-5} position="insideBottomRight" />
                         </XAxis>
