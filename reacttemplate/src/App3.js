@@ -3,7 +3,7 @@ import Rnd from 'react-rnd';
 import request from 'request';
 import PptxGenJS from 'pptxgenjs';
 import ReportComponent from './components/ReportComponent';
-import { Alert, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import './bootstrap.css';
 import './report.css';
 
@@ -13,7 +13,7 @@ class App3 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            components: {1:[]},
+            components: [[]],
             editMode: false,
             selectedSize: 'A4',
             selectedLayout: 'Portrait',
@@ -21,7 +21,7 @@ class App3 extends Component {
             // h : 29.7*37.795276,
             templateName: "Template Name",
             sidebar: true,
-            pageNo: 1,
+            pageNo: 0
         }
     }
 
@@ -36,7 +36,7 @@ class App3 extends Component {
     addTextbox = () => {
         let components = this.state.components;
         components[this.state.pageNo].push(
-            { type: "text", x: 0, y: 0, height: 120, width: 200, display: true, properties: { text: "<p><br></p>" } }
+            { type: "text", x: 0, y: 0, height: 150, width: 220, display: true, properties: { text: "<p><br></p>" } }
         );
 
         this.setState({ components, editMode: true });
@@ -176,7 +176,7 @@ class App3 extends Component {
 
     previousPage = () => {
         let pageNo = this.state.pageNo;
-        if(pageNo > 1){
+        if(pageNo !== 0){
             pageNo = this.state.pageNo-1;
             this.setState({pageNo});
         }
@@ -187,8 +187,8 @@ class App3 extends Component {
         let pageNo = this.state.pageNo+1;
 
         // add new page if it doesnt exist
-        if(components[pageNo] === undefined){
-            components[pageNo] = [];
+        if(pageNo === components.length){
+            components.push([]);
         }
         this.setState({components, pageNo});
     }
@@ -252,9 +252,14 @@ class App3 extends Component {
                 if (component.type === "text") {
                     // remove the p tags
                     let text = component.properties.text.substring(3, component.properties.text.length-4);
+                    // console.log(text);
+                    // let texts = text.split(/\r\n|\n|\r/);
+                    // console.log(texts); 
                     slide.addText(text, {x:x, y:y,  w:w, h:h, 
-                        fontSize:14, color:'363636', bullet: {type:'number'} 
+                        fontSize:14, color:'363636'
+                        // , bullet:{code:'25BA'} 
                     });
+                    
                 } else if (component.type === "image") {
                     let imageUrl = component.properties.imageUrl;
 
@@ -264,7 +269,7 @@ class App3 extends Component {
                     slide.addImage({ data:imageUrl, x:x, y:y, w:w, h:h });
                 } else if (component.type === "video") {
                     // remove the p tags
-                    let videoUrl = component.properties.text.substring(3, component.properties.text.length-4);
+                    let videoUrl = component.properties.text.substring(3, component.properties.text.length-4).trim();
                     console.log(videoUrl);
                     slide.addMedia({ type:'online', link:videoUrl, x:x, y:y, w:w, h:h });
                 }
@@ -380,7 +385,7 @@ class App3 extends Component {
     render() {
         return (
             <div>
-                <input type="hidden" id="templateId" value={this.state.pageNo} />
+                <input type="hidden" id="templateId" value="1" />
                 <input type="hidden" id="companyId" value="1" />
                 <input type="hidden" id="userName" value="manager" />
                 <div className={this.state.sidebar ? "nav-md" : "nav-sm"} id="main">
@@ -516,7 +521,7 @@ class App3 extends Component {
                                             <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" className="jWRuRT"></path>
                                         </svg>
                                     </Button>                                   
-                                    <span style={{fontFamily:'Georgia', fontSize:18}}>{this.state.pageNo}</span>
+                                    <span style={{fontFamily:'Georgia', fontSize:18}}>{this.state.pageNo+1}</span>
                                     <Button data-toggle="tooltip" data-placement="bottom" title = "Next Page" bsStyle="warning" bsSize="small" onClick={this.nextPage}
                                         style={{ marginLeft: 10}}>
                                         <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
