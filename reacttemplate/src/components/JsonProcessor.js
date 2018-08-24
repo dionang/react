@@ -190,6 +190,21 @@ JsonProcessor.prototype.getAggregatedData = function(data, xAxis, yAxis, operati
         obj[xAxis] = category;
         if (operation === "sum"){
             obj[yAxis] = values.reduce((prev, curr) => prev + curr);
+        } else if (operation === "avg"){
+            obj[yAxis] = values.reduce((prev, curr) => prev + curr) / values.length;
+        } else if (operation === "max") {
+            obj[yAxis] = Math.max(...values);
+        } else if (operation === "min") {
+            obj[yAxis] = Math.min(...values);
+        } else if (operation === "median") {
+            // sort numbers in ascending order, because JS inbuilt sort doesn't sort numbers correctly
+            values.sort((a, b) => a - b);
+            let half = Math.floor(values.length/2);
+            if(values.length % 2) {
+                obj[yAxis] = values[half];
+            } else {
+                obj[yAxis] = (values[half-1] + values[half]) / 2;
+            }
         }
         newData.push(obj);
     }
