@@ -78,6 +78,22 @@ class Descriptive extends Component {
 
 
     render() {
+        const columns = [{
+            dataField: 'Sum',
+            text: 'Sum'
+          }, {
+            dataField: 'Average',
+            text: 'Average'
+          }, {
+            dataField: 'Max',
+            text: 'Max'
+          },{
+            dataField: 'Min',
+            text: 'Min'
+          },{
+            dataField: 'Median',
+            text: 'Median'
+          }];
 
 
         var products = [{
@@ -102,19 +118,9 @@ class Descriptive extends Component {
         
             return (
             <div  className="draggable" height="100%">
-                <ButtonToolbar >
-                    <SplitButton title="Add a Column" bsStyle="info" pullRight id="split-button-pull-right" onSelect={this.addCol}>
-                        
-                        <MenuItem eventKey="Sum">Sum</MenuItem>
-                        <MenuItem eventKey="Median">Median</MenuItem>
-                        <MenuItem eventKey="Min">Min</MenuItem>
-                        <MenuItem eventKey="Max">Max</MenuItem>
-                    </SplitButton>
-                </ButtonToolbar>
-
-
+                
                 <BootstrapTable keyField='id' data={products}
-                    columns={actualTitle}
+                    columns={columns}
                     //cellEdit={cellEditFactory({ mode: 'dbclick' })}
                     rowStyle={rowStyle}>
                    
