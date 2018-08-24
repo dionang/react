@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import request from 'request';
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Label, Legend, Tooltip, ResponsiveContainer} from 'recharts';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Label, Legend, Tooltip, ResponsiveContainer,Text} from 'recharts';
 import ChartForm from './ChartForm';
 import JsonProcessor from './JsonProcessor';
 import Descriptive from './Descriptive';
@@ -82,8 +82,6 @@ class Barchart extends Component {
             summaryData: summaryData
         })
 
-        console.log(summaryData);
-        
 
         let {chartData, ...other} = this.state;
         this.props.updateProperties(other, this.props.i);
@@ -93,28 +91,31 @@ class Barchart extends Component {
 
     render() {
         return ( 
-            <div style={{height:"100%"}}>
+            <div  className="draggable"  style={{height:"90% "}}>
             {this.state.initialized ?
-
-            <ResponsiveContainer className="draggable" width="95%" height="90%" >
-                <BarChart style={{width:"100%", height:"calc(100% + 20px)"}} data={this.state.chartData}>
-                    <CartesianGrid strokeDasharray="3 3"/>
+            <div style={{height:"calc(100% + 2px)"}}>
+               <p style={{fontFamily:'Georgia', textAlign:"center", fontSize:20, }}> {this.state.title} </p>
+            <ResponsiveContainer > 
+                <BarChart  data={this.state.chartData} width={730} height={250}  margin={{ top: 1, right: 30, left: 20, bottom: 35 }}>
+                    <CartesianGrid strokeDasharray="3 3"/>                 
                     <XAxis dataKey={this.state.xAxis}>
-                        <Label value={this.state.xAxis} offset={-5} position="insideBottomRight" />
+                        <Label value={this.state.xAxis} offset={-5} position="insideBottom" />
                     </XAxis>
                     <YAxis dataKey={this.state.yAxis}>
-                        <Label value={this.state.yAxis} position="outside" angle={-90}/>
+                        <Label value={this.state.yAxis} offset={-10} position="insideLeft" angle={-90}/>
                     </YAxis>
                     <Tooltip/>
                     <Bar dataKey={this.state.yAxis} fill="#CD5C5C" />
                     {/* <Bar dataKey="neutral" fill="orange" /> */}
                     {/* <Bar dataKey="negative" fill="grey" /> */}
-                    <Legend verticalAlign="bottom"/>
+                     
+                    <Legend verticalAlign="top" height={20} />
                 </BarChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer></div>
+
             :   <ChartForm initializeChart={this.initializeChart}/>
             }
-            {this.state.summary ? <Descriptive summaryData={this.state.summaryData} ></Descriptive> : ""}
+            {this.state.summary ? <Descriptive summaryData={this.state.summaryData}  style={{float:"right"}} ></Descriptive> : ""}
             {/* summary={this.props.properties.summary} summaryData = {this.state.summaryData} */}
             </div>
         );
