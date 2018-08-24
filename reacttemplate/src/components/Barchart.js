@@ -11,7 +11,8 @@ class Barchart extends Component {
         this.state = {
             ...this.props.properties,
             chartData:[],
-            summaryData:''
+            summaryData:'',
+            heightP:"62%"
         }
     }
 
@@ -90,13 +91,16 @@ class Barchart extends Component {
     }
 
     render() {
+
+        
+
         return ( 
-            <div  className="draggable"  style={{height:"90% "}}>
+            <div  className="draggable"  style={{height:"100% "}}>
             {this.state.initialized ?
-            <div style={{height:"calc(100% + 2px)"}}>
+            <div style={{height:"calc(62.5% + 1px)"}}>
                <p style={{fontFamily:'Georgia', textAlign:"center", fontSize:20, }}> {this.state.title} </p>
             <ResponsiveContainer > 
-                <BarChart  data={this.state.chartData} width={730} height={250}  margin={{ top: 1, right: 30, left: 20, bottom: 35 }}>
+                <BarChart  data={this.state.chartData} width={730} height={250}  margin={{ top: 1,right: 30, left: 20, bottom: 30 }}>
                     <CartesianGrid strokeDasharray="3 3"/>                 
                     <XAxis dataKey={this.state.xAxis}>
                         <Label value={this.state.xAxis} offset={-5} position="insideBottom" />
@@ -115,8 +119,11 @@ class Barchart extends Component {
 
             :   <ChartForm initializeChart={this.initializeChart}/>
             }
-            {this.state.summary ? <Descriptive summaryData={this.state.summaryData}  style={{float:"right"}} ></Descriptive> : ""}
+            <div style={{marginTop:"20px"}} >
+            {this.state.summary ? <div>
+            <Descriptive summaryData={this.state.summaryData}  ></Descriptive> </div>: ""}
             {/* summary={this.props.properties.summary} summaryData = {this.state.summaryData} */}
+            </div>
             </div>
         );
     }

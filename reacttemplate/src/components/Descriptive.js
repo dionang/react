@@ -104,7 +104,7 @@ class Descriptive extends Component {
             Max:this.props.summaryData.max,
         }];
 
-        const rowStyle = { backgroundColor: '#c8e6c9' };
+        const rowStyle = { backgroundColor: '#D3D3D3' };
         const { value, onUpdate, ...rest } = this.props;
         
         // loop through the columns to remove the empty items
