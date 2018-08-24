@@ -3,6 +3,7 @@ import request from 'request';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Label, Legend, Tooltip, ResponsiveContainer} from 'recharts';
 import ChartForm from './ChartForm';
 import JsonProcessor from './JsonProcessor';
+import Descriptive from './Descriptive';
 
 class Barchart extends Component {
     constructor(props) {
@@ -10,6 +11,7 @@ class Barchart extends Component {
         this.state = {
             ...this.props.properties,
             chartData:[],
+            summaryData:''
         }
     }
 
@@ -45,6 +47,7 @@ class Barchart extends Component {
 
     initializeChart = (values) => {
         //set settings of barchart
+        let self = this;
         let processor = values.processor;
         let datasourceUrl = values.datasourceUrl;
         let dataset = values.dataset;
@@ -64,6 +67,8 @@ class Barchart extends Component {
             data = processor.getAggregatedData(data, xAxis, yAxis, aggregate);
         }
         
+        let summaryData = processor.getDetails(dataset,yAxis);
+
         this.setState({
             initialized:true,
             datasourceUrl: datasourceUrl,
@@ -72,15 +77,25 @@ class Barchart extends Component {
             xAxis: xAxis,
             yAxis: yAxis,
             aggregate: aggregate,
-            chartData: data
+            chartData: data,
+            summary: values.summary,
+            summaryData: summaryData
         })
+
+        console.log(summaryData);
         
+
         let {chartData, ...other} = this.state;
         this.props.updateProperties(other, this.props.i);
+        
+
     }
 
     render() {
-        return this.state.initialized ?
+        return ( 
+            <div style={{height:"100%"}}>
+            {this.state.initialized ?
+
             <ResponsiveContainer className="draggable" width="95%" height="90%">
                 <BarChart style={{width:"100%", height:"calc(100% + 20px)"}} data={this.state.chartData}>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -98,6 +113,11 @@ class Barchart extends Component {
                 </BarChart>
             </ResponsiveContainer>
             :   <ChartForm initializeChart={this.initializeChart}/>
+            }
+            {this.state.summary ? <Descriptive summaryData={this.state.summaryData} ></Descriptive> : ""}
+            {/* summary={this.props.properties.summary} summaryData = {this.state.summaryData} */}
+            </div>
+        );
     }
 }
 

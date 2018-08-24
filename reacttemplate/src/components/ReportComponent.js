@@ -4,6 +4,7 @@ import Barchart from './Barchart';
 import Linechart from './Linechart';
 import Image from './Image';
 import Table from './Table';
+import Descriptive from './Descriptive';
 
 class ReportComponent extends Component {
     render() {

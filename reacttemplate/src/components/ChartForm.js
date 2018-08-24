@@ -14,6 +14,7 @@ let datasets = jsonProcessor.getDatasetNames();
 class ChartForm extends Component {
     render() {
         return (
+            
             <Formik 
                 // initialize values to use in form
                 initialValues={{
@@ -22,12 +23,15 @@ class ChartForm extends Component {
                     datasourceUrl: datasourceUrl,
                     xAxis: jsonProcessor.getOptions(datasets[0])[0], 
                     yAxis: jsonProcessor.getNumericalOptions(datasets[0])[0], 
-                    processor:jsonProcessor
+                    processor:jsonProcessor,
+                    summary:false,
+                    
                 }}
 
                 // pass values to the charts
                 onSubmit={this.props.initializeChart}
 
+               
                 // render form
                 render={formProps=>(
                     <Form name="title" className="draggable" style={{textAlign: "center", zIndex: 100,height:"100%",width:"100%"}}>
@@ -57,6 +61,13 @@ class ChartForm extends Component {
                                 <option key={option}>{option}</option>
                             )}
                         </Field>
+                        <br/><br/>
+                        <span style={{marginRight:10}}>Show Summary Table</span>
+                        <input type="checkbox" name="summary" onChange={function(){
+                            formProps.values.summary = !formProps.values.summary;
+                        }}>
+                            
+                        </input>
                         <br/><br/>
                         <Button type="submit">Submit</Button>
                         {/* <DisplayFormikState {...this.props}/> */}

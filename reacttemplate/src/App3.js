@@ -6,6 +6,7 @@ import ReportComponent from './components/ReportComponent';
 import { Button } from 'react-bootstrap';
 import './bootstrap.css';
 import './report.css';
+import Descriptive from './components/Descriptive'
 
 const api = 'http://localhost:8084/';
 
@@ -54,7 +55,8 @@ class App3 extends Component {
                     dataset: '',
                     title: '',
                     xAxis: '',
-                    yAxis: ''
+                    yAxis: '',
+                    summary:''
                 }
             }
         );
@@ -579,6 +581,9 @@ class App3 extends Component {
                                                     properties={item.properties} i={i}
                                                     updateProperties={this.updateProperties.bind(this)}
                                                 />
+                                                {/* <Descriptive type={item.type} editMode={this.state.editMode}
+                                                    properties={item.properties} i={i}
+                                                    updateProperties={this.updateProperties.bind(this)}></Descriptive> */}
                                             </Rnd>
                                         }
                                     })}
