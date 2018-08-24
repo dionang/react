@@ -12,6 +12,7 @@ const api = 'http://localhost:8084/';
 class App3 extends Component {
     constructor(props) {
         super(props);
+        this.updateProperties.bind(this);
         this.state = {
             components: [[]],
             editMode: false,
@@ -21,7 +22,8 @@ class App3 extends Component {
             // h : 29.7*37.795276,
             templateName: "Template Name",
             sidebar: true,
-            pageNo: 0
+            pageNo: 0,
+            selectedPages: "all"
         }
     }
 
@@ -120,6 +122,10 @@ class App3 extends Component {
         this.setState({ components, editMode: true });
     }
 
+    changePages = (e) => {
+        this.setState({selectedPages: e.target.value});
+    }
+    
     changeSettings(i) {
         let components = this.state.components;
         let pageNo = this.state.pageNo;
@@ -236,11 +242,19 @@ class App3 extends Component {
     }
 
     savePresentation = () => {
-        var pptx = new PptxGenJS();
+        let pptx = new PptxGenJS();
+        
+        //allow this library to be used in browser
         pptx.setBrowser(true);
         
-        for(let pageNo in this.state.components){
-            let components = this.state.components[pageNo];
+        let selectedPages = document.getElementById("selectedPages").value;
+        let pages = selectedPages === "all" ? this.state.components.keys() : selectedPages.split(",").map(function(value){
+            return Number(value) - 1;
+        });
+
+        console.log(this.state.components.keys());
+        for(let page of pages){
+            let components = this.state.components[page];
             let slide = pptx.addNewSlide();
             for(let component of components) {
                 // convert px to inches
@@ -252,8 +266,10 @@ class App3 extends Component {
                 if (component.type === "text") {
                     // remove the p tags
                     let text = component.properties.text.substring(3, component.properties.text.length-4);
-                    // console.log(text);
-                    // let texts = text.split(/\r\n|\n|\r/);
+                    console.log(text);
+                    console.log(typeof(text));
+                    let texts = text.split(/\r\n|\n|\r/);
+                    console.log(texts);
                     // console.log(texts); 
                     slide.addText(text, {x:x, y:y,  w:w, h:h, 
                         fontSize:14, color:'363636'
@@ -498,7 +514,6 @@ class App3 extends Component {
 
 
                                 <div className="col-sm-12 col-xs-12" style={{ paddingTop: 10, paddingBottom: 10, backgroundColor: 'white', borderBottom: '7px solid #EB6B2A' }}>
-                                    
                                     <label> Add Component: </label>
                                     <Button data-toggle="tooltip"   data-placement="bottom" title="Add Textbox" bsStyle="primary"
                                         onClick={this.addTextbox}   style={{ marginRight:5, marginLeft: 6 }}><i className="fa fa-font" /></Button>
@@ -533,6 +548,7 @@ class App3 extends Component {
                                     <Button bsStyle="default" bsSize="small" onClick={this.saveTemplate}
                                         style={{ marginLeft: 10, color:'orange', border:'none' }}> <i className="fa fa-save fa-2x" />
                                     </Button>
+                                    Pages: <input id="selectedPages" value={this.state.selectedPages} onChange={this.changePages}/>
                                 </div>
 
                                 <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', overflow: 'auto', height: "100%", marginTop: -5 }}>
@@ -577,7 +593,7 @@ class App3 extends Component {
                                                 </div>
                                                 <ReportComponent type={item.type} editMode={this.state.editMode}
                                                     properties={item.properties} i={i}
-                                                    updateProperties={this.updateProperties.bind(this)}
+                                                    updateProperties={this.updateProperties}
                                                 />
                                             </Rnd>
                                         }
