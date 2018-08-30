@@ -134,7 +134,7 @@ class App3 extends Component {
                 type: "video", x: 0, y: 0, height: 200, width: 200, display: true,
                 properties: {
                     // using textbox properties for now
-                    text: '',
+                    text: "Paste a video link here",
                 }
             }
         );
@@ -257,11 +257,21 @@ class App3 extends Component {
     }
 
     savePresentation = () => {
-        var pptx = new PptxGenJS();
+        let pptx = new PptxGenJS();
+        
+        // allow this library to be used in browser
         pptx.setBrowser(true);
         
-        for(let pageNo in this.state.components){
-            let components = this.state.components[pageNo];
+        let selectedPages = document.getElementById("selectedPages").value;
+        
+        // remove 1 from every page number so that the index matches
+        let pages = selectedPages === "all" ? this.state.components.keys() : selectedPages.split(",").map(function(value){
+            return Number(value) - 1;
+        });
+
+        console.log(this.state.components.keys());
+        for(let page of pages){
+            let components = this.state.components[page];
             let slide = pptx.addNewSlide();
             for(let component of components) {
                 // convert px to inches
@@ -291,7 +301,6 @@ class App3 extends Component {
                 } else if (component.type === "video") {
                     // remove the p tags
                     let videoUrl = component.properties.text.substring(3, component.properties.text.length-4).trim();
-                    console.log(videoUrl);
                     slide.addMedia({ type:'online', link:videoUrl, x:x, y:y, w:w, h:h });
                 }
             }
