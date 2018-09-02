@@ -594,13 +594,24 @@ class App3 extends Component {
                                                 // intialize components x,y,height and width
                                                 position={{ x: item.x, y: item.y }}
                                                 size={{ width: item.width, height: item.height }}
-
+                                                
                                                 // min height and size
                                                 minHeight={10} minWidth={10}
 
                                                 // to customize the dragging and resizing behavior
+                                                bounds={"parent"}
                                                 cancel={".nonDraggable"}
                                                 dragHandleClassName={this.state.editMode ? "draggable" : "cannotDrag"}
+                                                enableResizing={{
+                                                    bottom: this.state.editMode,
+                                                    bottomLeft: this.state.editMode,
+                                                    bottomRight: this.state.editMode,
+                                                    left: this.state.editMode,
+                                                    right: this.state.editMode,
+                                                    top: this.state.editMode,
+                                                    topLeft: this.state.editMode,
+                                                    topRight: this.state.editMode
+                                                }}
 
                                                 // update height and width onResizeStop
                                                 // onResizeStop will activate a callback function containing these params

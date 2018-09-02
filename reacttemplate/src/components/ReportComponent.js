@@ -33,7 +33,7 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type === "video") {
             return(
-                <Textbox i={this.props.i} text={this.props.properties.text} editMode={false}
+                <Textbox i={this.props.i} text={this.props.properties.text} editMode={this.props.editMode}
                     updateProperties={this.props.updateProperties} />
             );
         }
