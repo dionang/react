@@ -399,11 +399,11 @@ class App5 extends Component {
                 <div className={this.state.sidebar ? "nav-md" : "nav-sm"} id="main">
                     <div className="container body" style={{ margin: 0, padding: 0, width: "100%" }}>
                         <div className="main_container">
-                            <div className="col-md-3 left_col">
-                                <div className="left_col scroll-view">
-                                    <div className="navbar nav_title" style={{ border: 0 }}>
+                            <div className="col-md-3 left_col" style={{backgroundColor:"#211E1E"}}>
+                                <div className="left_col scroll-view"  style={{backgroundColor:"#211E1E"}}>
+                                    <div className="navbar nav_title" style={{ border: 0, backgroundColor:"#211E1E" }}>
                                         <a className="site_title">
-                                            <img src={this.state.sidebar ? "assets/images/logo.png" : "assets/images/logo1_1.png"}
+                                            <img src={"http://www.scube.com.sg/wp-content/uploads/2015/09/SCUBE-BANNER1.png"}
                                                 style={{
                                                     height: this.state.sidebar ? 90 : 80,
                                                     width: this.state.sidebar ? 200 : 50,
@@ -414,19 +414,19 @@ class App5 extends Component {
                                     <div id="sidebar-menu" className="main_menu_side hidden-print main_menu">
                                         <div className="menu_section">
                                             <ul className="nav side-menu" id="options">
-                                                <li><a href="dashboard.jsp"><i className="fa fa-bar-chart"></i>  View Dashboard</a></li>
-                                                <li><a href="createUserAccount.jsp"><i className="fa fa-group"></i>  Create User Account</a></li>
-                                                <li><a href="templateHome.jsp"><i className="fa fa-file-image-o"></i>  Template</a></li>
+                                                <li style={{backgroundColor:"#990000", fontFamily:'INTUITIVE', fontSize:'16px', 'box-shadow': '0px 10px 20px -8px rgba(204,204,0)'}}><a><i className="fa fa-bar-chart"></i>  DASHBOARD </a></li>
+                                                <li><a href="createUserAccount.jsp" style={{fontFamily:'INTUITIVE', fontSize:'16px', }}><i className="fa fa-group"></i>  CREATE USER </a></li>
+                                                <li><a href="templateHome.jsp" style={{fontFamily:'INTUITIVE', fontSize:'16px', }}><i className="fa fa-file-image-o"></i>  TEMPLATE </a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="top_nav" >
-                                <div className="nav_menu">
+                                <div className="nav_menu" style={{backgroundColor:"#211E1E"}}>
                                     <nav>
                                         <div className="nav toggle" onClick={this.toggleSidebar}>
-                                            <a id="menu_toggle"><i className="fa fa-bars"></i></a>
+                                            <a id="menu_toggle"><i className="fa fa-bars" style={{color:"#FAF5F5"}}></i></a>
                                         </div>
                                         <ul className="nav navbar-nav navbar-right">
                                             <li>
@@ -444,78 +444,49 @@ class App5 extends Component {
                                 </div>
                             </div>
 
-                            <div className="right_col" width="100%">
-                                <div className="col-md-6 col-xs-6">
-                                    <DashboardForm/>
-                                </div>
+                            <div className="right_col" width="100%" style={{backgroundColor:"#F3F3F3"}}>
 
                                 {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
                                 {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
                                 {/* <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:130 }} bsStyle="info" onClick={this.saveTemplate}>
                                         <i className="fa fa-save" /> Save Template
                                     </Button> */}
-                                    <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:150 }} bsStyle="success" onClick={this.toggleEditMode}>
+                                    {/* <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:150 }} bsStyle="success" onClick={this.toggleEditMode}>
                                         <i className="fa fa-edit" style={{ marginRight: 2 }} />
                                         {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
-                                    </Button>
+                                    </Button> */}
                                     {/* <Button className="col-md-2 col-xs-2" style={{ float:"right", minWidth:150 }} bsStyle="warning" onClick={this.savePresentation}>
                                         <i className="fa fa-edit" style={{ marginRight: 2 }} /> Export as PPT
                                     </Button> */}
                                 <br />
 
-                                {/* <div id="size" className="modal">
-                                    <div className="modal-content">
-                                        <form onSubmit={this.handleFormSubmit} id="myform" visibility= {this.state.formVisibility}>
-                                            <div className="row">
-                                                <span className="close" onClick={this.closeModal}>&times;</span>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-sm-offset-4 col-sm-3 ">
-                                                    <div className='title'>Please choose your report page size.</div>
-                                                    <div className="radio">
-                                                        <label><input type="radio" name="size" value="A3" checked={this.state.selectedSize === 'A3'} onChange={this.handleSizeChange}  />A3</label>
-                                                    </div>
-                                                    <div className="radio">
-                                                        <label><input type="radio" name="size" value="A4" checked={this.state.selectedSize === 'A4'} onChange={this.handleSizeChange} />A4</label>
-                                                    </div>
-                                                    <div className="radio">
-                                                        <label><input type="radio" name="size" value="A5" checked={this.state.selectedSize === 'A5'} onChange={this.handleSizeChange} />A5</label>
-                                                    </div>
-                                                </div>
+                               <span style={{fontSize:"30px", marginRight:"20px"}}>Create <span style={{fontSize:"50px", backgroundColor:"#F3F3F3", fontWeight:'bold'}}>Dashboard</span> by adding</span>
 
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-sm-offset-4 col-sm-3 ">
-                                                    <div className='title'>Please choose your report layout.</div>
-                                                    <div className="radio">
-                                                        <label><input type="radio" name="layout" value="Portrait" checked={this.state.selectedLayout === 'Portrait'}  onChange={this.handleLayoutChange}  />Portrait</label>
-                                                    </div>
-                                                    <div className="radio">
-                                                        <label><input type="radio" name="layout" value="Landscape" checked={this.state.selectedLayout === 'Landscape'}  onChange={this.handleLayoutChange} />Landscape</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-sm-offset-7 col-sm-2 ">
-                                                    <input type="submit" value="Submit" className="btn btn-info" />
-                                                </div>
-                                            </div>
-                                        </form>
+                                  <button data-toggle="tooltip"   data-placement="bottom" title="Add Bar Chart"
+                                        onClick={this.addBarChart}  style={{ marginRight:5, fontSize:"18px"}}><i className="fa fa-bar-chart" /> Bar Chart</button>
+                                    <button data-toggle="tooltip"   data-placement="bottom" title="Add Line Chart" 
+                                        onClick={this.addLineChart} style={{ marginRight:5, fontSize:"18px" }}><i className="fa fa-line-chart" /> Line Chart </button>
+                                    <button data-toggle="tooltip"   data-placement="bottom" title="Add Table" 
+                                        onClick={this.addTable}     style={{ marginRight:5, fontSize:"18px", }}><i className="fa fa-table" /> Table </button>
+
+
+                                    <div className="col-xs-3 col-md-2" style={{textAlign:"center", 'vertical-align':'middle', float:"right" }} > 
+                                        <label style={{margin: '0px',fontFamily:'Georgia', fontSize:"16px",  marginTop:"5px", height:'100%', width:"30px", backgroundColor:'	brown',width:"100%", color:'white', borderTopLeftRadius:"10px",borderTopRightRadius:"10px" }}>Number of Generated Reports</label>
+                                        <label style={{ margin:"0px", fontSize:"40px", width: '100%',border:"1px solid grey", }}>100</label>
                                     </div>
-                                // </div> */}
+                                    <div className="col-xs-3 col-md-2" style={{textAlign:"center", verticalAlign:"middle", float:"right" }}> 
+                                        <label style={{margin: '0px',fontFamily:'Georgia', fontSize:"16px", marginTop:"5px", height:'100%',backgroundColor:'	brown',width:"100%", color:'white',borderTopLeftRadius:"10px",borderTopRightRadius:"10px"}}>Number of Reports Printed</label>
+                                        <br/><label style={{ margin: '0px',fontSize:"40px",  width: '100%', border:"1px solid grey", }}>100</label>
+                                    </div>
 
 
-                                <div className="col-sm-12 col-xs-12" style={{ paddingTop: 10, paddingBottom: 10, backgroundColor: 'white', borderBottom: '3px solid #EB6B2A' }}>
+
+                                <div className="col-sm-12 col-xs-12" style={{  borderBottom: '3px solid maroon' }}>
 
                                     {/* <label> Add Component: </label> */}
                                     {/* <Button data-toggle="tooltip"   data-placement="bottom" title="Add Textbox" bsStyle="primary"
                                         onClick={this.addTextbox}   style={{ marginRight:5, marginLeft: 6 }}><i className="fa fa-font" /></Button> */}
-                                    <Button data-toggle="tooltip"   data-placement="bottom" title="Add Bar Chart" bsStyle="warning"
-                                        onClick={this.addBarChart}  style={{ marginRight:5 }}><i className="fa fa-bar-chart" /></Button>
-                                    <Button data-toggle="tooltip"   data-placement="bottom" title="Add Line Chart" bsStyle="success"
-                                        onClick={this.addLineChart} style={{ marginRight:5 }}><i className="fa fa-line-chart" /></Button>
-                                    <Button data-toggle="tooltip"   data-placement="bottom" title="Add Table" bsStyle="danger"
-                                        onClick={this.addTable}     style={{ marginRight:5 }}><i className="fa fa-table" /> </Button>
+                                  
                                     {/* <Button data-toggle="tooltip"   data-placement="bottom" title="Add Image"
                                         onClick={this.addImage}     style={{ backgroundColor:"#31B0D5", color:"white", border:"1px solid #31B0D5", marginRight:5 }}><i className="fa fa-image" /></Button>
                                     <Button data-toggle="tooltip"   data-placement="bottom" title="Add Video"
@@ -544,29 +515,12 @@ class App5 extends Component {
                                 </div>
 
                                 {/* this is for the figures on top */}
-                                <div style={{marginTop:"40px"}} >
-                                    <div className="col-xs-3 col-md-3" style={{textAlign:"center", 'vertical-align':'middle', }} > 
-                                        <label style={{fontFamily:'Georgia', fontSize:"16px",  marginTop:"5px", height:'100%', backgroundColor:'gold',width:"100%", }}>Total No. Users</label>
-                                        <label style={{ fontSize:"50px", width: '100%', backgroundColor:'#FDFFA4',}}>100</label>
-                                    </div>
-                                    <div className="col-xs-3 col-md-3" style={{textAlign:"center", verticalAlign:"middle" }}> 
-                                        <label style={{fontFamily:'Georgia', fontSize:"16px", marginTop:"5px", height:'100%',backgroundColor:'limegreen',width:"100%"}}>Peak Hour</label>
-                                        <br/><label style={{ fontSize:"50px",  width: '100%', backgroundColor:'#E1FFF3' }}>100</label>
-                                    </div>
-                                    <div className="col-xs-3 col-md-3" style={{textAlign:"center", verticalAlign:"middle"}}> 
-                                        <label style={{fontFamily:'Georgia', fontSize:"16px", marginTop:"5px",  height:'100%', backgroundColor:'lightseagreen',width:"100%"}}>Most liked Product</label>
-                                        <br/><label style={{fontSize:"50px", width: '100%', backgroundColor:'#E7EAFD'}}>100</label>
-                                    </div>
-                                    <div className="col-xs-3 col-md-3" style={{textAlign:"center",verticalAlign:"middle" }}> 
-                                        <label style={{fontFamily:'Georgia', fontSize:"16px", marginTop:"5px", height:'100%', backgroundColor:'deeppink',width:"100%"}}>Most liked Product</label>
-                                        <br/><label style={{fontSize:"50px", width: '100%',backgroundColor:'#FDE7F9' }}>100</label>
-                                    </div>
-                                    
-                                </div>
+
 
 
                                 <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', height: "calc(100% + 100px)", marginTop: 15, }}>
                                     {/* map does a for loop over all the components in the state */}
+
 
                                     {this.state.components[this.state.pageNo].map((item, i) => {
                                         if (item.display) {
