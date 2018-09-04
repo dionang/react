@@ -61,7 +61,8 @@ class App5 extends Component {
                     title: '',
                     xAxis: '',
                     yAxis: '',
-                    summary: ''
+                    summary: '',
+                    facetype:true
                 }
             }
         );
@@ -81,7 +82,8 @@ class App5 extends Component {
                     dataset: '',
                     title: '',
                     xAxis: '',
-                    yAxis: ''
+                    yAxis: '',
+                    facetype:true
                 }
             }
         );
@@ -474,7 +476,7 @@ class App5 extends Component {
                                     </Button> */}
                                 <br />
 
-                               <span style={{fontSize:"30px", marginRight:"20px"}}>Create <span style={{fontSize:"50px", backgroundColor:"#F3F3F3", fontWeight:'bold'}}>Dashboard</span> by adding</span>
+                               <span style={{fontFamily:"INTUITIVE",fontSize:"20px", marginRight:"20px"}}>Create <span style={{fontSize:"50px", backgroundColor:"#F3F3F3", fontWeight:'bold'}}>Dashboard</span> by adding</span>
                                 <br/>
                                   <button data-toggle="tooltip"   data-placement="bottom" title="Add Bar Chart"
                                         onClick={this.addBarChart}  style={{ marginRight:5, fontSize:"18px"}}><i className="fa fa-bar-chart" /> Bar Chart</button>
@@ -527,13 +529,13 @@ class App5 extends Component {
 
                                     {this.state.components[this.state.pageNo].map((item, i) => {
                                         if (item.display) {
-                                            return <Rnd key={this.state.pageNo + "," + i}
+                                            return <div key={this.state.pageNo + "," + i}
                                                 style={{
-                                                    borderStyle: this.state.editMode ? "dotted" : "hidden",
+                                                    borderStyle: "solid",
                                                     borderWidth: 2,
                                                     backgroundColor: "white",
-                                                    borderColor: 'grey'
-
+                                                    borderColor: 'grey',
+                                                    width:"600px"
                                                 }}
 
                                                 // intialize components x,y,height and width
@@ -558,9 +560,9 @@ class App5 extends Component {
                                                 onDragStop={(event, ref) => this.onDragStop(ref, i)}
                                             >
                                                 <div style={{ height: 27.5, float: "right" }}>
-                                                    <i style={{ marginTop: 10, marginRight: 6, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
+                                                    <i style={{ zIndex: 99, marginTop: 10, marginRight: 6, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
                                                         onClick={() => this.changeSettings(i)}></i>
-                                                    <i style={{ marginTop: 10, marginRight: 10, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-times"
+                                                    <i style={{  zIndex: 99, marginTop: 10, marginRight: 10, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-times"
                                                         onClick={() => this.deleteComponent(i)}></i>
                                                 </div>
                                                 <ReportComponent type={item.type} editMode={this.state.editMode}
@@ -570,7 +572,7 @@ class App5 extends Component {
                                                 {/* <Descriptive type={item.type} editMode={this.state.editMode}
                                                     properties={item.properties} i={i}
                                             updateProperties={this.updateProperties.bind(this)}></Descriptive>*/}
-                                            </Rnd> 
+                                            </div> 
                                              }
                                             })}
                                         

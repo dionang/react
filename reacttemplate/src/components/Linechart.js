@@ -91,20 +91,40 @@ class Linechart extends Component {
                 {this.state.initialized ?
                     <div style={{ height: "calc(70.5% + 1px)" }}>
                         <p style={{ fontFamily: 'Georgia', textAlign: "center", fontSize: 20, }}> {this.state.title} </p>
-                        <ResponsiveContainer className="draggable" width="95%" height="90%">
-                            <LineChart width={730} height={250}  margin={{ top: 1,right: 30, left: 20, bottom: 30 }} data={this.state.chartData}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey={this.state.xAxis}>
-                                    <Label value={this.state.xAxis}offset={-5} position="insideBottom" />
-                                </XAxis>
-                                <YAxis dataKey={this.state.yAxis}>
-                                    <Label value={this.state.yAxis} offset={-10} position="insideLeft" angle={-90} />
-                                </YAxis>
-                                <Tooltip />
-                                <Legend verticalAlign="top" height={20} />
-                                <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
-                            </LineChart>
-                        </ResponsiveContainer></div>
+
+
+                        {this.state.facetype?
+                        <LineChart width={600} height={250}  margin={{ top: 1,right: 30, left: 20, bottom: 30 }} data={this.state.chartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey={this.state.xAxis}>
+                            <Label value={this.state.xAxis}offset={-5} position="insideBottom" />
+                        </XAxis>
+                        <YAxis dataKey={this.state.yAxis}>
+                            <Label value={this.state.yAxis} offset={-10} position="insideLeft" angle={-90} />
+                        </YAxis>
+                        <Tooltip />
+                        <Legend verticalAlign="top" height={20} />
+                        <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
+                    </LineChart>
+                    :
+                    <ResponsiveContainer className="draggable" width="95%" height="90%">
+                    <LineChart width={730} height={250}  margin={{ top: 1,right: 30, left: 20, bottom: 30 }} data={this.state.chartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey={this.state.xAxis}>
+                            <Label value={this.state.xAxis}offset={-5} position="insideBottom" />
+                        </XAxis>
+                        <YAxis dataKey={this.state.yAxis}>
+                            <Label value={this.state.yAxis} offset={-10} position="insideLeft" angle={-90} />
+                        </YAxis>
+                        <Tooltip />
+                        <Legend verticalAlign="top" height={20} />
+                        <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
+                    </LineChart>
+                </ResponsiveContainer>
+                    
+                    }
+
+                       </div>
 
                     : <ChartForm initializeChart={this.initializeChart} />
                 }
