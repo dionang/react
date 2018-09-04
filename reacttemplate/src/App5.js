@@ -444,7 +444,21 @@ class App5 extends Component {
                                 </div>
                             </div>
 
+                            
+
                             <div className="right_col" width="100%" style={{backgroundColor:"#F3F3F3"}}>
+                            
+                            <div className="col-xs-3 col-md-2" style={{textAlign:"center", 'vertical-align':'middle', float:"right" }} > 
+                                        <label style={{margin: '0px',fontFamily:'Georgia', fontSize:"16px",  marginTop:"5px", height:'100%', width:"30px", backgroundColor:'	brown',width:"100%", color:'white', borderTopLeftRadius:"10px",borderTopRightRadius:"10px" }}>Number of Generated Reports</label>
+                                        <label style={{ margin:"0px", fontSize:"40px", width: '100%',border:"1px solid grey", }}>100</label>
+                                    </div>
+                                    <div className="col-xs-3 col-md-2" style={{textAlign:"center", verticalAlign:"middle", float:"right" }}> 
+                                        <label style={{margin: '0px',fontFamily:'Georgia', fontSize:"16px", marginTop:"5px", height:'100%',backgroundColor:'	brown',width:"100%", color:'white',borderTopLeftRadius:"10px",borderTopRightRadius:"10px"}}>Number of Reports Printed</label>
+                                        <br/><label style={{ margin: '0px',fontSize:"40px",  width: '100%', border:"1px solid grey", }}>100</label>
+                            </div>
+
+
+
 
                                 {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
                                 {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
@@ -461,24 +475,13 @@ class App5 extends Component {
                                 <br />
 
                                <span style={{fontSize:"30px", marginRight:"20px"}}>Create <span style={{fontSize:"50px", backgroundColor:"#F3F3F3", fontWeight:'bold'}}>Dashboard</span> by adding</span>
-
+                                <br/>
                                   <button data-toggle="tooltip"   data-placement="bottom" title="Add Bar Chart"
                                         onClick={this.addBarChart}  style={{ marginRight:5, fontSize:"18px"}}><i className="fa fa-bar-chart" /> Bar Chart</button>
                                     <button data-toggle="tooltip"   data-placement="bottom" title="Add Line Chart" 
                                         onClick={this.addLineChart} style={{ marginRight:5, fontSize:"18px" }}><i className="fa fa-line-chart" /> Line Chart </button>
                                     <button data-toggle="tooltip"   data-placement="bottom" title="Add Table" 
                                         onClick={this.addTable}     style={{ marginRight:5, fontSize:"18px", }}><i className="fa fa-table" /> Table </button>
-
-
-                                    <div className="col-xs-3 col-md-2" style={{textAlign:"center", 'vertical-align':'middle', float:"right" }} > 
-                                        <label style={{margin: '0px',fontFamily:'Georgia', fontSize:"16px",  marginTop:"5px", height:'100%', width:"30px", backgroundColor:'	brown',width:"100%", color:'white', borderTopLeftRadius:"10px",borderTopRightRadius:"10px" }}>Number of Generated Reports</label>
-                                        <label style={{ margin:"0px", fontSize:"40px", width: '100%',border:"1px solid grey", }}>100</label>
-                                    </div>
-                                    <div className="col-xs-3 col-md-2" style={{textAlign:"center", verticalAlign:"middle", float:"right" }}> 
-                                        <label style={{margin: '0px',fontFamily:'Georgia', fontSize:"16px", marginTop:"5px", height:'100%',backgroundColor:'	brown',width:"100%", color:'white',borderTopLeftRadius:"10px",borderTopRightRadius:"10px"}}>Number of Reports Printed</label>
-                                        <br/><label style={{ margin: '0px',fontSize:"40px",  width: '100%', border:"1px solid grey", }}>100</label>
-                                    </div>
-
 
 
                                 <div className="col-sm-12 col-xs-12" style={{  borderBottom: '3px solid maroon' }}>

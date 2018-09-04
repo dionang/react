@@ -54,7 +54,7 @@ class Descriptive extends Component {
                 
 
             });
-        } else {
+        } else if(e==="Max"){
             columns.push({
                 dataField: 'Max',
                 text:  
@@ -62,6 +62,12 @@ class Descriptive extends Component {
                 
 
             });
+        } else if(e==="Variance"){
+            columns.push({
+                dataField:"Variance",
+                text:
+                <div>Variance<i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
+            })
         }
 
         this.setState({ columns,order });
@@ -93,6 +99,9 @@ class Descriptive extends Component {
           },{
             dataField: 'Median',
             text: 'Median'
+          },{
+              dataField:"Variance",
+              text:"Variance"
           }];
 
 
@@ -102,6 +111,7 @@ class Descriptive extends Component {
             Average: this.props.summaryData.average,
             Min: this.props.summaryData.min,
             Max:this.props.summaryData.max,
+            Variance:this.props.summaryData.variance,
         }];
 
         const rowStyle = { backgroundColor: '#D3D3D3' };

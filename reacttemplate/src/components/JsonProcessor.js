@@ -189,6 +189,7 @@ JsonProcessor.prototype.getAggregatedData = function(data, xAxis, yAxis, operati
         let obj = {};
         obj[xAxis] = category;
         if (operation === "sum"){
+            console.log("sum");
             obj[yAxis] = values.reduce((prev, curr) => prev + curr);
         } else if (operation === "avg"){
             obj[yAxis] = values.reduce((prev, curr) => prev + curr) / values.length;
@@ -205,6 +206,12 @@ JsonProcessor.prototype.getAggregatedData = function(data, xAxis, yAxis, operati
             } else {
                 obj[yAxis] = (values[half-1] + values[half]) / 2;
             }
+        } else if(operation==="variance"){
+            console.log("variance");
+            console.log("variance");
+            let avg = values.reduce((prev, curr) => prev + curr) / values.length;
+            console.log(avg);
+            obj[yAxis] = values.reduce((prev,curr)=>(prev-avg)*(prev-avg)+(curr-avg)*(curr-avg))
         }
         newData.push(obj);
     }

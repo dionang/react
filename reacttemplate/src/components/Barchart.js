@@ -53,6 +53,7 @@ class Barchart extends Component {
         let datasourceUrl = values.datasourceUrl;
         let dataset = values.dataset;
         let data = processor.getDataset(dataset);
+    
 
         let title = values.title;
         let xAxis = values.xAxis;
@@ -69,6 +70,7 @@ class Barchart extends Component {
         }
         
         let summaryData = processor.getDetails(dataset,yAxis);
+        console.log(summaryData);
 
         this.setState({
             initialized:true,
