@@ -27,7 +27,9 @@ class App5 extends Component {
             // h : 29.7*37.795276,
             templateName: "Template Name",
             sidebar: true,
-            pageNo: 0
+            pageNo: 0,
+            halfWidth: window.innerWidth*0.4,
+            halfHeight: window.innerHeight*0.5
         }
     }
 
@@ -62,7 +64,7 @@ class App5 extends Component {
                     xAxis: '',
                     yAxis: '',
                     summary: '',
-                    facetype:true
+                    facetype: true
                 }
             }
         );
@@ -83,7 +85,7 @@ class App5 extends Component {
                     title: '',
                     xAxis: '',
                     yAxis: '',
-                    facetype:true
+                    facetype: true
                 }
             }
         );
@@ -401,9 +403,9 @@ class App5 extends Component {
                 <div className={this.state.sidebar ? "nav-md" : "nav-sm"} id="main">
                     <div className="container body" style={{ margin: 0, padding: 0, width: "100%" }}>
                         <div className="main_container">
-                            <div className="col-md-3 left_col" style={{backgroundColor:"#211E1E"}}>
-                                <div className="left_col scroll-view"  style={{backgroundColor:"#211E1E"}}>
-                                    <div className="navbar nav_title" style={{ border: 0, backgroundColor:"#211E1E" }}>
+                            <div className="col-md-3 left_col" style={{ backgroundColor: "#211E1E" }}>
+                                <div className="left_col scroll-view" style={{ backgroundColor: "#211E1E" }}>
+                                    <div className="navbar nav_title" style={{ border: 0, backgroundColor: "#211E1E" }}>
                                         <a className="site_title">
                                             <img src={"http://www.scube.com.sg/wp-content/uploads/2015/09/SCUBE-BANNER1.png"}
                                                 style={{
@@ -416,19 +418,19 @@ class App5 extends Component {
                                     <div id="sidebar-menu" className="main_menu_side hidden-print main_menu">
                                         <div className="menu_section">
                                             <ul className="nav side-menu" id="options">
-                                                <li style={{backgroundColor:"#990000", fontFamily:'INTUITIVE', fontSize:'16px', 'box-shadow': '0px 10px 20px -8px rgba(204,204,0)'}}><a><i className="fa fa-bar-chart"></i>  DASHBOARD </a></li>
-                                                <li><a href="createUserAccount.jsp" style={{fontFamily:'INTUITIVE', fontSize:'16px', }}><i className="fa fa-group"></i>  CREATE USER </a></li>
-                                                <li><a href="templateHome.jsp" style={{fontFamily:'INTUITIVE', fontSize:'16px', }}><i className="fa fa-file-image-o"></i>  TEMPLATE </a></li>
+                                                <li style={{ backgroundColor: "#990000", fontFamily: 'INTUITIVE', fontSize: '16px', 'box-shadow': '0px 10px 20px -8px rgba(204,204,0)' }}><a><i className="fa fa-bar-chart"></i>  DASHBOARD </a></li>
+                                                <li><a href="createUserAccount.jsp" style={{ fontFamily: 'INTUITIVE', fontSize: '16px', }}><i className="fa fa-group"></i>  CREATE USER </a></li>
+                                                <li><a href="templateHome.jsp" style={{ fontFamily: 'INTUITIVE', fontSize: '16px', }}><i className="fa fa-file-image-o"></i>  TEMPLATE </a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="top_nav" >
-                                <div className="nav_menu" style={{backgroundColor:"#211E1E"}}>
+                                <div className="nav_menu" style={{ backgroundColor: "#211E1E" }}>
                                     <nav>
                                         <div className="nav toggle" onClick={this.toggleSidebar}>
-                                            <a id="menu_toggle"><i className="fa fa-bars" style={{color:"#FAF5F5"}}></i></a>
+                                            <a id="menu_toggle"><i className="fa fa-bars" style={{ color: "#FAF5F5" }}></i></a>
                                         </div>
                                         <ul className="nav navbar-nav navbar-right">
                                             <li>
@@ -446,18 +448,18 @@ class App5 extends Component {
                                 </div>
                             </div>
 
-                            
 
-                            <div className="right_col" width="100%" style={{backgroundColor:"#F3F3F3"}}>
-                            
-                            <div className="col-xs-3 col-md-2" style={{textAlign:"center", 'vertical-align':'middle', float:"right" }} > 
-                                        <label style={{margin: '0px',fontFamily:'Georgia', fontSize:"16px",  marginTop:"5px", height:'100%', width:"30px", backgroundColor:'	brown',width:"100%", color:'white', borderTopLeftRadius:"10px",borderTopRightRadius:"10px" }}>Number of Generated Reports</label>
-                                        <label style={{ margin:"0px", fontSize:"40px", width: '100%',border:"1px solid grey", }}>100</label>
-                                    </div>
-                                    <div className="col-xs-3 col-md-2" style={{textAlign:"center", verticalAlign:"middle", float:"right" }}> 
-                                        <label style={{margin: '0px',fontFamily:'Georgia', fontSize:"16px", marginTop:"5px", height:'100%',backgroundColor:'	brown',width:"100%", color:'white',borderTopLeftRadius:"10px",borderTopRightRadius:"10px"}}>Number of Reports Printed</label>
-                                        <br/><label style={{ margin: '0px',fontSize:"40px",  width: '100%', border:"1px solid grey", }}>100</label>
-                            </div>
+
+                            <div className="right_col" width="100%" style={{ backgroundColor: "#F3F3F3", overflow:"hidden" }}>
+
+                                <div className="col-xs-3 col-md-2" style={{ textAlign: "center", 'vertical-align': 'middle', float: "right" }} >
+                                    <label style={{ margin: '0px', fontFamily: 'Georgia', fontSize: "16px", marginTop: "5px", height: '100%', width: "30px", backgroundColor: '	brown', width: "100%", color: 'white', borderTopLeftRadius: "10px", borderTopRightRadius: "10px" }}>Number of Generated Reports</label>
+                                    <label style={{ margin: "0px", fontSize: "40px", width: '100%', border: "1px solid grey", }}>100</label>
+                                </div>
+                                <div className="col-xs-3 col-md-2" style={{ textAlign: "center", verticalAlign: "middle", float: "right" }}>
+                                    <label style={{ margin: '0px', fontFamily: 'Georgia', fontSize: "16px", marginTop: "5px", height: '100%', backgroundColor: '	brown', width: "100%", color: 'white', borderTopLeftRadius: "10px", borderTopRightRadius: "10px" }}>Number of Reports Printed</label>
+                                    <br /><label style={{ margin: '0px', fontSize: "40px", width: '100%', border: "1px solid grey", }}>100</label>
+                                </div>
 
 
 
@@ -467,31 +469,31 @@ class App5 extends Component {
                                 {/* <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:130 }} bsStyle="info" onClick={this.saveTemplate}>
                                         <i className="fa fa-save" /> Save Template
                                     </Button> */}
-                                    {/* <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:150 }} bsStyle="success" onClick={this.toggleEditMode}>
+                                {/* <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:150 }} bsStyle="success" onClick={this.toggleEditMode}>
                                         <i className="fa fa-edit" style={{ marginRight: 2 }} />
                                         {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
                                     </Button> */}
-                                    {/* <Button className="col-md-2 col-xs-2" style={{ float:"right", minWidth:150 }} bsStyle="warning" onClick={this.savePresentation}>
+                                {/* <Button className="col-md-2 col-xs-2" style={{ float:"right", minWidth:150 }} bsStyle="warning" onClick={this.savePresentation}>
                                         <i className="fa fa-edit" style={{ marginRight: 2 }} /> Export as PPT
                                     </Button> */}
                                 <br />
 
-                               <span style={{fontFamily:"INTUITIVE",fontSize:"20px", marginRight:"20px"}}>Create <span style={{fontSize:"50px", backgroundColor:"#F3F3F3", fontWeight:'bold'}}>Dashboard</span> by adding</span>
-                                <br/>
-                                  <button data-toggle="tooltip"   data-placement="bottom" title="Add Bar Chart"
-                                        onClick={this.addBarChart}  style={{ marginRight:5, fontSize:"18px"}}><i className="fa fa-bar-chart" /> Bar Chart</button>
-                                    <button data-toggle="tooltip"   data-placement="bottom" title="Add Line Chart" 
-                                        onClick={this.addLineChart} style={{ marginRight:5, fontSize:"18px" }}><i className="fa fa-line-chart" /> Line Chart </button>
-                                    <button data-toggle="tooltip"   data-placement="bottom" title="Add Table" 
-                                        onClick={this.addTable}     style={{ marginRight:5, fontSize:"18px", }}><i className="fa fa-table" /> Table </button>
+                                <span style={{ fontFamily: "INTUITIVE", fontSize: "20px", marginRight: "20px" }}>Create <span style={{ fontSize: "50px", backgroundColor: "#F3F3F3", fontWeight: 'bold' }}>Dashboard</span> by adding</span>
+                                <br />
+                                <button data-toggle="tooltip" data-placement="bottom" title="Add Bar Chart"
+                                    onClick={this.addBarChart} style={{ marginRight: 5, fontSize: "18px" }}><i className="fa fa-bar-chart" /> Bar Chart</button>
+                                <button data-toggle="tooltip" data-placement="bottom" title="Add Line Chart"
+                                    onClick={this.addLineChart} style={{ marginRight: 5, fontSize: "18px" }}><i className="fa fa-line-chart" /> Line Chart </button>
+                                <button data-toggle="tooltip" data-placement="bottom" title="Add Table"
+                                    onClick={this.addTable} style={{ marginRight: 5, fontSize: "18px", }}><i className="fa fa-table" /> Table </button>
 
 
-                                <div className="col-sm-12 col-xs-12" style={{  borderBottom: '3px solid maroon' }}>
+                                <div className="col-sm-12 col-xs-12" style={{ borderBottom: '3px solid maroon' }}>
 
                                     {/* <label> Add Component: </label> */}
                                     {/* <Button data-toggle="tooltip"   data-placement="bottom" title="Add Textbox" bsStyle="primary"
                                         onClick={this.addTextbox}   style={{ marginRight:5, marginLeft: 6 }}><i className="fa fa-font" /></Button> */}
-                                  
+
                                     {/* <Button data-toggle="tooltip"   data-placement="bottom" title="Add Image"
                                         onClick={this.addImage}     style={{ backgroundColor:"#31B0D5", color:"white", border:"1px solid #31B0D5", marginRight:5 }}><i className="fa fa-image" /></Button>
                                     <Button data-toggle="tooltip"   data-placement="bottom" title="Add Video"
@@ -523,19 +525,25 @@ class App5 extends Component {
 
 
 
-                                <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', height: "calc(100% + 100px)", marginTop: 15, }}>
+                                <div id="container" ref={this.myInput} className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', height: "calc(100% + 100px)", marginTop: 15, display: "block" , overflow:"scroll"}}>
                                     {/* map does a for loop over all the components in the state */}
 
+                                    
 
                                     {this.state.components[this.state.pageNo].map((item, i) => {
+
+                                        
                                         if (item.display) {
                                             return <div key={this.state.pageNo + "," + i}
+
                                                 style={{
-                                                    borderStyle: "solid",
-                                                    borderWidth: 2,
+                                                    borderStyle:"none",
+                                                    borderWidth: 0.5,
                                                     backgroundColor: "white",
                                                     borderColor: 'grey',
-                                                    width:"600px"
+                                                    width: this.state.halfWidth,
+                                                    height: this.state.halfHeight,
+                                                    display: "inline-block"
                                                 }}
 
                                                 // intialize components x,y,height and width
@@ -562,20 +570,21 @@ class App5 extends Component {
                                                 <div style={{ height: 27.5, float: "right" }}>
                                                     <i style={{ zIndex: 99, marginTop: 10, marginRight: 6, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-wrench"
                                                         onClick={() => this.changeSettings(i)}></i>
-                                                    <i style={{  zIndex: 99, marginTop: 10, marginRight: 10, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-times"
+                                                    <i style={{ zIndex: 99, marginTop: 10, marginRight: 10, visibility: this.state.editMode ? "" : "hidden" }} className="fa fa-times"
                                                         onClick={() => this.deleteComponent(i)}></i>
                                                 </div>
                                                 <ReportComponent type={item.type} editMode={this.state.editMode}
                                                     properties={item.properties} i={i}
                                                     updateProperties={this.updateProperties.bind(this)}
+
                                                 />
                                                 {/* <Descriptive type={item.type} editMode={this.state.editMode}
                                                     properties={item.properties} i={i}
                                             updateProperties={this.updateProperties.bind(this)}></Descriptive>*/}
-                                            </div> 
-                                             }
-                                            })}
-                                        
+                                            </div>
+                                        }
+                                    })}
+
                                 </div>
                             </div>
                         </div>

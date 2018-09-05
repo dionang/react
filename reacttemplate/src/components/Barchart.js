@@ -105,7 +105,7 @@ class Barchart extends Component {
                         {this.state.facetype ?
                             <div>
 
-                                <BarChart data={this.state.chartData} width={600} height={250} margin={{ top: 10, right: 30, left: 20, bottom: 30 }}>
+                                <BarChart data={this.state.chartData} width={700} height={250} margin={{ top: 10, right: 30, left: 20, bottom: 30 }}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey={this.state.xAxis}>
                                         <Label value={this.state.xAxis} offset={-5} position="insideBottom" />
