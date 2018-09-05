@@ -514,7 +514,7 @@ class App3 extends Component {
                                     <Button data-toggle="tooltip"   data-placement="bottom" title="Add Video"
                                         onClick={this.addVideo}     style={{ backgroundColor:"#D896FF", color:"white", border:"1px solid #D896FF", marginRight:160 }}><i className="fa fa-play-circle" /></Button>
 
-                                    <span style={{fontFamily:'Georgia', fontSize:18}}>Page Number</span>
+                                    <span style={{fontFamily:'Georgia', fontSize:18, textAlign:"center"}}>Page Number
                                     <Button data-toggle="tooltip" data-placement="bottom" title = "Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
                                         style={{ marginRight: 10, marginLeft: 10}}>
                                         <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
@@ -534,9 +534,12 @@ class App3 extends Component {
                                     <Button bsStyle="default" bsSize="small" onClick={this.saveTemplate}
                                         style={{ marginLeft: 10, color:'orange', border:'none' }}> <i className="fa fa-save fa-2x" />
                                     </Button>
+                                    </span>
                                 </div>
-
-                                <div id="container" className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white',  height:"calc(100% + 100px)", marginTop: -5 }}>
+                                
+                                <div  className="col-sm-12 col-xs-12" style={{background:"#EEEEEE"}}>
+                                <div id="container"  style={{ border: "0.5px solid gray", backgroundColor: 'white',  height:window.innerHeight*0.70, marginTop: window.innerHeight*0.04, marginBottom:window.innerHeight*0.04, 
+                            marginRight: window.innerHeight*0.02, marginLeft: window.innerHeight*0.02, }}>
                                     {/* map does a for loop over all the components in the state */}
 
                                     {this.state.components[this.state.pageNo].map((item, i) => {
@@ -588,6 +591,7 @@ class App3 extends Component {
                                         }
                                     })}
                                     
+                                </div>
                                 </div>
                             </div>
                         </div>
