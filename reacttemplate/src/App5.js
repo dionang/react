@@ -29,7 +29,7 @@ class App5 extends Component {
             sidebar: true,
             pageNo: 0,
             halfWidth: window.innerWidth*0.4,
-            halfHeight: window.innerHeight*0.5
+            halfHeight: window.innerHeight*0.7
         }
     }
 
@@ -525,7 +525,7 @@ class App5 extends Component {
 
 
 
-                                <div id="container" ref={this.myInput} className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', height: "calc(100% + 100px)", marginTop: 15, display: "block" , overflow:"scroll"}}>
+                                <div id="container" ref={this.myInput} className="col-sm-12 col-xs-12" style={{ backgroundColor: 'white', height: "calc(100% + 100px)", marginTop: 15, display: "block" , overflow:"scroll", marginLeft:"10px", maxHeight:this.state.halfHeight}}>
                                     {/* map does a for loop over all the components in the state */}
 
                                     
@@ -542,8 +542,9 @@ class App5 extends Component {
                                                     backgroundColor: "white",
                                                     borderColor: 'grey',
                                                     width: this.state.halfWidth,
-                                                    height: this.state.halfHeight,
-                                                    display: "inline-block"
+                                                    // height: this.state.halfHeight,
+                                                    display: "inline-block",
+                                                    marginLeft:"10px"
                                                 }}
 
                                                 // intialize components x,y,height and width
@@ -578,6 +579,7 @@ class App5 extends Component {
                                                     updateProperties={this.updateProperties.bind(this)}
 
                                                 />
+                                               
                                                 {/* <Descriptive type={item.type} editMode={this.state.editMode}
                                                     properties={item.properties} i={i}
                                             updateProperties={this.updateProperties.bind(this)}></Descriptive>*/}
