@@ -514,6 +514,8 @@ class App3 extends Component {
                                     <Button data-toggle="tooltip"   data-placement="bottom" title="Add Video"
                                         onClick={this.addVideo}     style={{ backgroundColor:"#D896FF", color:"white", border:"1px solid #D896FF", marginRight:160 }}><i className="fa fa-play-circle" /></Button>
 
+                                       
+
                                     <span style={{fontFamily:'Georgia', fontSize:18, textAlign:"center"}}>Page Number
                                     <Button data-toggle="tooltip" data-placement="bottom" title = "Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
                                         style={{ marginRight: 10, marginLeft: 10}}>
@@ -549,7 +551,8 @@ class App3 extends Component {
                                                     borderStyle: this.state.editMode ? "dotted" : "hidden",
                                                     borderWidth: 2,
                                                     backgroundColor: "white",
-                                                    borderColor: 'grey'
+                                                    borderColor: 'grey',
+                                                    height:"1000px"
                                                     
                                                 }}
 

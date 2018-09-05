@@ -97,15 +97,15 @@ class Barchart extends Component {
 
 
         return (
-            <div className="draggable" style={{ height: "100% " }}>
+            <div className="draggable" style={{ height: "100%" }}>
                 {this.state.initialized ?
-                    <div style={{ height: "calc(62.5% + 1px)" }}>
+                    <div style={{ height: "calc(62.5% + 100px)" }}>
                         <p style={{ fontFamily: 'Georgia', textAlign: "center", fontSize: 20, }}> {this.state.title} </p>
 
                         {this.state.facetype ?
                             <div>
 
-                                <BarChart data={this.state.chartData} width={700} height={250} margin={{ top: 10, right: 30, left: 20, bottom: 30 }}>
+                                <BarChart data={this.state.chartData} width={650} height={250} margin={{ top: 10, right: 30, left: 20, bottom: 30 }}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey={this.state.xAxis}>
                                         <Label value={this.state.xAxis} offset={-5} position="insideBottom" />
@@ -124,9 +124,9 @@ class Barchart extends Component {
                             </div>
                             :
                             <div>
-                                <ResponsiveContainer >
+                                <ResponsiveContainer style={{height:"100%"}}>
                                     <BarChart data={this.state.chartData} width={730} height={250} margin={{ top: 1, right: 30, left: 20, bottom: 30 }}>
-                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <CartesianGrid strokeDa1sharray="3 3" />
                                         <XAxis dataKey={this.state.xAxis}>
                                             <Label value={this.state.xAxis} offset={-5} position="insideBottom" />
                                         </XAxis>
