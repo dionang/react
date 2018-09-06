@@ -542,6 +542,7 @@ class App3 extends Component {
                                 <div  className="col-sm-12 col-xs-12" style={{background:"#EEEEEE"}}>
                                 <div id="container"  style={{ border: "0.5px solid gray", backgroundColor: 'white',  height:window.innerHeight*0.70, marginTop: window.innerHeight*0.04, marginBottom:window.innerHeight*0.04, 
                             marginRight: window.innerHeight*0.02, marginLeft: window.innerHeight*0.02, }}>
+                            
                                     {/* map does a for loop over all the components in the state */}
 
                                     {this.state.components[this.state.pageNo].map((item, i) => {
@@ -552,8 +553,6 @@ class App3 extends Component {
                                                     borderWidth: 2,
                                                     backgroundColor: "white",
                                                     borderColor: 'grey',
-                                                    height:"1000px"
-                                                    
                                                 }}
 
                                                 // intialize components x,y,height and width

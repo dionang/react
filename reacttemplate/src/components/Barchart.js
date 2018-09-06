@@ -103,7 +103,7 @@ class Barchart extends Component {
                         <p style={{ fontFamily: 'Georgia', textAlign: "center", fontSize: 20, }}> {this.state.title} </p>
 
                         {this.state.facetype ?
-                            <div>
+                            
 
                                 <BarChart data={this.state.chartData} width={650} height={250} margin={{ top: 10, right: 30, left: 20, bottom: 30 }}>
                                     <CartesianGrid strokeDasharray="3 3" />
@@ -121,9 +121,9 @@ class Barchart extends Component {
                                     <Legend verticalAlign="top" height={20} />
                                 </BarChart>
 
-                            </div>
+                            
                             :
-                            <div>
+                            
                                 <ResponsiveContainer style={{height:"100%"}}>
                                     <BarChart data={this.state.chartData} width={730} height={250} margin={{ top: 1, right: 30, left: 20, bottom: 30 }}>
                                         <CartesianGrid strokeDa1sharray="3 3" />
@@ -141,7 +141,7 @@ class Barchart extends Component {
                                         <Legend verticalAlign="top" height={20} />
                                     </BarChart>
                                 </ResponsiveContainer>
-                            </div>
+                            
 
                         }
                     </div>
