@@ -544,7 +544,7 @@ class App5 extends Component {
                                                     width: this.state.halfWidth,
                                                     // height: this.state.halfHeight,
                                                     display: "inline-block",
-                                                    marginRight:"10px"
+                                                    marginLeft:"10px"
                                                 }}
 
                                                 // intialize components x,y,height and width
