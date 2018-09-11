@@ -6,6 +6,11 @@ import ReportComponent from './components/ReportComponent';
 import { Button } from 'react-bootstrap';
 import './bootstrap.css';
 import './report.css';
+import Pdf from './components/Pdf';
+import Canvas2Image from "canvas2image";
+import html2canvas from "html2canvas";
+import domtoimage from "dom-to-image";
+
 
 const api = 'http://localhost:8084/';
 
@@ -25,12 +30,26 @@ class App3 extends Component {
         }
     }
 
+
+    
+
+
     componentDidMount() {
         // let templateName = document.getElementById("templateName").value;
         // if (templateName !== "null") {
         //     this.setState({templateName});
         // }
         this.loadTemplate();
+    }
+
+    savePDF=()=>{
+        domtoimage.toJpeg(document.getElementById('container'), { quality:  1})
+        .then(function (dataUrl) {
+            var link = document.createElement('a');
+            link.download = 'my-image-name.jpeg';
+            link.href = dataUrl;
+            link.click();
+        });
     }
 
     addTextbox = () => {
@@ -454,7 +473,14 @@ class App3 extends Component {
                                     <Button className="col-md-2 col-xs-2" style={{ float:"right", minWidth:150 }} bsStyle="warning" onClick={this.savePresentation}>
                                         <i className="fa fa-edit" style={{ marginRight: 2 }} /> Export as PPT
                                     </Button>
+                                    <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:130 }} bsStyle="info" onClick={this.saveTemplate}>
+                                        <i className="fa fa-save" /> Save Template
+                                    </Button>
+                                    <Button className="col-md-2 col-xs-3" style={{ float:"right", minWidth:130 }} bsStyle="info" onClick={this.savePDF}>
+                                        <i className="fa fa-save" /> Save PDF
+                                    </Button>
                                     <br/>
+                                    
 
                                 {/* <div id="size" className="modal">
                                     <div className="modal-content">

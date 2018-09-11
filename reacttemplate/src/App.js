@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import data from './components/furniture.json';
-import {BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import Pdf from './components/Pdf';
 
 // const data = [
 //     {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
@@ -14,27 +13,8 @@ import {BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Le
 class App extends Component {
     render(){
         return (
-            <div>
-            <LineChart width={500} height={300} data={data}>
-                <XAxis dataKey="Region" type="category" allowDuplicatedCategory={true}/>
-                <YAxis dataKey="Sales"/>
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="Sales" stroke="#8884d8" />
-            </LineChart>
-
-            <BarChart width={500} height={300} data={data}>
-                <CartesianGrid strokeDasharray="3 3"/>
-                <XAxis dataKey="Region" type="category" allowDuplicatedCategory={false}/>
-                <YAxis dataKey="Sales"/>
-                <Tooltip />
-                <Bar dataKey="Sales" fill="blue" />
-                {/* <Bar dataKey="neutral" fill="orange" /> */}
-                {/* <Bar dataKey="negative" fill="grey" /> */}
-                <Legend/>
-            </BarChart>
-            </div>
+            
+            <Pdf/>
 
         )
     }

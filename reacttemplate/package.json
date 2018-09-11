@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "canvas2image": "^1.0.5",
+    "dom-to-image": "^2.6.0",
     "formik": "^1.0.1",
+    "html-to-image": "0.0.2",
+    "html2canvas": "^1.0.0-alpha.12",
     "jquery": "^3.3.1",
+    "jspdf": "^1.4.1",
     "lodash": "^4.17.10",
     "namor": "^1.0.1",
     "pptxgenjs": "^2.2.0",
@@ -28,8 +33,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && react-snapshot",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "devDependencies": {}
 }
