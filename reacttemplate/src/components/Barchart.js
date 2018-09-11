@@ -12,7 +12,8 @@ class Barchart extends Component {
             ...this.props.properties,
             chartData: [],
             summaryData: '',
-            heightP: "62%"
+            heightP: "62%",
+            variance:0,
         }
     }
 
@@ -70,7 +71,16 @@ class Barchart extends Component {
         }
 
         let summaryData = processor.getDetails(dataset, yAxis);
-        console.log(summaryData);
+        let average = summaryData.average;
+        
+        let finalVariance = 0; 
+        for (let obj of processor.getDataset(dataset)){
+            finalVariance += (obj[yAxis]-average)*(obj[yAxis]-average);
+        }
+
+        finalVariance = finalVariance.toFixed(4);
+
+        // write the cal for the variance 
 
         this.setState({
             initialized: true,
@@ -82,8 +92,10 @@ class Barchart extends Component {
             aggregate: aggregate,
             chartData: data,
             summary: values.summary,
-            summaryData: summaryData
+            summaryData: summaryData,
+            variance: finalVariance
         })
+
 
 
         let { chartData, ...other } = this.state;
@@ -150,7 +162,7 @@ class Barchart extends Component {
                 }
                 <div style={{ marginTop: "20px" }} >
                     {this.state.summary ? <div>
-                        <Descriptive summaryData={this.state.summaryData}  ></Descriptive> </div> : ""}
+                        <Descriptive summaryData={this.state.summaryData} variance = {this.state.variance} ></Descriptive> </div> : ""}
                     {/* summary={this.props.properties.summary} summaryData = {this.state.summaryData} */}
                 </div>
             </div>

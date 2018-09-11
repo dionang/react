@@ -111,8 +111,9 @@ class Descriptive extends Component {
             Average: this.props.summaryData.average,
             Min: this.props.summaryData.min,
             Max:this.props.summaryData.max,
-            Variance:this.props.summaryData.variance,
+            Variance:this.props.variance,
         }];
+        console.log("des"+this.props.variance);
 
         const rowStyle = { backgroundColor: '#D3D3D3' };
         const { value, onUpdate, ...rest } = this.props;

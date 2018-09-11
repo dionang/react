@@ -74,7 +74,8 @@ class App3 extends Component {
                     title: '',
                     xAxis: '',
                     yAxis: '',
-                    summary:''
+                    summary:'',
+                    variance:0,
                 }
             }
         );
