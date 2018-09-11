@@ -43,6 +43,7 @@ class App3 extends Component {
     }
 
     savePDF=()=>{
+        
         domtoimage.toJpeg(document.getElementById('container'), { quality:  1})
         .then(function (dataUrl) {
             var link = document.createElement('a');
@@ -134,7 +135,7 @@ class App3 extends Component {
                 type: "video", x: 0, y: 0, height: 200, width: 200, display: true,
                 properties: {
                     // using textbox properties for now
-                    text: "Paste a video link here",
+                    text: '',
                 }
             }
         );
@@ -256,67 +257,49 @@ class App3 extends Component {
         });
     }
 
-    savePdf = () => {
-        let container = document.getElementById('container').outerHTML;
-        let doc = new PDFDocument;
-        console.log("created");
-        pdfkit.from_string('MicroPyramid', 'micro.pdf')
-        doc.addPage();
-        doc.end();
-    }
-
-    savePresentation = () => {
-        let pptx = new PptxGenJS();
+    // savePresentation = () => {
+    //     var pptx = new PptxGenJS();
+    //     pptx.setBrowser(true);
         
-        // allow this library to be used in browser
-        pptx.setBrowser(true);
-        
-        let selectedPages = document.getElementById("selectedPages").value;
-        
-        // remove 1 from every page number so that the index matches
-        let pages = selectedPages === "all" ? this.state.components.keys() : selectedPages.split(",").map(function(value){
-            return Number(value) - 1;
-        });
+    //     for(let pageNo in this.state.components){
+    //         let components = this.state.components[pageNo];
+    //         let slide = pptx.addNewSlide();
+    //         for(let component of components) {
+    //             // convert px to inches
+    //             let x = component.x / 96;
+    //             let y = component.y / 96;
+    //             let w = component.width / 96;
+    //             let h = (component.height) / 96;
 
-        console.log(this.state.components.keys());
-        for(let page of pages){
-            let components = this.state.components[page];
-            let slide = pptx.addNewSlide();
-            for(let component of components) {
-                // convert px to inches
-                let x = component.x / 96;
-                let y = component.y / 96;
-                let w = component.width / 96;
-                let h = (component.height) / 96;
-
-                if (component.type === "text") {
-                    // remove the p tags
-                    let text = component.properties.text.substring(3, component.properties.text.length-4);
-                    // console.log(text);
-                    // let texts = text.split(/\r\n|\n|\r/);
-                    // console.log(texts); 
-                    slide.addText(text, {x:x, y:y,  w:w, h:h, 
-                        fontSize:14, color:'363636'
-                        // , bullet:{code:'25BA'} 
-                    });
+    //             if (component.type === "text") {
+    //                 // remove the p tags
+    //                 let text = component.properties.text.substring(3, component.properties.text.length-4);
+    //                 // console.log(text);
+    //                 // let texts = text.split(/\r\n|\n|\r/);
+    //                 // console.log(texts); 
+    //                 slide.addText(text, {x:x, y:y,  w:w, h:h, 
+    //                     fontSize:14, color:'363636'
+    //                     // , bullet:{code:'25BA'} 
+    //                 });
                     
-                } else if (component.type === "image") {
-                    let imageUrl = component.properties.imageUrl;
+    //             } else if (component.type === "image") {
+    //                 let imageUrl = component.properties.imageUrl;
 
-                    // remove height of toolbar
-                    y = (component.y + 27.5) / 96;
-                    h = (component.height - 27.5) / 96;
-                    slide.addImage({ data:imageUrl, x:x, y:y, w:w, h:h });
-                } else if (component.type === "video") {
-                    // remove the p tags
-                    let videoUrl = component.properties.text.substring(3, component.properties.text.length-4).trim();
-                    slide.addMedia({ type:'online', link:videoUrl, x:x, y:y, w:w, h:h });
-                }
-            }
-        }
+    //                 // remove height of toolbar
+    //                 y = (component.y + 27.5) / 96;
+    //                 h = (component.height - 27.5) / 96;
+    //                 slide.addImage({ data:imageUrl, x:x, y:y, w:w, h:h });
+    //             } else if (component.type === "video") {
+    //                 // remove the p tags
+    //                 let videoUrl = component.properties.text.substring(3, component.properties.text.length-4).trim();
+    //                 console.log(videoUrl);
+    //                 slide.addMedia({ type:'online', link:videoUrl, x:x, y:y, w:w, h:h });
+    //             }
+    //         }
+    //     }
         
-        pptx.save('Sample Presentation');
-    }
+    //     pptx.save('Sample Presentation');
+    // }
 
     saveTemplate = () => {
         let self = this;
@@ -603,24 +586,13 @@ class App3 extends Component {
                                                 // intialize components x,y,height and width
                                                 position={{ x: item.x, y: item.y }}
                                                 size={{ width: item.width, height: item.height }}
-                                                
+
                                                 // min height and size
                                                 minHeight={10} minWidth={10}
 
                                                 // to customize the dragging and resizing behavior
-                                                bounds={"parent"}
                                                 cancel={".nonDraggable"}
                                                 dragHandleClassName={this.state.editMode ? "draggable" : "cannotDrag"}
-                                                enableResizing={{
-                                                    bottom: this.state.editMode,
-                                                    bottomLeft: this.state.editMode,
-                                                    bottomRight: this.state.editMode,
-                                                    left: this.state.editMode,
-                                                    right: this.state.editMode,
-                                                    top: this.state.editMode,
-                                                    topLeft: this.state.editMode,
-                                                    topRight: this.state.editMode
-                                                }}
 
                                                 // update height and width onResizeStop
                                                 // onResizeStop will activate a callback function containing these params

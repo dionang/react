@@ -104,16 +104,23 @@ class Descriptive extends Component {
               text:"Variance"
           }];
 
+          var medianArr = this.props.median;
+          
+          let medianStr = "";
+          for(var i=0; i < medianArr.length;i++){
+            medianStr+=medianArr[i] + " ";
+          }
+
 
         var products = [{
             Sum: this.props.summaryData.total,
-            Median: 30,
+            Median: medianStr,
             Average: this.props.summaryData.average,
             Min: this.props.summaryData.min,
             Max:this.props.summaryData.max,
             Variance:this.props.variance,
         }];
-        console.log("des"+this.props.variance);
+        
 
         const rowStyle = { backgroundColor: '#D3D3D3' };
         const { value, onUpdate, ...rest } = this.props;

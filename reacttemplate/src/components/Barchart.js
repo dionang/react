@@ -14,6 +14,7 @@ class Barchart extends Component {
             summaryData: '',
             heightP: "62%",
             variance:0,
+            median:[]
         }
     }
 
@@ -80,6 +81,47 @@ class Barchart extends Component {
 
         finalVariance = finalVariance.toFixed(4);
 
+        let median = 0; 
+        var collectArr =[];
+        
+        let check = false;
+        let num = 0;
+        let i = 0;
+        for (let obj of processor.getDataset(dataset)){
+            num = obj[yAxis];
+            
+            for( i = 0; i < collectArr.length; i++){
+                if(collectArr[i][0]==num){
+                    collectArr[i][1]++;
+                    check = true;
+                } 
+            }
+            if(check == false){
+                collectArr.push([num,1]);
+            } else {
+                check = false;
+            }
+            
+        }
+
+        
+        let maxCount = 0;
+        var medianArr = [];
+        for(i=0; i < collectArr.length;i++){
+            
+            if(maxCount<collectArr[i][1]){
+                maxCount=collectArr[i][1];
+                medianArr=[];
+                medianArr.push(collectArr[i][0]);
+            } else if(maxCount==collectArr[i][1]){
+                medianArr.push(collectArr[i][0]);
+            }
+        }
+
+
+        
+
+
         // write the cal for the variance 
 
         this.setState({
@@ -93,7 +135,8 @@ class Barchart extends Component {
             chartData: data,
             summary: values.summary,
             summaryData: summaryData,
-            variance: finalVariance
+            variance: finalVariance,
+            median:medianArr
         })
 
 
@@ -162,7 +205,7 @@ class Barchart extends Component {
                 }
                 <div style={{ marginTop: "20px" }} >
                     {this.state.summary ? <div>
-                        <Descriptive summaryData={this.state.summaryData} variance = {this.state.variance} ></Descriptive> </div> : ""}
+                        <Descriptive summaryData={this.state.summaryData} variance = {this.state.variance} median = {this.state.median}></Descriptive> </div> : ""}
                     {/* summary={this.props.properties.summary} summaryData = {this.state.summaryData} */}
                 </div>
             </div>
