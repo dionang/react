@@ -1,5 +1,5 @@
 browserify -r react -r react-dom -r recharts -r react-rnd -r request -r formik -r react-bootstrap -r react-bootstrap-table-next -r react-bootstrap-table2-editor > bundle.js
 browserify -r react-rte | uglifyjs -b ascii_only=true,beautify=false > react-rte.min.js
-browserify -r react -r react-dom -r recharts -r react-rnd -r request -r formik -r react-bootstrap -r react-bootstrap-table-next -r react-bootstrap-table2-editor -r pptxgenjs | uglifyjs > bundle.min.js
+browserify -r react -r react-dom -r recharts -r react-rnd -r react-rte -r request -r formik -r react-bootstrap -r react-bootstrap-table-next -r react-bootstrap-table2-editor | uglifyjs -b ascii_only=true,beautify=false > bundle.min.js
 browserify -r react -r react-dom -r recharts -r react-rnd -r react-rte -r request -r formik -r react-bootstrap -r react-bootstrap-table-next -r react-bootstrap-table2-editor --debug > bundle.js.map
 source-map-explorer bundle.min.js bundle.min.js.map

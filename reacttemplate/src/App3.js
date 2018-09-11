@@ -256,6 +256,15 @@ class App3 extends Component {
         });
     }
 
+    savePdf = () => {
+        let container = document.getElementById('container').outerHTML;
+        let doc = new PDFDocument;
+        console.log("created");
+        pdfkit.from_string('MicroPyramid', 'micro.pdf')
+        doc.addPage();
+        doc.end();
+    }
+
     savePresentation = () => {
         let pptx = new PptxGenJS();
         
