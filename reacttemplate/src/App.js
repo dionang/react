@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Pdf from './components/Pdf';
 
 // const data = [
 //     {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
@@ -13,8 +12,7 @@ import Pdf from './components/Pdf';
 class App extends Component {
     render(){
         return (
-            
-            <Pdf/>
+            <h1>Hi</h1>
 
         )
     }

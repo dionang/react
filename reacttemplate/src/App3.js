@@ -4,13 +4,9 @@ import request from 'request';
 import PptxGenJS from 'pptxgenjs';
 import ReportComponent from './components/ReportComponent';
 import { Button } from 'react-bootstrap';
+import domtoimage from "dom-to-image-chrome-fix";
 import './bootstrap.css';
 import './report.css';
-import Pdf from './components/Pdf';
-import Canvas2Image from "canvas2image";
-import html2canvas from "html2canvas";
-import domtoimage from "dom-to-image";
-
 
 const api = 'http://localhost:8084/';
 
@@ -33,10 +29,6 @@ class App3 extends Component {
         }
     }
 
-
-
-
-
     componentDidMount() {
         // let templateName = document.getElementById("templateName").value;
         // if (templateName !== "null") {
@@ -46,17 +38,13 @@ class App3 extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("last page" + this.state.lastPage);
         let self = this;
         setTimeout(function () {
-        
-        if (self.state.lastPage >=0) {
-            self.savePDF();
-        }
-    }, 100);
+            if (self.state.lastPage >=0) {
+                self.savePDF();
+            }
+        }, 100);
     }
-
-
 
     addTextbox = () => {
         let components = this.state.components;
@@ -659,8 +647,19 @@ class App3 extends Component {
                                                     minHeight={10} minWidth={10}
 
                                                     // to customize the dragging and resizing behavior
+                                                    bounds={"parent"}
                                                     cancel={".nonDraggable"}
                                                     dragHandleClassName={this.state.editMode ? "draggable" : "cannotDrag"}
+                                                    enableResizing={{
+                                                        bottom: this.state.editMode,
+                                                        bottomLeft: this.state.editMode,
+                                                        bottomRight: this.state.editMode,
+                                                        left: this.state.editMode,
+                                                        right: this.state.editMode,
+                                                        top: this.state.editMode,
+                                                        topLeft: this.state.editMode,
+                                                        topRight: this.state.editMode
+                                                    }}
 
                                                     // update height and width onResizeStop
                                                     // onResizeStop will activate a callback function containing these params
