@@ -12,7 +12,6 @@ class Barchart extends Component {
             ...this.props.properties,
             chartData: [],
             summaryData: '',
-            heightP: "62%",
             variance:0,
             median:[]
         }
@@ -81,7 +80,6 @@ class Barchart extends Component {
 
         finalVariance = finalVariance.toFixed(4);
 
-        let median = 0; 
         var collectArr =[];
         
         let check = false;
@@ -119,11 +117,7 @@ class Barchart extends Component {
         }
 
 
-        
-
-
         // write the cal for the variance 
-
         this.setState({
             initialized: true,
             datasourceUrl: datasourceUrl,
@@ -139,18 +133,11 @@ class Barchart extends Component {
             median:medianArr
         })
 
-
-
         let { chartData, ...other } = this.state;
         this.props.updateProperties(other, this.props.i);
-
-
     }
 
     render() {
-
-
-
         return (
             <div className="draggable" style={{ height: "100%" }}>
                 {this.state.initialized ?

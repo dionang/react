@@ -134,19 +134,15 @@ class Descriptive extends Component {
         }
 
         
-            return (
-            <div  className="draggable" height="100%">
-                
+        return (
+            <div className="draggable" height="100%">
                 <BootstrapTable keyField='id' data={products}
                     columns={columns}
                     //cellEdit={cellEditFactory({ mode: 'dbclick' })}
                     rowStyle={rowStyle}>
-                   
-                    
                 </BootstrapTable>
-                </div>)
-
-            
+            </div>
+        );
     }
 }
 

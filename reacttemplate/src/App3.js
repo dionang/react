@@ -4,14 +4,18 @@ import request from 'request';
 import PptxGenJS from 'pptxgenjs';
 import ReportComponent from './components/ReportComponent';
 import { Button } from 'react-bootstrap';
+import domtoimage from "dom-to-image-chrome-fix";
 import './bootstrap.css';
 import './report.css';
+<<<<<<< HEAD
 import Pdf from './components/Pdf';
 import Canvas2Image from "canvas2image";
 import html2canvas from "html2canvas";
 import domtoimage from "dom-to-image";
 import * as jsPDF  from 'jspdf';
 
+=======
+>>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
 
 const api = 'http://localhost:8084/';
 
@@ -35,10 +39,6 @@ class App3 extends Component {
         }
     }
 
-
-
-
-
     componentDidMount() {
         // let templateName = document.getElementById("templateName").value;
         // if (templateName !== "null") {
@@ -50,14 +50,19 @@ class App3 extends Component {
     componentDidUpdate(prevProps, prevState) {
         let self = this;
         setTimeout(function () {
+<<<<<<< HEAD
         
         if (self.state.lastPage >=0 ) {
             self.saveNew();
         }
         }, 10000);
+=======
+            if (self.state.lastPage >=0) {
+                self.savePDF();
+            }
+        }, 100);
+>>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
     }
-
-
 
     addTextbox = () => {
         let components = this.state.components;
@@ -159,6 +164,15 @@ class App3 extends Component {
     closeModal = () => {
         var modal = document.getElementById('size');
         modal.style.display = "none";
+    }
+
+    dataUrlToFile(dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {type:mime});
     }
 
     deleteComponent(i) {
@@ -263,6 +277,7 @@ class App3 extends Component {
         });
     }
 
+<<<<<<< HEAD
     saveNew=()=>{
         let lastPage = this.state.lastPage;
         let self = this; 
@@ -322,12 +337,18 @@ class App3 extends Component {
 
 
     savePDF = () => {
+=======
+    savePDF() {
+        let self = this;
+>>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
         let lastPage = this.state.lastPage;
         let self = this;
         if (this.state.start == true) {
            // console.log(this.state.pageNo);
-            domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
+            setTimeout(function () {
+                domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
                 .then(function (dataUrl) {
+<<<<<<< HEAD
                     var link = document.createElement('a');
                     link.download = 'my-image-name.jpeg';
                     link.href = dataUrl;
@@ -381,19 +402,40 @@ class App3 extends Component {
 
 
 
-        } else {
+=======
+                    let formData = new FormData();
+                    formData.append("file", self.dataUrlToFile(dataUrl, self.state.templateName + "_slide" + (self.state.pageNo + 1) + ".jpg"));
 
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", api + "saveFile");
+                    xhr.send(formData);
+
+                    if (lastPage == 0) {
+                        self.setState({ start: false });
+                        self.setState({ lastPage: -1 });
+                    } else {
+                        lastPage -= 1;
+                        self.setState({ lastPage });
+                        self.setState({ pageNo: lastPage });
+                    }
+                });
+            }, 100);
+>>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
+        } else {
             let noCom = this.state.components.length;
             lastPage = noCom - 1;
             this.setState({ lastPage });
             this.setState({ start: true });
             this.setState({ pageNo: lastPage });
         }
+<<<<<<< HEAD
 
        
 
 
 
+=======
+>>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
     }
 
     savePresentation = () => {
@@ -618,7 +660,11 @@ class App3 extends Component {
                                 <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveTemplate}>
                                     <i className="fa fa-save" /> Save Template
                                     </Button>
+<<<<<<< HEAD
                                 <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveNew}>
+=======
+                                <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={()=>{this.setState({editMode: false}); this.savePDF()}}>
+>>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
                                     <i className="fa fa-save" /> Save PDF
                                     </Button>
                                 <br />
@@ -709,8 +755,9 @@ class App3 extends Component {
 
                                 <div className="col-sm-12 col-xs-12" style={{ background: "#EEEEEE" }}>
                                     <div id="container" style={{
-                                        border: "0.5px solid gray", backgroundColor: 'white', height: window.innerHeight * 0.70, marginTop: window.innerHeight * 0.04, marginBottom: window.innerHeight * 0.04,
-                                        marginRight: window.innerHeight * 0.02, marginLeft: window.innerHeight * 0.02,
+                                        border: "0.5px solid gray", backgroundColor: 'white', height: window.innerHeight * 0.70, 
+                                        marginTop: 0, marginBottom: 0,
+                                        marginRight: 0, marginLeft: 0
                                     }}>
 
                                         {/* map does a for loop over all the components in the state */}
@@ -733,8 +780,19 @@ class App3 extends Component {
                                                     minHeight={10} minWidth={10}
 
                                                     // to customize the dragging and resizing behavior
+                                                    bounds={"parent"}
                                                     cancel={".nonDraggable"}
                                                     dragHandleClassName={this.state.editMode ? "draggable" : "cannotDrag"}
+                                                    enableResizing={{
+                                                        bottom: this.state.editMode,
+                                                        bottomLeft: this.state.editMode,
+                                                        bottomRight: this.state.editMode,
+                                                        left: this.state.editMode,
+                                                        right: this.state.editMode,
+                                                        top: this.state.editMode,
+                                                        topLeft: this.state.editMode,
+                                                        topRight: this.state.editMode
+                                                    }}
 
                                                     // update height and width onResizeStop
                                                     // onResizeStop will activate a callback function containing these params

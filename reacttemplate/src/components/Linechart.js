@@ -143,53 +143,49 @@ class Linechart extends Component {
                 {this.state.initialized ?
                     <div style={{ height: "calc(70.5% + 1px)" }}>
                         <p style={{ fontFamily: 'Georgia', textAlign: "center", fontSize: 20, }}> {this.state.title} </p>
-
-
                         {this.state.facetype?
                         <LineChart width={700} height={250}  margin={{ top: 1,right: 30, left: 20, bottom: 30 }} data={this.state.chartData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey={this.state.xAxis}>
-                            <Label value={this.state.xAxis}offset={-5} position="insideBottom" />
-                        </XAxis>
-                        <YAxis dataKey={this.state.yAxis}>
-                            <Label value={this.state.yAxis} offset={-10} position="insideLeft" angle={-90} />
-                        </YAxis>
-                        <Tooltip />
-                        <Legend verticalAlign="top" height={20} />
-                        <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
-                    </LineChart>
-                    :
-                    <ResponsiveContainer className="draggable" width="95%" height="90%">
-                    <LineChart width={730} height={250}  margin={{ top: 1,right: 30, left: 20, bottom: 30 }} data={this.state.chartData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey={this.state.xAxis}>
-                            <Label value={this.state.xAxis}offset={-5} position="insideBottom" />
-                        </XAxis>
-                        <YAxis dataKey={this.state.yAxis}>
-                            <Label value={this.state.yAxis} offset={-10} position="insideLeft" angle={-90} />
-                        </YAxis>
-                        <Tooltip />
-                        <Legend verticalAlign="top" height={20} />
-                        <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
-                    </LineChart>
-                </ResponsiveContainer>
-                    
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey={this.state.xAxis}>
+                                <Label value={this.state.xAxis}offset={-5} position="insideBottom" />
+                            </XAxis>
+                            <YAxis dataKey={this.state.yAxis}>
+                                <Label value={this.state.yAxis} offset={-10} position="insideLeft" angle={-90} />
+                            </YAxis>
+                            <Tooltip />
+                            <Legend verticalAlign="top" height={20} />
+                            <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
+                        </LineChart>
+                        :
+                        <ResponsiveContainer className="draggable" width="95%" height="90%">
+                            <LineChart width={730} height={250}  margin={{ top: 1,right: 30, left: 20, bottom: 30 }} data={this.state.chartData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey={this.state.xAxis}>
+                                    <Label value={this.state.xAxis}offset={-5} position="insideBottom" />
+                                </XAxis>
+                                <YAxis dataKey={this.state.yAxis}>
+                                    <Label value={this.state.yAxis} offset={-10} position="insideLeft" angle={-90} />
+                                </YAxis>
+                                <Tooltip />
+                                <Legend verticalAlign="top" height={20} />
+                                <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
+                            </LineChart>
+                        </ResponsiveContainer>
                     }
 
-                       </div>
+                    </div>
 
                     : <ChartForm initializeChart={this.initializeChart} />
                 }
 
-                <div style={{marginTop:"20px"}} >
-            {this.state.summary ? <div>
-            <Descriptive summaryData={this.state.summaryData} variance = {this.state.variance} median = {this.state.median}  ></Descriptive> </div>: ""}
-            {/* summary={this.props.properties.summary} summaryData = {this.state.summaryData} */}
+                <div style={{marginTop:"20px"}}>
+                {this.state.summary ? 
+                <div>
+                    <Descriptive summaryData={this.state.summaryData} variance = {this.state.variance} median = {this.state.median}  ></Descriptive> </div>: ""}
+                    {/* summary={this.props.properties.summary} summaryData = {this.state.summaryData} */}
+                </div>
             </div>
-            </div>
-
-                
-             );   
+        );   
     }
 }
 

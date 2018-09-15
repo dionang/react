@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "canvas2image": "^1.0.5",
-    "dom-to-image": "^2.6.0",
+    "dom-to-image-chrome-fix": "^2.6.0",
     "formik": "^1.0.1",
     "html-to-image": "0.0.2",
     "html2canvas": "^1.0.0-alpha.12",

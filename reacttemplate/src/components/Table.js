@@ -130,8 +130,7 @@ class Table extends Component {
         }
 
         return this.state.initialized ?
-        
-            <div  className="draggable">
+            <div className="draggable">
                 <ButtonToolbar >
                     <SplitButton title="Add a Column" bsStyle="info" pullRight id="split-button-pull-right" onSelect={this.addCol}>
                         Categories
@@ -145,11 +144,7 @@ class Table extends Component {
                     columns={actualTitle}
                     //cellEdit={cellEditFactory({ mode: 'dbclick' })}
                     rowStyle={rowStyle}>
-                    
                 </BootstrapTable>
-
-
-
             </div>
             : <TableForm initializeTable={this.initializeTable} />
     }
