@@ -10,6 +10,7 @@ import Pdf from './components/Pdf';
 import Canvas2Image from "canvas2image";
 import html2canvas from "html2canvas";
 import domtoimage from "dom-to-image";
+import * as jsPDF  from 'jspdf';
 
 
 const api = 'http://localhost:8084/';
@@ -28,8 +29,9 @@ class App3 extends Component {
             sidebar: true,
             pageNo: 0,
             lastPage: -1,
-            start: false
-
+            start: false,
+            picArr:[],
+            doc:'',
         }
     }
 
@@ -46,14 +48,13 @@ class App3 extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("last page" + this.state.lastPage);
         let self = this;
         setTimeout(function () {
         
-        if (self.state.lastPage >=0) {
-            self.savePDF();
+        if (self.state.lastPage >=0 ) {
+            self.saveNew();
         }
-    }, 100);
+        }, 10000);
     }
 
 
@@ -262,12 +263,67 @@ class App3 extends Component {
         });
     }
 
+    saveNew=()=>{
+        let lastPage = this.state.lastPage;
+        let self = this; 
+        if(this.state.start==true){
+            domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
+                .then(function (dataUrl) {
+                    var picArr = self.state.picArr;
+                    picArr.push(dataUrl);
+                    self.setState({picArr});
+                
+                
+            
+             if (lastPage == 0) {
+                    self.setState({ start: false });
+                    self.setState({ lastPage: -1 });
+
+                    console.log(picArr);
+
+                    var doc = new jsPDF(); 
+                    for(var i = picArr.length-1; i >=0; i--){
+                        let dataUrl = self.state.picArr[i];
+                        console.log(dataUrl);
+                        doc.addImage(dataUrl,'JPEG', 0, 0, 200,200);  
+                        console.log(i);  
+                        //doc.addPage();
+                        if(i!=0){
+                            doc.addPage();
+                        }
+                    }
+                    doc.save('div.pdf');
+                    picArr = [];
+                    self.setState({picArr});
+                    
+     
+                } else {
+                    
+                    lastPage -= 1;
+                    self.setState({ lastPage });
+                    self.setState({ pageNo: lastPage });
+                }
+
+                
+
+            })
+
+
+        } else {
+            let noCom = this.state.components.length;
+            lastPage = noCom - 1;
+            this.setState({ lastPage });
+            this.setState({ start: true });
+            this.setState({ pageNo: lastPage });
+            
+        }
+    }
+
 
 
     savePDF = () => {
-
-
         let lastPage = this.state.lastPage;
+        let self = this;
         if (this.state.start == true) {
            // console.log(this.state.pageNo);
             domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
@@ -276,18 +332,48 @@ class App3 extends Component {
                     link.download = 'my-image-name.jpeg';
                     link.href = dataUrl;
                     link.click();
+
+                    // var picArr = self.state.picArr;
+                    // picArr.push(dataUrl);
+                    // self.setState({picArr});
+
+                    // add new page for pdf
+                    // let doc = self.state.doc;
+                    // doc.addImage(dataUrl,'JPEG',0,0,297,210);
+                    // this.setState({doc});
                 });
 
-                let self = this;
+                
 
             setTimeout(function () {
                 if (lastPage == 0) {
                     self.setState({ start: false });
                     self.setState({ lastPage: -1 });
+
+                    // let doc = self.state.doc;
+                    // doc.save('report.pdf');
+
+                    //self.setState({doc:''});
+                    
+                    // create the PDF
+                    var doc = new jsPDF('l', 'mm', [297, 210]); 
+                    var picArr = self.state.picArr;
+                    for(var i = self.state.components.length-1; i >=0; i--){
+                        let dataUrl = self.state.picArr[i];
+                        doc.addImage(dataUrl,'JPEG', 15, 15, 40,40);    
+                        
+                        if(i!=0){
+                            doc.addPage();
+                        }
+                    }
+                    doc.save('div.pdf');
+                    picArr = [];
+                    self.setState({picArr});
+                    
+     
                 } else {
                     
                     lastPage -= 1;
-                   // console.log("Lasstpage"+lastPage)
                     self.setState({ lastPage });
                     self.setState({ pageNo: lastPage });
                 }
@@ -298,25 +384,13 @@ class App3 extends Component {
         } else {
 
             let noCom = this.state.components.length;
-            //console.log("length" + noCom)
-            // console.log(noCom);
             lastPage = noCom - 1;
-            //console.log("last page" + lastPage);
             this.setState({ lastPage });
             this.setState({ start: true });
             this.setState({ pageNo: lastPage });
         }
 
-        // setTimeout(function(){
-        //     domtoimage.toJpeg(document.getElementById('container'), { quality:  1})
-        //     .then(function (dataUrl) {
-        //         var link = document.createElement('a');
-        //         link.download = 'my-image-name.jpeg';
-        //         link.href = dataUrl;
-        //         link.click();
-        //     });
-        // }, 3000);
-
+       
 
 
 
@@ -544,7 +618,7 @@ class App3 extends Component {
                                 <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveTemplate}>
                                     <i className="fa fa-save" /> Save Template
                                     </Button>
-                                <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.savePDF}>
+                                <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveNew}>
                                     <i className="fa fa-save" /> Save PDF
                                     </Button>
                                 <br />
