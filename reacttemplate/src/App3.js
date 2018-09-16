@@ -7,15 +7,7 @@ import { Button } from 'react-bootstrap';
 import domtoimage from "dom-to-image-chrome-fix";
 import './bootstrap.css';
 import './report.css';
-<<<<<<< HEAD
-import Pdf from './components/Pdf';
-import Canvas2Image from "canvas2image";
-import html2canvas from "html2canvas";
-import domtoimage from "dom-to-image";
-import * as jsPDF  from 'jspdf';
-
-=======
->>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
+import jsPDF from 'jspdf';
 
 const api = 'http://localhost:8084/';
 
@@ -50,18 +42,10 @@ class App3 extends Component {
     componentDidUpdate(prevProps, prevState) {
         let self = this;
         setTimeout(function () {
-<<<<<<< HEAD
-        
-        if (self.state.lastPage >=0 ) {
-            self.saveNew();
-        }
-        }, 10000);
-=======
-            if (self.state.lastPage >=0) {
+            if (self.state.lastPage >= 0) {
                 self.savePDF();
             }
         }, 100);
->>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
     }
 
     addTextbox = () => {
@@ -81,13 +65,6 @@ class App3 extends Component {
                 type: "bar", x: 0, y: 0, height: 250, width: 500, display: true,
                 properties: {
                     initialized: false,
-                    datasourceUrl: '',
-                    dataset: '',
-                    title: '',
-                    xAxis: '',
-                    yAxis: '',
-                    summary: '',
-                    variance: 0,
                 }
             }
         );
@@ -103,11 +80,6 @@ class App3 extends Component {
                 type: "line", x: 0, y: 0, height: 250, width: 300, display: true,
                 properties: {
                     initialized: false,
-                    datasourceUrl: '',
-                    dataset: '',
-                    title: '',
-                    xAxis: '',
-                    yAxis: ''
                 }
             }
         );
@@ -277,20 +249,23 @@ class App3 extends Component {
         });
     }
 
-<<<<<<< HEAD
-    saveNew=()=>{
+    saveImages=()=>{
+        // let formData = new FormData();
+        // formData.append("file", self.dataUrlToFile(dataUrl, self.state.templateName + "_slide" + (self.state.pageNo + 1) + ".jpg"));
+
+        // let xhr = new XMLHttpRequest();
+        // xhr.open("POST", api + "saveFile");
+        // xhr.send(formData);
         let lastPage = this.state.lastPage;
         let self = this; 
-        if(this.state.start==true){
+        if(this.state.start){
             domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
-                .then(function (dataUrl) {
-                    var picArr = self.state.picArr;
-                    picArr.push(dataUrl);
-                    self.setState({picArr});
-                
-                
-            
-             if (lastPage == 0) {
+            .then(function (dataUrl) {
+                var picArr = self.state.picArr;
+                picArr.push(dataUrl);
+                self.setState({picArr});
+
+                if (lastPage == 0) {
                     self.setState({ start: false });
                     self.setState({ lastPage: -1 });
 
@@ -310,79 +285,40 @@ class App3 extends Component {
                     doc.save('div.pdf');
                     picArr = [];
                     self.setState({picArr});
-                    
-     
                 } else {
                     
                     lastPage -= 1;
                     self.setState({ lastPage });
                     self.setState({ pageNo: lastPage });
                 }
-
-                
-
             })
-
-
         } else {
             let noCom = this.state.components.length;
             lastPage = noCom - 1;
             this.setState({ lastPage });
             this.setState({ start: true });
             this.setState({ pageNo: lastPage });
-            
         }
     }
 
-
-
     savePDF = () => {
-=======
-    savePDF() {
-        let self = this;
->>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
         let lastPage = this.state.lastPage;
-        let self = this;
-        if (this.state.start == true) {
-           // console.log(this.state.pageNo);
-            setTimeout(function () {
-                domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
-                .then(function (dataUrl) {
-<<<<<<< HEAD
-                    var link = document.createElement('a');
-                    link.download = 'my-image-name.jpeg';
-                    link.href = dataUrl;
-                    link.click();
-
-                    // var picArr = self.state.picArr;
-                    // picArr.push(dataUrl);
-                    // self.setState({picArr});
-
-                    // add new page for pdf
-                    // let doc = self.state.doc;
-                    // doc.addImage(dataUrl,'JPEG',0,0,297,210);
-                    // this.setState({doc});
-                });
-
-                
-
-            setTimeout(function () {
-                if (lastPage == 0) {
+        let self = this; 
+        if(this.state.start){
+            domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
+            .then(function (dataUrl) {
+                var picArr = self.state.picArr;
+                picArr.push(dataUrl);
+                self.setState({picArr});
+            
+                 if (lastPage == 0) {
                     self.setState({ start: false });
                     self.setState({ lastPage: -1 });
 
-                    // let doc = self.state.doc;
-                    // doc.save('report.pdf');
-
-                    //self.setState({doc:''});
-                    
-                    // create the PDF
-                    var doc = new jsPDF('l', 'mm', [297, 210]); 
-                    var picArr = self.state.picArr;
-                    for(var i = self.state.components.length-1; i >=0; i--){
+                    var doc = new jsPDF(); 
+                    for(var i = picArr.length-1; i >=0; i--){
                         let dataUrl = self.state.picArr[i];
-                        doc.addImage(dataUrl,'JPEG', 15, 15, 40,40);    
-                        
+                        doc.addImage(dataUrl,'JPEG', 0, 0, 200,200);  
                         if(i!=0){
                             doc.addPage();
                         }
@@ -390,37 +326,12 @@ class App3 extends Component {
                     doc.save('div.pdf');
                     picArr = [];
                     self.setState({picArr});
-                    
-     
                 } else {
-                    
                     lastPage -= 1;
                     self.setState({ lastPage });
                     self.setState({ pageNo: lastPage });
                 }
-            }, 10);
-
-
-
-=======
-                    let formData = new FormData();
-                    formData.append("file", self.dataUrlToFile(dataUrl, self.state.templateName + "_slide" + (self.state.pageNo + 1) + ".jpg"));
-
-                    let xhr = new XMLHttpRequest();
-                    xhr.open("POST", api + "saveFile");
-                    xhr.send(formData);
-
-                    if (lastPage == 0) {
-                        self.setState({ start: false });
-                        self.setState({ lastPage: -1 });
-                    } else {
-                        lastPage -= 1;
-                        self.setState({ lastPage });
-                        self.setState({ pageNo: lastPage });
-                    }
-                });
-            }, 100);
->>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
+            })
         } else {
             let noCom = this.state.components.length;
             lastPage = noCom - 1;
@@ -428,14 +339,6 @@ class App3 extends Component {
             this.setState({ start: true });
             this.setState({ pageNo: lastPage });
         }
-<<<<<<< HEAD
-
-       
-
-
-
-=======
->>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
     }
 
     savePresentation = () => {
@@ -646,7 +549,7 @@ class App3 extends Component {
                                     <input style={{ fontSize: 15 }} value={this.state.templateName} onChange={this.renameTemplate} />
                                 </div>
                                 {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
-                                {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
+                                <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button>
                                 <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveTemplate}>
                                     <i className="fa fa-save" /> Save Template
                                     </Button>
@@ -656,19 +559,15 @@ class App3 extends Component {
                                 </Button>
                                 <Button className="col-md-2 col-xs-2" style={{ float: "right", minWidth: 150 }} bsStyle="warning" onClick={this.savePresentation}>
                                     <i className="fa fa-edit" style={{ marginRight: 2 }} /> Export as PPT
-                                    </Button>
+                                </Button>
                                 <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveTemplate}>
                                     <i className="fa fa-save" /> Save Template
-                                    </Button>
-<<<<<<< HEAD
-                                <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveNew}>
-=======
+                                </Button>
+                                {/* <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveNew}></Button> */}
                                 <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={()=>{this.setState({editMode: false}); this.savePDF()}}>
->>>>>>> e1db5c44415ef8c25e79436a43ef8fe227605bf5
                                     <i className="fa fa-save" /> Save PDF
-                                    </Button>
+                                </Button>
                                 <br />
-
 
                                 {/* <div id="size" className="modal">
                                     <div className="modal-content">
@@ -728,10 +627,8 @@ class App3 extends Component {
                                     <Button data-toggle="tooltip" data-placement="bottom" title="Add Video"
                                         onClick={this.addVideo} style={{ backgroundColor: "#D896FF", color: "white", border: "1px solid #D896FF", marginRight: 160 }}><i className="fa fa-play-circle" /></Button>
 
-
-
                                     <span style={{ fontFamily: 'Georgia', fontSize: 18, textAlign: "center" }}>Page Number
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
+                                        <Button data-toggle="tooltip" data-placement="bottom" title="Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
                                             style={{ marginRight: 10, marginLeft: 10 }}>
                                             <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
                                                 <path d="M0-.5h24v24H0z" fill="none"></path>
@@ -746,7 +643,6 @@ class App3 extends Component {
                                                 <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" className="jWRuRT"></path>
                                             </svg>
                                         </Button>
-
                                         <Button bsStyle="default" bsSize="small" onClick={this.saveTemplate}
                                             style={{ marginLeft: 10, color: 'orange', border: 'none' }}> <i className="fa fa-save fa-2x" />
                                         </Button>
@@ -755,7 +651,7 @@ class App3 extends Component {
 
                                 <div className="col-sm-12 col-xs-12" style={{ background: "#EEEEEE" }}>
                                     <div id="container" style={{
-                                        border: "0.5px solid gray", backgroundColor: 'white', height: window.innerHeight * 0.70, 
+                                        backgroundColor: 'white', height: window.innerHeight * 0.70, 
                                         marginTop: 0, marginBottom: 0,
                                         marginRight: 0, marginLeft: 0
                                     }}>

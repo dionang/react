@@ -11,9 +11,7 @@ class Linechart extends Component {
         this.state = {
             ...this.props.properties,
             chartData: [],
-            summaryData:'',
-            variance:0,
-            median:[],
+            summaryData: {},
         }
     }
 
@@ -26,116 +24,64 @@ class Linechart extends Component {
 
     // do API call to render chartData upon loading of component from DB
     componentWillMount() {
+        let {title, datasourceUrl, path, xAxis, yAxis, aggregate, summary} = this.props.properties;
+        this.initialize(title, datasourceUrl, path, xAxis, yAxis, aggregate, summary);
+    }
+
+    initialize (title, datasourceUrl, path, xAxis, yAxis, aggregate, summary, callback) {
         let self = this;
-        let url = this.props.properties.datasourceUrl;
-        let aggregate = this.props.properties.aggregate;
-        if (url) {
-            request.get({
-                url: url,
-            }, function (error, response, body) {
+        request.get({
+            url: datasourceUrl,
+        }, function (error, response, body) {
+            if(body){
                 let data = JSON.parse(body);
-                let chartData = data[self.props.properties.dataset];
-                let xAxis = self.props.properties.xAxis;
-                let yAxis = self.props.properties.yAxis;
-                if (aggregate === "") {
-                    chartData.sort((a, b) => a[xAxis] - b[xAxis]);
-                } else {
-                    chartData = new JsonProcessor().getAggregatedData(chartData, xAxis, yAxis, aggregate);
+
+                // iterate through the path until the correct dataset is reached
+                for (let subpath of path.split("/")) {
+                    data = data[subpath];
                 }
-                self.setState({ chartData });
-            });
-        }
+
+                // aggregate the data for the chart
+                let processor = new JsonProcessor();
+                let aggregatedData = processor.getAggregatedData(data, xAxis, yAxis, aggregate, summary);
+                let statSummary = {
+                    sum: aggregatedData.sum, 
+                    avg: aggregatedData.avg,
+                    min: aggregatedData.min,
+                    max: aggregatedData.max,
+                    median: aggregatedData.median,
+                    var: aggregatedData.var
+                };
+
+                // write the cal for the variance 
+                self.setState({
+                    initialized: true,
+                    datasourceUrl: datasourceUrl,
+                    title: title,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    aggregate: aggregate,
+                    chartData: aggregatedData.chartData,
+                    summary: summary,
+                    summaryData: statSummary,
+                });
+
+                callback();
+            }
+        });
     }
 
     initializeChart = (values) => {
         //set settings of barchart
-        let processor = values.processor;
-        let datasourceUrl = values.datasourceUrl;
-        let dataset = values.dataset;
-        let data = processor.getDataset(dataset);
+        let self = this;
+        let {title, datasourceUrl, path, xAxis, yAxis, summary} = values;
+        let aggregate = "sum"; // should get from form
 
-        let title = values.title;
-        let xAxis = values.xAxis;
-        let yAxis = values.yAxis;
-        let aggregate = "";
-
-        // if x-axis is non-categorical, 
-        // sort data in ascending order by x-axis
-        if (processor.getType(dataset, xAxis) !== "string") {
-            data.sort((a, b) => a[xAxis] - b[xAxis]);
-        } else {
-            aggregate = "sum";
-            data = processor.getAggregatedData(data, xAxis, yAxis, aggregate);
-        }
-
-        let summaryData = processor.getDetails(dataset,yAxis);
-
-        let average = summaryData.average;
-        
-        let finalVariance = 0; 
-        for (let obj of processor.getDataset(dataset)){
-            finalVariance += (obj[yAxis]-average)*(obj[yAxis]-average);
-        }
-
-        finalVariance = finalVariance.toFixed(4);
-
-        let median = 0; 
-        var collectArr =[];
-        
-        let check = false;
-        let num = 0;
-        let i = 0;
-        for (let obj of processor.getDataset(dataset)){
-            num = obj[yAxis];
-            
-            for( i = 0; i < collectArr.length; i++){
-                if(collectArr[i][0]==num){
-                    collectArr[i][1]++;
-                    check = true;
-                } 
-            }
-            if(check == false){
-                collectArr.push([num,1]);
-            } else {
-                check = false;
-            }
-            
-        }
-
-        
-        let maxCount = 0;
-        var medianArr = [];
-        for(i=0; i < collectArr.length;i++){
-            
-            if(maxCount<collectArr[i][1]){
-                maxCount=collectArr[i][1];
-                medianArr=[];
-                medianArr.push(collectArr[i][0]);
-            } else if(maxCount==collectArr[i][1]){
-                medianArr.push(collectArr[i][0]);
-            }
-        }
-         
-
-
-        this.setState({
-            initialized: true,
-            datasourceUrl: datasourceUrl,
-            dataset: dataset,
-            title: title,
-            xAxis: xAxis,
-            yAxis: yAxis,
-            aggregate: aggregate,
-            chartData: data,
-            summary: values.summary,
-            summaryData: summaryData,
-            median:medianArr,
-            variance: finalVariance
-        })
-
-        let { chartData, ...other } = this.state;
-        this.props.updateProperties(other, this.props.i);
-    }
+        this.initialize(title, datasourceUrl, path, xAxis, yAxis, aggregate, summary, function(){
+            let { chartData,summaryData, ...other } = self.state;
+            self.props.updateProperties(other, self.props.i);
+        });
+    }   
 
     render() {
         return (
@@ -143,7 +89,7 @@ class Linechart extends Component {
                 {this.state.initialized ?
                     <div style={{ height: "calc(70.5% + 1px)" }}>
                         <p style={{ fontFamily: 'Georgia', textAlign: "center", fontSize: 20, }}> {this.state.title} </p>
-                        {this.state.facetype?
+                        {this.state.facetype ?
                         <LineChart width={700} height={250}  margin={{ top: 1,right: 30, left: 20, bottom: 30 }} data={this.state.chartData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey={this.state.xAxis}>
@@ -170,20 +116,11 @@ class Linechart extends Component {
                                 <Legend verticalAlign="top" height={20} />
                                 <Line type="monotone" dataKey={this.state.yAxis} stroke="#8884d8" />
                             </LineChart>
-                        </ResponsiveContainer>
-                    }
-
+                        </ResponsiveContainer>}
+                        {this.state.summary ? <Descriptive summaryData={this.state.summaryData}/> : ""}
                     </div>
-
                     : <ChartForm initializeChart={this.initializeChart} />
                 }
-
-                <div style={{marginTop:"20px"}}>
-                {this.state.summary ? 
-                <div>
-                    <Descriptive summaryData={this.state.summaryData} variance = {this.state.variance} median = {this.state.median}  ></Descriptive> </div>: ""}
-                    {/* summary={this.props.properties.summary} summaryData = {this.state.summaryData} */}
-                </div>
             </div>
         );   
     }

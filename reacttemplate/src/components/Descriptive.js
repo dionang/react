@@ -1,12 +1,6 @@
 import BootstrapTable from 'react-bootstrap-table-next';
 import React, { Component } from "react";
-import cellEditFactory from 'react-bootstrap-table2-editor';
-import TableForm from './TableForm';
-import request from 'request';
-import JsonProcessor from './JsonProcessor';
-import { SplitButton, FormGroup, FormControl, Navbar, Nav, NavItem, NavDropdown, MenuItem, ButtonToolbar, Row, Col, Grid, Button } from 'react-bootstrap';
 import '../bootstrap.css';
-import { link } from 'fs';
 
 class Descriptive extends Component {
     constructor(props) {
@@ -24,15 +18,6 @@ class Descriptive extends Component {
         }
     }
 
-    // update state of initialized when props change
-    /*componentWillReceiveProps(nextProps){
-        if (nextProps.properties.initialized != this.state.initialized){
-            this.setState({initialized: nextProps.properties.initialized});
-        }
-    }*/
-
-
-    
     addCol = (e) => {
         let columns = this.state.columns;
         let order = this.state.order+1;
@@ -104,21 +89,13 @@ class Descriptive extends Component {
               text:"Variance"
           }];
 
-          var medianArr = this.props.median;
-          
-          let medianStr = "";
-          for(var i=0; i < medianArr.length;i++){
-            medianStr+=medianArr[i] + " ";
-          }
-
-
         var products = [{
-            Sum: this.props.summaryData.total,
-            Median: medianStr,
-            Average: this.props.summaryData.average,
+            Sum: this.props.summaryData.sum,
+            Median: this.props.summaryData.median,
+            Average: this.props.summaryData.avg,
             Min: this.props.summaryData.min,
             Max:this.props.summaryData.max,
-            Variance:this.props.variance,
+            Variance:this.props.summaryData.var,
         }];
         
 

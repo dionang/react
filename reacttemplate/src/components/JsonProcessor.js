@@ -170,17 +170,58 @@ JsonProcessor.prototype.getDetails = function(dataset, option){
     return this.result.datasets[dataset][option];
 };
 
-JsonProcessor.prototype.getAggregatedData = function(data, xAxis, yAxis, operation){
+JsonProcessor.prototype.getAggregatedData = function(data, xAxis, yAxis, operation, summary){
+    // object to hold 
     let aggregatedData = {};
+
+    // basic statistic
+    let sum = 0;
+    let min = data[0][yAxis];
+    let max = data[0][yAxis];
+    let statData = [];
+
     // add value to the appropriate categpry
     for (let obj of data){
         let category = obj[xAxis];
         let value = obj[yAxis];
+
+        if (summary) {
+            statData.push(value);
+            sum += value;
+            if (value < min) {
+                min = value;
+            } else if (value > max) {
+                max = value;
+            }
+        }
+
         if (aggregatedData[category] === undefined) {
             aggregatedData[category] = [];
         }
         aggregatedData[category].push(value);
     }
+
+    // calculate additional statistics
+    let avg = 0;
+    let median = 0;
+    let variance = 0;
+    if (summary) {
+        statData.sort((a, b) => a - b);
+        let half = Math.floor(statData.length/2);
+        if(statData.length % 2){
+            median = statData[half];
+        } else {
+            median = (statData[half-1] + statData[half]) / 2.0;
+        }
+
+        for(let num of statData) {
+            variance += Math.pow(num - avg, 2)
+        }
+
+        avg = (sum/statData.length).toFixed(4);
+        variance = (variance/statData.length).toFixed(4);
+    }
+
 
     // do appropriate aggregation
     let newData = [];
@@ -211,7 +252,8 @@ JsonProcessor.prototype.getAggregatedData = function(data, xAxis, yAxis, operati
         }
         newData.push(obj);
     }
-    return newData;
+
+    return {chartData:newData, sum:sum, max:max, min:min, avg:avg, median:median, var:variance};
 }
 
 function parseDate(dateString){
