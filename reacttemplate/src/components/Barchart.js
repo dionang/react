@@ -4,7 +4,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Label, Legend, Tooltip, Res
 import ChartForm from './ChartForm';
 import JsonProcessor from './JsonProcessor';
 import Descriptive from './Descriptive';
-import { callbackify } from 'util';
 
 class Barchart extends Component {
     constructor(props) {
@@ -26,7 +25,7 @@ class Barchart extends Component {
     // do API call to render chartData upon loading of component from DB
     componentWillMount() {
         let {title, datasourceUrl, path, xAxis, yAxis, aggregate, summary} = this.props.properties;
-        this.initialize(title, datasourceUrl, path, xAxis, yAxis, aggregate, summary);
+        this.initialize(title, datasourceUrl, path, xAxis, yAxis, aggregate, summary, function(){});
     }
 
     initialize (title, datasourceUrl, path, xAxis, yAxis, aggregate, summary, callback) {
@@ -58,6 +57,7 @@ class Barchart extends Component {
                 self.setState({
                     initialized: true,
                     datasourceUrl: datasourceUrl,
+                    path: path,
                     title: title,
                     xAxis: xAxis,
                     yAxis: yAxis,

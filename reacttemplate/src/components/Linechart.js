@@ -25,7 +25,7 @@ class Linechart extends Component {
     // do API call to render chartData upon loading of component from DB
     componentWillMount() {
         let {title, datasourceUrl, path, xAxis, yAxis, aggregate, summary} = this.props.properties;
-        this.initialize(title, datasourceUrl, path, xAxis, yAxis, aggregate, summary);
+        this.initialize(title, datasourceUrl, path, xAxis, yAxis, aggregate, summary, function(){});
     }
 
     initialize (title, datasourceUrl, path, xAxis, yAxis, aggregate, summary, callback) {
@@ -57,6 +57,7 @@ class Linechart extends Component {
                 self.setState({
                     initialized: true,
                     datasourceUrl: datasourceUrl,
+                    path: path,
                     title: title,
                     xAxis: xAxis,
                     yAxis: yAxis,

@@ -24,10 +24,8 @@ class App3 extends Component {
             templateName: "Template Name",
             sidebar: true,
             pageNo: 0,
-            lastPage: -1,
-            start: false,
             picArr:[],
-            doc:'',
+            exporting: false
         }
     }
 
@@ -37,15 +35,6 @@ class App3 extends Component {
         //     this.setState({templateName});
         // }
         this.loadTemplate();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        let self = this;
-        setTimeout(function () {
-            if (self.state.lastPage >= 0) {
-                self.savePDF();
-            }
-        }, 100);
     }
 
     addTextbox = () => {
@@ -86,7 +75,6 @@ class App3 extends Component {
 
         this.setState({ components, editMode: true });
     }
-
 
     addTable = () => {
         let components = this.state.components;
@@ -240,104 +228,91 @@ class App3 extends Component {
         }, function (error, response, body) {
             if (body && body.status) {
                 alert("Saved succesfully");
-                // swal("saved succesfully");
+                // swal({icon:"success", text:"Saved succesfully"});
             } else {
                 alert("Error in saving");
-                // swal("error in saving");
+                // swal({icon:"error", text:"Error in saving"});
             }
 
         });
     }
 
-    saveImages=()=>{
-        // let formData = new FormData();
-        // formData.append("file", self.dataUrlToFile(dataUrl, self.state.templateName + "_slide" + (self.state.pageNo + 1) + ".jpg"));
-
-        // let xhr = new XMLHttpRequest();
-        // xhr.open("POST", api + "saveFile");
-        // xhr.send(formData);
-        let lastPage = this.state.lastPage;
+    savePDF(){
         let self = this; 
-        if(this.state.start){
+
+        // if exporting
+        if(this.state.exporting){
             domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
-            .then(function (dataUrl) {
+            .then(function(dataUrl) {
+                // add page screenshot to picArr
                 var picArr = self.state.picArr;
                 picArr.push(dataUrl);
-                self.setState({picArr});
+                let pageNo = self.state.pageNo;
 
-                if (lastPage == 0) {
-                    self.setState({ start: false });
-                    self.setState({ lastPage: -1 });
+                // if not on last page, increment pageNo and trigger rerender
+                if (pageNo < self.state.components.length-1) {
+                    pageNo += 1;
+                    self.setState({pageNo});
 
-                    console.log(picArr);
+                    // give time for page to rerender before calling the method
+                    setTimeout(function(){
+                        self.savePDF();
+                    }, 1500);
 
-                    var doc = new jsPDF(); 
-                    for(var i = picArr.length-1; i >=0; i--){
+                // reached the last page, proceed to export PDF
+                } else {
+                    // hardcoded A4 dimensions, width * height
+                    let doc = new jsPDF('l', 'mm', [297, 210]); 
+
+                    // iterate through the pages
+                    for(let i=0; i<self.state.picArr.length; i++){
                         let dataUrl = self.state.picArr[i];
-                        console.log(dataUrl);
-                        doc.addImage(dataUrl,'JPEG', 0, 0, 200,200);  
-                        console.log(i);  
-                        //doc.addPage();
-                        if(i!=0){
+
+                        // uploads the image to our public folder
+                        let formData = new FormData();
+                        formData.append("file", self.dataUrlToFile(dataUrl, self.state.templateName + "_slide" + (i + 1) + ".jpg"));
+                        let xhr = new XMLHttpRequest();
+                        xhr.open("POST", api + "saveFile");
+                        xhr.send(formData);
+
+                        // should use these values to set PDF dimensions
+                        // let width = document.getElementById('container').width;
+                        // let height = document.getElementById('container').height;
+
+                        doc.addImage(dataUrl,'JPEG', 0, 0, 297,140);  
+
+                        // 20 is left margin, 200 is top margin
+                        doc.text(20,200, "Page No: " + (pageNo+1));
+                        
+                        // if not last page, add page
+                        if(i != self.state.picArr.length-1){
                             doc.addPage();
                         }
                     }
-                    doc.save('div.pdf');
-                    picArr = [];
-                    self.setState({picArr});
-                } else {
-                    
-                    lastPage -= 1;
-                    self.setState({ lastPage });
-                    self.setState({ pageNo: lastPage });
-                }
-            })
-        } else {
-            let noCom = this.state.components.length;
-            lastPage = noCom - 1;
-            this.setState({ lastPage });
-            this.setState({ start: true });
-            this.setState({ pageNo: lastPage });
-        }
-    }
 
-    savePDF = () => {
-        let lastPage = this.state.lastPage;
-        let self = this; 
-        if(this.state.start){
-            domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
-            .then(function (dataUrl) {
-                var picArr = self.state.picArr;
-                picArr.push(dataUrl);
-                self.setState({picArr});
-            
-                 if (lastPage == 0) {
-                    self.setState({ start: false });
-                    self.setState({ lastPage: -1 });
+                    // completed the rendering of doc
+                    // upload PDF to public folder
+                    let formData = new FormData();
+                    formData.append("file", doc.output('blob'), self.state.templateName+".pdf");
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", api + "saveFile");
+                    xhr.send(formData);
 
-                    var doc = new jsPDF(); 
-                    for(var i = picArr.length-1; i >=0; i--){
-                        let dataUrl = self.state.picArr[i];
-                        doc.addImage(dataUrl,'JPEG', 0, 0, 200,200);  
-                        if(i!=0){
-                            doc.addPage();
-                        }
-                    }
-                    doc.save('div.pdf');
+                    // proceed to save locally
+                    doc.save(self.state.templateName);
                     picArr = [];
-                    self.setState({picArr});
-                } else {
-                    lastPage -= 1;
-                    self.setState({ lastPage });
-                    self.setState({ pageNo: lastPage });
+                    self.setState({picArr:[], exporting:false});
                 }
-            })
+            });
+
+        // starts the exporting process, starting from the first page
         } else {
-            let noCom = this.state.components.length;
-            lastPage = noCom - 1;
-            this.setState({ lastPage });
-            this.setState({ start: true });
-            this.setState({ pageNo: lastPage });
+            this.setState({ pageNo:0, exporting:true });
+
+            // give time for page to rerender before calling the method
+            setTimeout(function(){
+                self.savePDF();
+            }, 1500);
         }
     }
 
@@ -377,7 +352,6 @@ class App3 extends Component {
                 } else if (component.type === "video") {
                     // remove the p tags
                     let videoUrl = component.properties.text.substring(3, component.properties.text.length - 4).trim();
-                    console.log(videoUrl);
                     slide.addMedia({ type: 'online', link: videoUrl, x: x, y: y, w: w, h: h });
                 }
             }
@@ -405,7 +379,8 @@ class App3 extends Component {
                 }
             }, function (error, response, body) {
                 if (body === "false") {
-                    alert("Failed to create template!");
+                    alert("Failed to create template!")
+                    // swal({icon:"error", text:"Failed to create template!"});
                 } else {
                     // update the value of the hidden fields
                     document.getElementById("templateId").value = body;
@@ -426,7 +401,8 @@ class App3 extends Component {
                 }
             }, function (error, response, body) {
                 if (body === "false") {
-                    alert("Failed to update template!");
+                    alert("Failed to update template!")
+                    // swal({icon:"error", text:"Failed to update template!"});
                 } else {
                     self.saveComponents(templateId);
                 }
@@ -494,7 +470,8 @@ class App3 extends Component {
             <div>
                 <input type="hidden" id="templateId" value="1" />
                 <input type="hidden" id="companyId" value="1" />
-                <input type="hidden" id="userName" value="manager" />
+                <input type="hidden" id="userName" value="manager"/>
+                <input type="hidden" id="profileName" value="Manager"/>
                 <div className={this.state.sidebar ? "nav-md" : "nav-sm"} id="main">
                     <div className="container body" style={{ margin: 0, padding: 0, width: "100%" }}>
                         <div className="main_container">
@@ -530,7 +507,8 @@ class App3 extends Component {
                                         <ul className="nav navbar-nav navbar-right">
                                             <li>
                                                 <a className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    <img src="assets/images/user.png" />
+                                                    {/* {document.getElementById('profileName').value} */}
+                                                    <img style={{marginLeft:2}} src="assets/images/user.png" />
                                                     <span className=" fa fa-angle-down"></span>
                                                 </a>
                                                 <ul className="dropdown-menu dropdown-usermenu pull-right">
@@ -549,22 +527,18 @@ class App3 extends Component {
                                     <input style={{ fontSize: 15 }} value={this.state.templateName} onChange={this.renameTemplate} />
                                 </div>
                                 {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
-                                <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button>
-                                <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveTemplate}>
+                                {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
+                                <Button className="col-md-2 col-xs-2" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveTemplate}>
                                     <i className="fa fa-save" /> Save Template
                                     </Button>
-                                <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 150 }} bsStyle="success" onClick={this.toggleEditMode}>
+                                <Button className="col-md-2 col-xs-2" style={{ float: "right", minWidth: 150 }} bsStyle="success" onClick={this.toggleEditMode}>
                                     <i className="fa fa-edit" style={{ marginRight: 2 }} />
                                     {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
                                 </Button>
                                 <Button className="col-md-2 col-xs-2" style={{ float: "right", minWidth: 150 }} bsStyle="warning" onClick={this.savePresentation}>
                                     <i className="fa fa-edit" style={{ marginRight: 2 }} /> Export as PPT
                                 </Button>
-                                <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveTemplate}>
-                                    <i className="fa fa-save" /> Save Template
-                                </Button>
-                                {/* <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveNew}></Button> */}
-                                <Button className="col-md-2 col-xs-3" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={()=>{this.setState({editMode: false}); this.savePDF()}}>
+                                <Button className="col-md-2 col-xs-2" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={()=>{this.setState({editMode: false}); this.savePDF()}}>
                                     <i className="fa fa-save" /> Save PDF
                                 </Button>
                                 <br />
@@ -651,13 +625,10 @@ class App3 extends Component {
 
                                 <div className="col-sm-12 col-xs-12" style={{ background: "#EEEEEE" }}>
                                     <div id="container" style={{
-                                        backgroundColor: 'white', height: window.innerHeight * 0.70, 
-                                        marginTop: 0, marginBottom: 0,
-                                        marginRight: 0, marginLeft: 0
+                                        backgroundColor: 'white', height: window.innerHeight * 0.70, margin:0
                                     }}>
 
                                         {/* map does a for loop over all the components in the state */}
-                                        {/* {console.log("pageNo" + this.state.pageNo)} */}
                                         {this.state.components[this.state.pageNo].map((item, i) => {
                                             if (item.display) {
                                                 return <Rnd key={this.state.pageNo + "," + i}
