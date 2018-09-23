@@ -18,6 +18,7 @@ class VideoComponent extends React.Component {
     loadVideo = (e) => {
         let videoUrl = document.getElementById("videoUrl").value.trim();
         this.setState({initialized: true, videoUrl: videoUrl});
+        console.log(videoUrl);
         this.props.updateProperties({initialized: true, videoUrl: videoUrl}, this.props.i);
     }
 

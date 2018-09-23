@@ -363,7 +363,8 @@ class App3 extends Component {
                     slide.addImage({ data: imageUrl, x: x, y: y, w: w, h: h });
                 } else if (component.type === "video") {
                     // remove the p tags
-                    let videoUrl = component.properties.text.substring(3, component.properties.text.length - 4).trim();
+                    let videoUrl = component.properties.videoUrl.trim();
+                    console.log(videoUrl);
                     slide.addMedia({ type: 'online', link: videoUrl, x: x, y: y, w: w, h: h });
                 }
             }
