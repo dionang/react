@@ -41,8 +41,8 @@ class Textbox extends Component {
         };
 
         return(
-            <RichTextEditor style={{border:"hidden"}}
-                rootStyle={{height:"100%", minHeight:100, minWidth:150}}
+            <RichTextEditor 
+                rootStyle={{height:"100%", minHeight:100, minWidth:150, border:0}}
                 value={this.state.value}
                 onChange={this.onChange}
                 toolbarConfig={toolbarConfig}

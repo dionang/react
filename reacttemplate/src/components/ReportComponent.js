@@ -29,11 +29,12 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type ==="table"){
             return(
-                <EmptyTable autoFocus="true" style={{zIndex:10}}/>
+                <EmptyTable/>
             );
         } else if (this.props.type === "video") {
             return(
-                <VideoComponent i={this.props.i} editMode={this.props.editMode} updateProperties={this.props.updateProperties} />
+                <VideoComponent i={this.props.i} editMode={this.props.editMode} 
+                    properties={this.props.properties} updateProperties={this.props.updateProperties} />
             );
         }
     }

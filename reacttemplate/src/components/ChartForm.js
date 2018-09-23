@@ -113,7 +113,7 @@ class ChartForm extends Component {
                 render={formProps=>(
                     <Form className="draggable" style={{textAlign: "center", height:"100%",width:"100%"}}>
                         <label>Chart Title</label>
-                        <Field type="text" name="title" placeholder="Chart Title" />
+                        <Field className="nonDraggable" type="text" name="title" placeholder="Chart Title" />
                         <br/><br/>
                         <label>Choose the datasource</label>
                         <Field component="select" name="datasource" onChange={(e)=>this.loadDataset(e.target.value, formProps)}>

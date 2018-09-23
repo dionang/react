@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Rnd from 'react-rnd';
 import request from 'request';
 import PptxGenJS from 'pptxgenjs';
+import domtoimage from "dom-to-image-chrome-fix";
+import { ButtonToolbar, DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import ReportComponent from './components/ReportComponent';
-import { glyph, ButtonToolbar, DropdownButton, MenuItem, Button, Glyphicon } from 'react-bootstrap';
-import domtoimage from "dom-to-image";
 import './bootstrap.css';
 import './report.css';
 import jsPDF from 'jspdf';
@@ -79,7 +79,10 @@ class App3 extends Component {
     addTable = () => {
         let components = this.state.components;
         components[this.state.pageNo].push(
-            { type: "table", x: 0, y: 0, height: "fit-content", width: "fit-content", display: true, minWidth: "740px" }
+            { 
+                type: "table", x: 0, y: 0, height: "fit-content", width: "fit-content", display: true, minWidth:500,
+                properties: {}
+            }
         );
 
         this.setState({ components, editMode: true });
@@ -103,10 +106,11 @@ class App3 extends Component {
         let components = this.state.components;
         components[this.state.pageNo].push(
             {
-                type: "video", x: 0, y: 0, height: 200, width: 200, display: true,
+                type: "video", x: 0, y: 0, height: 200, width: 400, display: true,
                 properties: {
                     // using textbox properties for now
-                    text: '',
+                    initialized: false,
+                    videoUrl: 'Enter video embed URL',
                 }
             }
         );
@@ -537,32 +541,25 @@ class App3 extends Component {
                                         <label style={{ fontSize: 15, marginRight: 2, float:"left" }}>Template Name:</label>
                                         <input style={{ fontSize: 15, float:"left" }} value={this.state.templateName} onChange={this.renameTemplate} />
 
-                                        <Button className="col-md-2 col-xs-2" style={{ width: "fit-content", marginLeft:5 }} bsStyle="sucess" onClick={this.toggleEditMode}>
+                                        <Button className="col-md-2 col-xs-2" style={{ width: "fit-content", marginLeft:5 }} bsStyle="success" onClick={this.toggleEditMode}>
                                             <i className="fa fa-edit" style={{ marginRight: 2 }} />
                                             Editing
                                         </Button>
                                         </span>
                                         :
                                         <span>
-                                        <label style={{ fontSize: 15, marginRight: 2, float:"left" }}>Template Name:</label>
-                                        <input style={{ fontSize: 15, float:"left" }} value={this.state.templateName} onChange={this.renameTemplate} />
+                                            <label style={{ fontSize: 15, marginRight: 2, float:"left" }}>Template Name:</label>
+                                            <input style={{ fontSize: 15, float:"left" }} value={this.state.templateName} onChange={this.renameTemplate} />
 
-                                        <Button className="col-md-2 col-xs-2" style={{ width: "fit-content", marginLeft:5}} bsStyle="success" onClick={this.toggleEditMode}>
-                                            <i className="fa fa-edit" style={{ marginRight: 2 }} />
-                                            Edit
-                                        </Button>
-                                       
-                                        
+                                            <Button className="col-md-2 col-xs-2" style={{ width: "fit-content", marginLeft:5}} bsStyle="success" onClick={this.toggleEditMode}>
+                                                <i className="fa fa-edit" style={{ marginRight: 2 }} />
+                                                Edit
+                                            </Button>
                                         </span>
                                     }
                                 </div>
                                 {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
-                                {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
-
-                                {/* <Button>
-                                    <Glyphicon glyph="align-left" />
-                                </Button> */}
-
+                                <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button>
 
                                 {/* <Button className="col-md-2 col-xs-2" style={{ float: "right", width: "fit-content" }} bsStyle="warning" onClick={this.savePresentation}>
                                     <i className="fa fa-edit" style={{ marginRight: 2 }} /> Export as PPT
@@ -570,8 +567,6 @@ class App3 extends Component {
                                 <Button className="col-md-2 col-xs-2" style={{ float: "right", width: "fit-content" }} bsStyle="info" onClick={() => { this.setState({ editMode: false }); this.savePDF() }}>
                                     <i className="fa fa-save" /> Save PDF
                                 </Button> */}
-
-                                <br />
 
                                 {/* <div id="size" className="modal">
                                     <div className="modal-content">
@@ -614,7 +609,6 @@ class App3 extends Component {
                                     </div>
                                 </div> */}
 
-
                                 <div className="col-sm-12 col-xs-12" style={{ paddingTop: 10, paddingBottom: 10, backgroundColor: 'white', borderBottom: '7px solid #EB6B2A' }}>
                                     <span><label> Add Component: </label>
                                         <ButtonToolbar>
@@ -630,44 +624,35 @@ class App3 extends Component {
                                                 onClick={this.addImage} style={{ backgroundColor: "#31B0D5", color: "white", border: "1px solid #31B0D5", marginRight: 5 }}><i className="fa fa-image" /></Button>
                                             <Button data-toggle="tooltip" data-placement="bottom" title="Add Video"
                                                 onClick={this.addVideo} style={{ backgroundColor: "#D896FF", color: "white", border: "1px solid #D896FF", marginRight: 5}}><i className="fa fa-play-circle" /></Button>
-
-
                                             <Button  style={{  height: "fit-content", width: "fit-content", marginRight:5}} onClick={this.saveTemplate} block>
-                                            <i className="fa fa-save fa-lg" />
-                                        </Button>
+                                                <i className="fa fa-save fa-lg" />
+                                            </Button>
 
                                             <DropdownButton title="Export As" id="dropdown-size-medium" onSelect={this.export}>
                                                 <MenuItem eventKey="PDF">PDF</MenuItem>
                                                 <MenuItem eventKey="PPT">PPT</MenuItem>
                                             </DropdownButton>
-                                            
-                                     
-                                        
 
-
-                                        <span style={{ fontFamily: 'Georgia', fontSize: 18, float: "right" }}>Page Number
-                                        <Button data-toggle="tooltip" data-placement="bottom" title="Next Page" bsStyle="warning" bsSize="small" onClick={this.nextPage}
-                                                style={{ marginLeft: 10, float: "right"  }}>
-                                                <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
-                                                    <path d="M0-.5h24v24H0z" fill="none"></path>
-                                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" className="jWRuRT"></path>
-                                                </svg>
-                                            </Button>
-                                            <span style={{ fontFamily: 'Georgia', fontSize: 18, float:"right" }}>{this.state.pageNo + 1}</span>
-                                        <Button data-toggle="tooltip" data-placement="bottom" title="Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
-                                                style={{ marginRight: 10, marginLeft: 10, float: "right"  }}>
-                                                <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
-                                                    <path d="M0-.5h24v24H0z" fill="none"></path>
-                                                    <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" className="jWRuRT"></path>
-                                                </svg>
-                                            </Button>
-                                            
-                                            
-                                        </span>
+                                            <span style={{ fontFamily: 'Georgia', fontSize: 18, float: "right" }}>Page Number
+                                                <Button data-toggle="tooltip" data-placement="bottom" title="Next Page" bsStyle="warning" bsSize="small" onClick={this.nextPage}
+                                                    style={{ marginLeft: 10, float: "right"  }}>
+                                                    <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
+                                                        <path d="M0-.5h24v24H0z" fill="none"></path>
+                                                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" className="jWRuRT"></path>
+                                                    </svg>
+                                                </Button>
+                                                <span style={{ fontFamily: 'Georgia', fontSize: 18, float:"right" }}>{this.state.pageNo + 1}</span>
+                                                <Button data-toggle="tooltip" data-placement="bottom" title="Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
+                                                    style={{ marginRight: 10, marginLeft: 10, float: "right"  }}>
+                                                    <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
+                                                        <path d="M0-.5h24v24H0z" fill="none"></path>
+                                                        <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" className="jWRuRT"></path>
+                                                    </svg>
+                                                </Button>
+                                            </span>
                                         
                                         </ButtonToolbar>
-                                        </span>
-
+                                    </span>
                                 </div>
 
                                 <div className="col-sm-12 col-xs-12" style={{ background: "#EEEEEE" }}>
@@ -730,13 +715,9 @@ class App3 extends Component {
                                                         properties={item.properties} i={i}
                                                         updateProperties={this.updateProperties.bind(this)}
                                                     />
-                                                    {/* <Descriptive type={item.type} editMode={this.state.editMode}
-                                                    properties={item.properties} i={i}
-                                                    updateProperties={this.updateProperties.bind(this)}></Descriptive> */}
                                                 </Rnd>
                                             }
                                         })}
-
                                     </div>
                                 </div>
                             </div>

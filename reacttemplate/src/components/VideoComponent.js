@@ -4,8 +4,8 @@ class VideoComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            initialized: true,
-            videoUrl: '', 
+            initialized: this.props.initialized,
+            videoUrl: '',
         };
     }
 
@@ -16,22 +16,25 @@ class VideoComponent extends React.Component {
     }
 
     loadVideo = (e) => {
-        let videoUrl = e.target.value;
+        let videoUrl = document.getElementById("videoUrl").value.trim();
         this.setState({initialized: true, videoUrl: videoUrl});
         this.props.updateProperties({initialized: true, videoUrl: videoUrl}, this.props.i);
-
     }
 
     render() {
         return (
-            <div className="draggable" style={{height:"100%", width:"100%"}}>
+            <div style={{height:"100%", width:"100%"}}>
                 {this.state.initialized ? 
-                <video width="100%" height="calc(100% - 27.5px)" className="draggable">
-                    <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type="video/mp4"/>
+                <video className="draggable" id="player" controls
+                    // src="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
+                    src={this.state.videoUrl}
+                    width="100%"
+                    style={{height:"calc(100% - 27.5px)"}}>
                 </video>
-                : <div style={{border: "1px dotted grey", height:"100%"}}>
-                    <input className="video" onChange={this.loadVideo} /><br/>
-                    Please enter a embed video URL
+                : <div style={{height:"100%", display:"flex"}} className="draggable">
+                    <input id="videoUrl" className="nonDraggable" placeholder="Please enter a embed video URL" 
+                        style={{margin:"auto", width:"80%"}}/>
+                    <button style={{margin:"auto"}} onClick={this.loadVideo}>Submit</button>
                 </div>}
             </div>
         );
