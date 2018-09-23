@@ -578,7 +578,7 @@ class App5 extends Component {
                                                
                                                 {/* <Descriptive type={item.type} editMode={this.state.editMode}
                                                     properties={item.properties} i={i}
-                                            updateProperties={this.updateProperties.bind(this)}></Descriptive>*/}
+                                                    updateProperties={this.updateProperties.bind(this)}></Descriptive>*/}
                                             </div>
                                         }
                                     })}

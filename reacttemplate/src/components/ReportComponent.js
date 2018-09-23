@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Textbox from './Textbox';
 import Barchart from './Barchart';
 import Linechart from './Linechart';
-import Image from './Image';
 import EmptyTable from './EmptyTable';
-import Descriptive from './Descriptive';
+import ImageComponent from './ImageComponent';
+import VideoComponent from './VideoComponent';
 
 class ReportComponent extends Component {
     render() {
@@ -24,7 +24,7 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type ==="image"){
             return(
-                <Image i={this.props.i}  editMode={this.props.editMode} 
+                <ImageComponent i={this.props.i}  editMode={this.props.editMode} 
                     properties={this.props.properties} updateProperties={this.props.updateProperties}/>
             );
         } else if (this.props.type ==="table"){
@@ -33,8 +33,7 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type === "video") {
             return(
-                <Textbox i={this.props.i} text={this.props.properties.text} editMode={this.props.editMode}
-                    updateProperties={this.props.updateProperties} />
+                <VideoComponent i={this.props.i} editMode={this.props.editMode} updateProperties={this.props.updateProperties} />
             );
         }
     }

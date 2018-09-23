@@ -10,7 +10,7 @@ class Descriptive extends Component {
             columns: 
             [{
                 dataField: 'Sum',
-                text:<div>Sum <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
+                text: <div>Sum <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
                 
             }],
             order: 1,
@@ -25,34 +25,25 @@ class Descriptive extends Component {
         if (e === "Median") {
             columns.push({
                 dataField: 'Median',
-                text:
-                <div>Median<i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
-                
+                text: <div>Median<i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
             });
             
 
         } else if (e === "Min") {
             columns.push({
                 dataField: 'Min',
-                text: 
-                <div>Min <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
-                
-
+                text: <div>Min <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
             });
-        } else if(e==="Max"){
+        } else if(e === "Max"){
             columns.push({
                 dataField: 'Max',
-                text:  
-                <div>Max<i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
-                
-
+                text: <div>Max<i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
             });
-        } else if(e==="Variance"){
+        } else if(e === "Variance"){
             columns.push({
                 dataField:"Variance",
-                text:
-                <div>Variance<i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
-            })
+                text: <div>Variance<i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
+            });
         }
 
         this.setState({ columns,order });
@@ -60,10 +51,8 @@ class Descriptive extends Component {
     }
 
     delete(e){
-        console.log(e);
         const columns = this.state.columns ;
         delete columns[(e-1)];
-        //console.log(col);
         this.setState({columns});
     }
 
@@ -72,22 +61,22 @@ class Descriptive extends Component {
         const columns = [{
             dataField: 'Sum',
             text: 'Sum'
-          }, {
+        }, {
             dataField: 'Average',
             text: 'Average'
-          }, {
+        }, {
             dataField: 'Max',
             text: 'Max'
-          },{
+        },{
             dataField: 'Min',
             text: 'Min'
-          },{
+        },{
             dataField: 'Median',
             text: 'Median'
-          },{
-              dataField:"Variance",
-              text:"Variance"
-          }];
+        },{
+            dataField: 'Variance',
+            text: 'Variance'
+        }];
 
         var products = [{
             Sum: this.props.summaryData.sum,
