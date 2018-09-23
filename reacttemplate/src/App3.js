@@ -4,7 +4,7 @@ import request from 'request';
 import PptxGenJS from 'pptxgenjs';
 import ReportComponent from './components/ReportComponent';
 import { Button } from 'react-bootstrap';
-import domtoimage from "dom-to-image-chrome-fix";
+//import domtoimage from "dom-to-image-chrome-fix";
 import './bootstrap.css';
 import './report.css';
 import jsPDF from 'jspdf';
@@ -79,7 +79,7 @@ class App3 extends Component {
     addTable = () => {
         let components = this.state.components;
         components[this.state.pageNo].push(
-            { type: "table", x: 0, y: 0, height: 300, width: 300, display: true }
+            { type: "table", x: 0, y: 0, height: "fit-content", width: "fit-content", display: true, minWidth:"740px" }
         );
 
         this.setState({ components, editMode: true });
@@ -237,128 +237,128 @@ class App3 extends Component {
         });
     }
 
-    savePDF(){
-        let self = this; 
+    // savePDF(){
+    //     let self = this; 
 
-        // if exporting
-        if(this.state.exporting){
-            domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
-            .then(function(dataUrl) {
-                // add page screenshot to picArr
-                var picArr = self.state.picArr;
-                picArr.push(dataUrl);
-                let pageNo = self.state.pageNo;
+    //     // if exporting
+    //     if(this.state.exporting){
+    //         domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
+    //         .then(function(dataUrl) {
+    //             // add page screenshot to picArr
+    //             var picArr = self.state.picArr;
+    //             picArr.push(dataUrl);
+    //             let pageNo = self.state.pageNo;
 
-                // if not on last page, increment pageNo and trigger rerender
-                if (pageNo < self.state.components.length-1) {
-                    pageNo += 1;
-                    self.setState({pageNo});
+    //             // if not on last page, increment pageNo and trigger rerender
+    //             if (pageNo < self.state.components.length-1) {
+    //                 pageNo += 1;
+    //                 self.setState({pageNo});
 
-                    // give time for page to rerender before calling the method
-                    setTimeout(function(){
-                        self.savePDF();
-                    }, 1500);
+    //                 // give time for page to rerender before calling the method
+    //                 setTimeout(function(){
+    //                     self.savePDF();
+    //                 }, 1500);
 
-                // reached the last page, proceed to export PDF
-                } else {
-                    // hardcoded A4 dimensions, width * height
-                    let doc = new jsPDF('l', 'mm', [297, 210]); 
+    //             // reached the last page, proceed to export PDF
+    //             } else {
+    //                 // hardcoded A4 dimensions, width * height
+    //                 let doc = new jsPDF('l', 'mm', [297, 210]); 
 
-                    // iterate through the pages
-                    for(let i=0; i<self.state.picArr.length; i++){
-                        let dataUrl = self.state.picArr[i];
+    //                 // iterate through the pages
+    //                 for(let i=0; i<self.state.picArr.length; i++){
+    //                     let dataUrl = self.state.picArr[i];
 
-                        // uploads the image to our public folder
-                        let formData = new FormData();
-                        formData.append("file", self.dataUrlToFile(dataUrl, self.state.templateName + "_slide" + (i + 1) + ".jpg"));
-                        let xhr = new XMLHttpRequest();
-                        xhr.open("POST", api + "saveFile");
-                        xhr.send(formData);
+    //                     // uploads the image to our public folder
+    //                     let formData = new FormData();
+    //                     formData.append("file", self.dataUrlToFile(dataUrl, self.state.templateName + "_slide" + (i + 1) + ".jpg"));
+    //                     let xhr = new XMLHttpRequest();
+    //                     xhr.open("POST", api + "saveFile");
+    //                     xhr.send(formData);
 
-                        // should use these values to set PDF dimensions
-                        // let width = document.getElementById('container').width;
-                        // let height = document.getElementById('container').height;
+    //                     // should use these values to set PDF dimensions
+    //                     // let width = document.getElementById('container').width;
+    //                     // let height = document.getElementById('container').height;
 
-                        doc.addImage(dataUrl,'JPEG', 0, 0, 297,140);  
+    //                     doc.addImage(dataUrl,'JPEG', 0, 0, 297,140);  
 
-                        // 20 is left margin, 200 is top margin
-                        doc.text(20,200, "Page No: " + (pageNo+1));
+    //                     // 20 is left margin, 200 is top margin
+    //                     doc.text(20,200, "Page No: " + (pageNo+1));
                         
-                        // if not last page, add page
-                        if(i != self.state.picArr.length-1){
-                            doc.addPage();
-                        }
-                    }
+    //                     // if not last page, add page
+    //                     if(i != self.state.picArr.length-1){
+    //                         doc.addPage();
+    //                     }
+    //                 }
 
-                    // completed the rendering of doc
-                    // upload PDF to public folder
-                    let formData = new FormData();
-                    formData.append("file", doc.output('blob'), self.state.templateName+".pdf");
-                    let xhr = new XMLHttpRequest();
-                    xhr.open("POST", api + "saveFile");
-                    xhr.send(formData);
+    //                 // completed the rendering of doc
+    //                 // upload PDF to public folder
+    //                 let formData = new FormData();
+    //                 formData.append("file", doc.output('blob'), self.state.templateName+".pdf");
+    //                 let xhr = new XMLHttpRequest();
+    //                 xhr.open("POST", api + "saveFile");
+    //                 xhr.send(formData);
 
-                    // proceed to save locally
-                    doc.save(self.state.templateName);
-                    picArr = [];
-                    self.setState({picArr:[], exporting:false});
-                }
-            });
+    //                 // proceed to save locally
+    //                 doc.save(self.state.templateName);
+    //                 picArr = [];
+    //                 self.setState({picArr:[], exporting:false});
+    //             }
+    //         });
 
-        // starts the exporting process, starting from the first page
-        } else {
-            this.setState({ pageNo:0, exporting:true });
+    //     // starts the exporting process, starting from the first page
+    //     } else {
+    //         this.setState({ pageNo:0, exporting:true });
 
-            // give time for page to rerender before calling the method
-            setTimeout(function(){
-                self.savePDF();
-            }, 1500);
-        }
-    }
+    //         // give time for page to rerender before calling the method
+    //         setTimeout(function(){
+    //             self.savePDF();
+    //         }, 1500);
+    //     }
+    // }
 
-    savePresentation = () => {
-        var pptx = new PptxGenJS();
-        pptx.setBrowser(true);
+    // savePresentation = () => {
+    //     var pptx = new PptxGenJS();
+    //     pptx.setBrowser(true);
 
-        for (let pageNo in this.state.components) {
-            let components = this.state.components[pageNo];
-            let slide = pptx.addNewSlide();
-            for (let component of components) {
-                // convert px to inches
-                let x = component.x / 96;
-                let y = component.y / 96;
-                let w = component.width / 96;
-                let h = (component.height) / 96;
+    //     for (let pageNo in this.state.components) {
+    //         let components = this.state.components[pageNo];
+    //         let slide = pptx.addNewSlide();
+    //         for (let component of components) {
+    //             // convert px to inches
+    //             let x = component.x / 96;
+    //             let y = component.y / 96;
+    //             let w = component.width / 96;
+    //             let h = (component.height) / 96;
 
-                if (component.type === "text") {
-                    // remove the p tags
-                    let text = component.properties.text.substring(3, component.properties.text.length - 4);
-                    // console.log(text);
-                    // let texts = text.split(/\r\n|\n|\r/);
-                    // console.log(texts); 
-                    slide.addText(text, {
-                        x: x, y: y, w: w, h: h,
-                        fontSize: 14, color: '363636'
-                        // , bullet:{code:'25BA'} 
-                    });
+    //             if (component.type === "text") {
+    //                 // remove the p tags
+    //                 let text = component.properties.text.substring(3, component.properties.text.length - 4);
+    //                 // console.log(text);
+    //                 // let texts = text.split(/\r\n|\n|\r/);
+    //                 // console.log(texts); 
+    //                 slide.addText(text, {
+    //                     x: x, y: y, w: w, h: h,
+    //                     fontSize: 14, color: '363636'
+    //                     // , bullet:{code:'25BA'} 
+    //                 });
 
-                } else if (component.type === "image") {
-                    let imageUrl = component.properties.imageUrl;
+    //             } else if (component.type === "image") {
+    //                 let imageUrl = component.properties.imageUrl;
 
-                    // remove height of toolbar
-                    y = (component.y + 27.5) / 96;
-                    h = (component.height - 27.5) / 96;
-                    slide.addImage({ data: imageUrl, x: x, y: y, w: w, h: h });
-                } else if (component.type === "video") {
-                    // remove the p tags
-                    let videoUrl = component.properties.text.substring(3, component.properties.text.length - 4).trim();
-                    slide.addMedia({ type: 'online', link: videoUrl, x: x, y: y, w: w, h: h });
-                }
-            }
-        }
+    //                 // remove height of toolbar
+    //                 y = (component.y + 27.5) / 96;
+    //                 h = (component.height - 27.5) / 96;
+    //                 slide.addImage({ data: imageUrl, x: x, y: y, w: w, h: h });
+    //             } else if (component.type === "video") {
+    //                 // remove the p tags
+    //                 let videoUrl = component.properties.text.substring(3, component.properties.text.length - 4).trim();
+    //                 slide.addMedia({ type: 'online', link: videoUrl, x: x, y: y, w: w, h: h });
+    //             }
+    //         }
+    //     }
 
-        pptx.save('Sample Presentation');
-    }
+    //     pptx.save('Sample Presentation');
+    // }
 
     saveTemplate = () => {
         let self = this;
@@ -637,8 +637,10 @@ class App3 extends Component {
                                                         borderWidth: 2,
                                                         backgroundColor: "white",
                                                         borderColor: 'grey',
+                                                        width:"fit-content"
                                                     }}
-
+                                                    
+                                                    
                                                     // intialize components x,y,height and width
                                                     position={{ x: item.x, y: item.y }}
                                                     size={{ width: item.width, height: item.height }}

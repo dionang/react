@@ -32,10 +32,10 @@ class TableForm extends Component {
                 // initialize values to use in form
                 initialValues={{
                     title:'', 
-                    dataset: datasets[0],
-                    datasourceUrl: datasourceUrl,
-                    primaryCol: jsonProcessor.getOptions(datasets[0])[0], 
-                    processor:jsonProcessor,
+                    // dataset: datasets[0],
+                    // datasourceUrl: datasourceUrl,
+                    // primaryCol: jsonProcessor.getOptions(datasets[0])[0], 
+                    // processor:jsonProcessor,
                 }}
 
                 // pass values to the charts
@@ -43,9 +43,9 @@ class TableForm extends Component {
 
                 // render form
                 render={formProps=>(
-                    <Form className="draggable" style={{textAlign: "center", zIndex: -1,height:"100%",width:"100%"}}>
+                    <Form className="draggable" style={{textAlign: "center",  height:"100%",width:"100%"}}>
                         <label style={{marginRight:5}}>Chart Title</label>
-                        <Field type="text" name="title" placeholder="Chart Title"/>
+                        <Field type="text" name="title" placeholder="Chart Title" style={{position:"relative", zIndex: 10,}}/>
                         <br/><br/>
                         <label style={{marginRight:5}}>Choose the dataset</label>
                         <Field component="select" name="dataset">

@@ -3,7 +3,7 @@ import Textbox from './Textbox';
 import Barchart from './Barchart';
 import Linechart from './Linechart';
 import Image from './Image';
-import Table from './Table';
+import EmptyTable from './EmptyTable';
 import Descriptive from './Descriptive';
 
 class ReportComponent extends Component {
@@ -29,7 +29,7 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type ==="table"){
             return(
-                <Table/>
+                <EmptyTable autoFocus="true" style={{zIndex:10}}/>
             );
         } else if (this.props.type === "video") {
             return(

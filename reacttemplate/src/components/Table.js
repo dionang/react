@@ -13,17 +13,20 @@ class Table extends Component {
         super(props);
         this.state = {
             ...this.props.properties,
-            columns: 
-            [{
-                dataField: 'id',
-                text:<div>Product ID <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
-                sort: true
-            }],
+            columns:
+                [{
+                    dataField: 'id',
+                    text: <div>Product ID <i style={{ marginTop: 10, marginRight: 10, marginRight: 4 }} className="fa fa-times" onClick={() => this.delete(1)}></i></div>,
+                    sort: true,
+                    editable: (content, row, rowIndex, columnIndex) => columnIndex || rowIndex >= 0,
+                }],
             order: 1,
-            aggregateType: 'Sum'
+            aggregateType: 'Sum',
+            noCol: 1,
         }
     }
 
+  
     // update state of initialized when props change
     /*componentWillReceiveProps(nextProps){
         if (nextProps.properties.initialized != this.state.initialized){
@@ -32,17 +35,17 @@ class Table extends Component {
     }*/
 
     initializeTable = (values) => {
-        //set settings of barchart
-        let processor = values.processor;
-        let datasourceUrl = values.datasourceUrl;
-        let dataset = values.dataset;
-        let data = processor.getDataset(dataset);
+        //     //set settings of barchart
+        //     let processor = values.processor;
+        //     let datasourceUrl = values.datasourceUrl;
+        //     let dataset = values.dataset;
+        //     let data = processor.getDataset(dataset);
 
         this.setState({
             initialized: true,
-            datasourceUrl: datasourceUrl,
-            dataset: dataset,
-            chartData: data
+            //         datasourceUrl: datasourceUrl,
+            //         dataset: dataset,
+            //         chartData: data
         })
 
         // sending all data to app2 other than chartData
@@ -50,86 +53,78 @@ class Table extends Component {
         //this.props.updateProperties(other, this.props.i);
     }
 
-    
+
     addCol = (e) => {
         let columns = this.state.columns;
-        let order = this.state.order+1;
+        let order = this.state.order + 1;
 
         if (e === "name") {
             columns.push({
                 dataField: 'name',
                 text:
-                <div>Product Name <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
+                    <div>Product Name <i style={{ marginTop: 10, marginRight: 10, marginRight: 4 }} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
+                editable: (content, row, rowIndex, columnIndex) => columnIndex || rowIndex || row >= -1,
                 sort: true,
             });
-            
+
 
         } else if (e === "price") {
             columns.push({
                 dataField: 'price',
-                text: 
-                <div>Price <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
+                text:
+                    <div>Price <i style={{ marginTop: 10, marginRight: 10, marginRight: 4 }} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
+                editable: (content, row, rowIndex, columnIndex) => columnIndex || rowIndex || row >= -1,
                 sort: true
 
             });
         } else {
             columns.push({
                 dataField: 'id',
-                text:  
-                <div>Product ID <i style={{marginTop:10, marginRight:10, marginRight:4}} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
+                text:
+                    <div>Product ID <i style={{ marginTop: 10, marginRight: 10, marginRight: 4 }} className="fa fa-times" onClick={() => this.delete(order)}></i></div>,
+                editable: (content, row, rowIndex, columnIndex) => columnIndex || rowIndex >= 0,
                 sort: true
 
             });
         }
 
-        this.setState({ columns,order });
-        
+        this.setState({ columns, order });
+
     }
 
-    delete(e){
+    delete(e) {
         console.log(e);
-        const columns = this.state.columns ;
-        delete columns[(e-1)];
+        const columns = this.state.columns;
+        delete columns[(e - 1)];
         //console.log(col);
-        this.setState({columns});
+        this.setState({ columns });
     }
+
+    focus() {
+        this.textInput.focus();
+      }
 
 
     render() {
-        var products = [{
+        const products = [{
             id: 1,
-            name: "Product1",
-            price: 120
-        }, {
-            id: 2,
-            name: "Product2",
-            price: 80
-        }, {
-            id: 3,
-            name: "Product1",
-            price: 120
-        }, {
-            id: 4,
-            name: "Product2",
-            price: 80
-        }, {
-            id: 5,
             name: "Product1",
             price: 120
         }];
 
-        const rowStyle = { backgroundColor: '#c8e6c9' };
+        //const rowStyle = { backgroundColor: '#c8e6c9' };
         const { value, onUpdate, ...rest } = this.props;
-        
+
         // loop through the columns to remove the empty items
         const actualTitle = [];
-        for (var i=0; i < this.state.columns.length; i++) {
-            if(this.state.columns[i] !== undefined){
+        for (var i = 0; i < this.state.columns.length; i++) {
+            if (this.state.columns[i] !== undefined) {
                 actualTitle.push(this.state.columns[i]);
             }
         }
 
-        return this.state.initialized ?
+        //  return this.state.initialized ?
+        return (
             <div className="draggable">
                 <ButtonToolbar >
                     <SplitButton title="Add a Column" bsStyle="info" pullRight id="split-button-pull-right" onSelect={this.addCol}>
@@ -139,14 +134,21 @@ class Table extends Component {
                         <MenuItem eventKey="price">Product Price</MenuItem>
                     </SplitButton>
                 </ButtonToolbar>
+                <input
+                    defaultValue="Won't focus"
+                />
+                <input  autofocus="true"     />
+                {console.log(this.state.noCol)}
+
 
                 <BootstrapTable keyField='id' data={products}
                     columns={actualTitle}
-                    //cellEdit={cellEditFactory({ mode: 'dbclick' })}
-                    rowStyle={rowStyle}>
+                    cellEdit={cellEditFactory({ mode: 'click' })}
+                //rowStyle={rowStyle}
+                >
                 </BootstrapTable>
-            </div>
-            : <TableForm initializeTable={this.initializeTable} />
+            </div>)
+        //  : <TableForm initializeTable={this.initializeTable} />
     }
 }
 
