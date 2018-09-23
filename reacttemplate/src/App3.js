@@ -3,8 +3,8 @@ import Rnd from 'react-rnd';
 import request from 'request';
 import PptxGenJS from 'pptxgenjs';
 import ReportComponent from './components/ReportComponent';
-import { Button } from 'react-bootstrap';
-//import domtoimage from "dom-to-image-chrome-fix";
+import { glyph, ButtonToolbar, DropdownButton, MenuItem, Button, Glyphicon } from 'react-bootstrap';
+import domtoimage from "dom-to-image";
 import './bootstrap.css';
 import './report.css';
 import jsPDF from 'jspdf';
@@ -24,7 +24,7 @@ class App3 extends Component {
             templateName: "Template Name",
             sidebar: true,
             pageNo: 0,
-            picArr:[],
+            picArr: [],
             exporting: false
         }
     }
@@ -51,7 +51,7 @@ class App3 extends Component {
         // adds new component to state
         components[this.state.pageNo].push(
             {
-                type: "bar", x: 0, y: 0, height: 250, width: 500, display: true,
+                type: "bar", x: 0, y: 0, height: 250, width: 500, display: true, minWidth: 500,
                 properties: {
                     initialized: false,
                 }
@@ -79,7 +79,7 @@ class App3 extends Component {
     addTable = () => {
         let components = this.state.components;
         components[this.state.pageNo].push(
-            { type: "table", x: 0, y: 0, height: "fit-content", width: "fit-content", display: true, minWidth:"740px" }
+            { type: "table", x: 0, y: 0, height: "fit-content", width: "fit-content", display: true, minWidth: "740px" }
         );
 
         this.setState({ components, editMode: true });
@@ -129,10 +129,10 @@ class App3 extends Component {
     dataUrlToFile(dataurl, filename) {
         var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
             bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-        while(n--){
+        while (n--) {
             u8arr[n] = bstr.charCodeAt(n);
         }
-        return new File([u8arr], filename, {type:mime});
+        return new File([u8arr], filename, { type: mime });
     }
 
     deleteComponent(i) {
@@ -141,6 +141,14 @@ class App3 extends Component {
 
         components[pageNo][i].display = false;
         this.setState({ components });
+    }
+
+    export = (e) => {
+        if (e === "PDF") {
+            this.savePDF();
+        } else {
+            this.savePresentation();
+        }
     }
 
     getComponentDetails = () => {
@@ -237,128 +245,128 @@ class App3 extends Component {
         });
     }
 
-    // savePDF(){
-    //     let self = this; 
+    savePDF() {
+        let self = this;
 
-    //     // if exporting
-    //     if(this.state.exporting){
-    //         domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
-    //         .then(function(dataUrl) {
-    //             // add page screenshot to picArr
-    //             var picArr = self.state.picArr;
-    //             picArr.push(dataUrl);
-    //             let pageNo = self.state.pageNo;
+        // if exporting
+        if (this.state.exporting) {
+            domtoimage.toJpeg(document.getElementById('container'), { quality: 1 })
+                .then(function (dataUrl) {
+                    // add page screenshot to picArr
+                    var picArr = self.state.picArr;
+                    picArr.push(dataUrl);
+                    let pageNo = self.state.pageNo;
 
-    //             // if not on last page, increment pageNo and trigger rerender
-    //             if (pageNo < self.state.components.length-1) {
-    //                 pageNo += 1;
-    //                 self.setState({pageNo});
+                    // if not on last page, increment pageNo and trigger rerender
+                    if (pageNo < self.state.components.length - 1) {
+                        pageNo += 1;
+                        self.setState({ pageNo });
 
-    //                 // give time for page to rerender before calling the method
-    //                 setTimeout(function(){
-    //                     self.savePDF();
-    //                 }, 1500);
+                        // give time for page to rerender before calling the method
+                        setTimeout(function () {
+                            self.savePDF();
+                        }, 1500);
 
-    //             // reached the last page, proceed to export PDF
-    //             } else {
-    //                 // hardcoded A4 dimensions, width * height
-    //                 let doc = new jsPDF('l', 'mm', [297, 210]); 
+                        // reached the last page, proceed to export PDF
+                    } else {
+                        // hardcoded A4 dimensions, width * height
+                        let doc = new jsPDF('l', 'mm', [297, 210]);
 
-    //                 // iterate through the pages
-    //                 for(let i=0; i<self.state.picArr.length; i++){
-    //                     let dataUrl = self.state.picArr[i];
+                        // iterate through the pages
+                        for (let i = 0; i < self.state.picArr.length; i++) {
+                            let dataUrl = self.state.picArr[i];
 
-    //                     // uploads the image to our public folder
-    //                     let formData = new FormData();
-    //                     formData.append("file", self.dataUrlToFile(dataUrl, self.state.templateName + "_slide" + (i + 1) + ".jpg"));
-    //                     let xhr = new XMLHttpRequest();
-    //                     xhr.open("POST", api + "saveFile");
-    //                     xhr.send(formData);
+                            // uploads the image to our public folder
+                            let formData = new FormData();
+                            formData.append("file", self.dataUrlToFile(dataUrl, self.state.templateName + "_slide" + (i + 1) + ".jpg"));
+                            let xhr = new XMLHttpRequest();
+                            xhr.open("POST", api + "saveFile");
+                            xhr.send(formData);
 
-    //                     // should use these values to set PDF dimensions
-    //                     // let width = document.getElementById('container').width;
-    //                     // let height = document.getElementById('container').height;
+                            // should use these values to set PDF dimensions
+                            // let width = document.getElementById('container').width;
+                            // let height = document.getElementById('container').height;
 
-    //                     doc.addImage(dataUrl,'JPEG', 0, 0, 297,140);  
+                            doc.addImage(dataUrl, 'JPEG', 0, 0, 297, 140);
 
-    //                     // 20 is left margin, 200 is top margin
-    //                     doc.text(20,200, "Page No: " + (pageNo+1));
-                        
-    //                     // if not last page, add page
-    //                     if(i != self.state.picArr.length-1){
-    //                         doc.addPage();
-    //                     }
-    //                 }
+                            // 20 is left margin, 200 is top margin
+                            doc.text(20, 200, "Page No: " + (pageNo + 1));
 
-    //                 // completed the rendering of doc
-    //                 // upload PDF to public folder
-    //                 let formData = new FormData();
-    //                 formData.append("file", doc.output('blob'), self.state.templateName+".pdf");
-    //                 let xhr = new XMLHttpRequest();
-    //                 xhr.open("POST", api + "saveFile");
-    //                 xhr.send(formData);
+                            // if not last page, add page
+                            if (i != self.state.picArr.length - 1) {
+                                doc.addPage();
+                            }
+                        }
 
-    //                 // proceed to save locally
-    //                 doc.save(self.state.templateName);
-    //                 picArr = [];
-    //                 self.setState({picArr:[], exporting:false});
-    //             }
-    //         });
+                        // completed the rendering of doc
+                        // upload PDF to public folder
+                        let formData = new FormData();
+                        formData.append("file", doc.output('blob'), self.state.templateName + ".pdf");
+                        let xhr = new XMLHttpRequest();
+                        xhr.open("POST", api + "saveFile");
+                        xhr.send(formData);
 
-    //     // starts the exporting process, starting from the first page
-    //     } else {
-    //         this.setState({ pageNo:0, exporting:true });
+                        // proceed to save locally
+                        doc.save(self.state.templateName);
+                        picArr = [];
+                        self.setState({ picArr: [], exporting: false });
+                    }
+                });
 
-    //         // give time for page to rerender before calling the method
-    //         setTimeout(function(){
-    //             self.savePDF();
-    //         }, 1500);
-    //     }
-    // }
+            // starts the exporting process, starting from the first page
+        } else {
+            this.setState({ pageNo: 0, exporting: true });
 
-    // savePresentation = () => {
-    //     var pptx = new PptxGenJS();
-    //     pptx.setBrowser(true);
+            // give time for page to rerender before calling the method
+            setTimeout(function () {
+                self.savePDF();
+            }, 1500);
+        }
+    }
 
-    //     for (let pageNo in this.state.components) {
-    //         let components = this.state.components[pageNo];
-    //         let slide = pptx.addNewSlide();
-    //         for (let component of components) {
-    //             // convert px to inches
-    //             let x = component.x / 96;
-    //             let y = component.y / 96;
-    //             let w = component.width / 96;
-    //             let h = (component.height) / 96;
+    savePresentation = () => {
+        var pptx = new PptxGenJS();
+        pptx.setBrowser(true);
 
-    //             if (component.type === "text") {
-    //                 // remove the p tags
-    //                 let text = component.properties.text.substring(3, component.properties.text.length - 4);
-    //                 // console.log(text);
-    //                 // let texts = text.split(/\r\n|\n|\r/);
-    //                 // console.log(texts); 
-    //                 slide.addText(text, {
-    //                     x: x, y: y, w: w, h: h,
-    //                     fontSize: 14, color: '363636'
-    //                     // , bullet:{code:'25BA'} 
-    //                 });
+        for (let pageNo in this.state.components) {
+            let components = this.state.components[pageNo];
+            let slide = pptx.addNewSlide();
+            for (let component of components) {
+                // convert px to inches
+                let x = component.x / 96;
+                let y = component.y / 96;
+                let w = component.width / 96;
+                let h = (component.height) / 96;
 
-    //             } else if (component.type === "image") {
-    //                 let imageUrl = component.properties.imageUrl;
+                if (component.type === "text") {
+                    // remove the p tags
+                    let text = component.properties.text.substring(3, component.properties.text.length - 4);
+                    // console.log(text);
+                    // let texts = text.split(/\r\n|\n|\r/);
+                    // console.log(texts); 
+                    slide.addText(text, {
+                        x: x, y: y, w: w, h: h,
+                        fontSize: 14, color: '363636'
+                        // , bullet:{code:'25BA'} 
+                    });
 
-    //                 // remove height of toolbar
-    //                 y = (component.y + 27.5) / 96;
-    //                 h = (component.height - 27.5) / 96;
-    //                 slide.addImage({ data: imageUrl, x: x, y: y, w: w, h: h });
-    //             } else if (component.type === "video") {
-    //                 // remove the p tags
-    //                 let videoUrl = component.properties.text.substring(3, component.properties.text.length - 4).trim();
-    //                 slide.addMedia({ type: 'online', link: videoUrl, x: x, y: y, w: w, h: h });
-    //             }
-    //         }
-    //     }
+                } else if (component.type === "image") {
+                    let imageUrl = component.properties.imageUrl;
 
-    //     pptx.save('Sample Presentation');
-    // }
+                    // remove height of toolbar
+                    y = (component.y + 27.5) / 96;
+                    h = (component.height - 27.5) / 96;
+                    slide.addImage({ data: imageUrl, x: x, y: y, w: w, h: h });
+                } else if (component.type === "video") {
+                    // remove the p tags
+                    let videoUrl = component.properties.text.substring(3, component.properties.text.length - 4).trim();
+                    slide.addMedia({ type: 'online', link: videoUrl, x: x, y: y, w: w, h: h });
+                }
+            }
+        }
+
+        pptx.save('Sample Presentation');
+    }
 
     saveTemplate = () => {
         let self = this;
@@ -470,8 +478,8 @@ class App3 extends Component {
             <div>
                 <input type="hidden" id="templateId" value="1" />
                 <input type="hidden" id="companyId" value="1" />
-                <input type="hidden" id="userName" value="manager"/>
-                <input type="hidden" id="profileName" value="Manager"/>
+                <input type="hidden" id="userName" value="manager" />
+                <input type="hidden" id="profileName" value="Manager" />
                 <div className={this.state.sidebar ? "nav-md" : "nav-sm"} id="main">
                     <div className="container body" style={{ margin: 0, padding: 0, width: "100%" }}>
                         <div className="main_container">
@@ -508,7 +516,7 @@ class App3 extends Component {
                                             <li>
                                                 <a className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                     {/* {document.getElementById('profileName').value} */}
-                                                    <img style={{marginLeft:2}} src="assets/images/user.png" />
+                                                    <img style={{ marginLeft: 2 }} src="assets/images/user.png" />
                                                     <span className=" fa fa-angle-down"></span>
                                                 </a>
                                                 <ul className="dropdown-menu dropdown-usermenu pull-right">
@@ -523,24 +531,46 @@ class App3 extends Component {
 
                             <div className="right_col">
                                 <div className="col-md-6 col-xs-6">
-                                    <label style={{ fontSize: 15, marginRight: 2 }}>Template Name:</label>
-                                    <input style={{ fontSize: 15 }} value={this.state.templateName} onChange={this.renameTemplate} />
+                                    
+                                    {this.state.editMode ?
+                                        <span>
+                                        <label style={{ fontSize: 15, marginRight: 2, float:"left" }}>Template Name:</label>
+                                        <input style={{ fontSize: 15, float:"left" }} value={this.state.templateName} onChange={this.renameTemplate} />
+
+                                        <Button className="col-md-2 col-xs-2" style={{ width: "fit-content", marginLeft:5 }} bsStyle="sucess" onClick={this.toggleEditMode}>
+                                            <i className="fa fa-edit" style={{ marginRight: 2 }} />
+                                            Editing
+                                        </Button>
+                                        </span>
+                                        :
+                                        <span>
+                                        <label style={{ fontSize: 15, marginRight: 2, float:"left" }}>Template Name:</label>
+                                        <input style={{ fontSize: 15, float:"left" }} value={this.state.templateName} onChange={this.renameTemplate} />
+
+                                        <Button className="col-md-2 col-xs-2" style={{ width: "fit-content", marginLeft:5}} bsStyle="success" onClick={this.toggleEditMode}>
+                                            <i className="fa fa-edit" style={{ marginRight: 2 }} />
+                                            Edit
+                                        </Button>
+                                       
+                                        
+                                        </span>
+                                    }
                                 </div>
                                 {/* <button className="btn btn-primary" id="changeSize" onClick={this.openModal} >Change Page Size</button> */}
                                 {/* <Button bsStyle="info" onClick={this.getComponentDetails}>Get Component Details</Button> */}
-                                <Button className="col-md-2 col-xs-2" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={this.saveTemplate}>
-                                    <i className="fa fa-save" /> Save Template
-                                    </Button>
-                                <Button className="col-md-2 col-xs-2" style={{ float: "right", minWidth: 150 }} bsStyle="success" onClick={this.toggleEditMode}>
-                                    <i className="fa fa-edit" style={{ marginRight: 2 }} />
-                                    {this.state.editMode ? "Leave Edit Mode" : "Enter Edit Mode"}
-                                </Button>
-                                <Button className="col-md-2 col-xs-2" style={{ float: "right", minWidth: 150 }} bsStyle="warning" onClick={this.savePresentation}>
+
+                                {/* <Button>
+                                    <Glyphicon glyph="align-left" />
+                                </Button> */}
+
+
+                                {/* <Button className="col-md-2 col-xs-2" style={{ float: "right", width: "fit-content" }} bsStyle="warning" onClick={this.savePresentation}>
                                     <i className="fa fa-edit" style={{ marginRight: 2 }} /> Export as PPT
                                 </Button>
-                                <Button className="col-md-2 col-xs-2" style={{ float: "right", minWidth: 130 }} bsStyle="info" onClick={()=>{this.setState({editMode: false}); this.savePDF()}}>
+                                <Button className="col-md-2 col-xs-2" style={{ float: "right", width: "fit-content" }} bsStyle="info" onClick={() => { this.setState({ editMode: false }); this.savePDF() }}>
                                     <i className="fa fa-save" /> Save PDF
-                                </Button>
+                                </Button> */}
+
                                 <br />
 
                                 {/* <div id="size" className="modal">
@@ -586,46 +616,63 @@ class App3 extends Component {
 
 
                                 <div className="col-sm-12 col-xs-12" style={{ paddingTop: 10, paddingBottom: 10, backgroundColor: 'white', borderBottom: '7px solid #EB6B2A' }}>
+                                    <span><label> Add Component: </label>
+                                        <ButtonToolbar>
+                                            <Button data-toggle="tooltip" data-placement="bottom" title="Add Textbox" bsStyle="primary"
+                                                onClick={this.addTextbox} style={{ marginRight: 5, marginLeft: 6 }}><i className="fa fa-font" /></Button>
+                                            <Button data-toggle="tooltip" data-placement="bottom" title="Add Bar Chart" bsStyle="warning"
+                                                onClick={this.addBarChart} style={{ marginRight: 5 }}><i className="fa fa-bar-chart" /></Button>
+                                            <Button data-toggle="tooltip" data-placement="bottom" title="Add Line Chart" bsStyle="success"
+                                                onClick={this.addLineChart} style={{ marginRight: 5 }}><i className="fa fa-line-chart" /></Button>
+                                            <Button data-toggle="tooltip" data-placement="bottom" title="Add Table" bsStyle="danger"
+                                                onClick={this.addTable} style={{ marginRight: 5 }}><i className="fa fa-table" /> </Button>
+                                            <Button data-toggle="tooltip" data-placement="bottom" title="Add Image"
+                                                onClick={this.addImage} style={{ backgroundColor: "#31B0D5", color: "white", border: "1px solid #31B0D5", marginRight: 5 }}><i className="fa fa-image" /></Button>
+                                            <Button data-toggle="tooltip" data-placement="bottom" title="Add Video"
+                                                onClick={this.addVideo} style={{ backgroundColor: "#D896FF", color: "white", border: "1px solid #D896FF", marginRight: 5}}><i className="fa fa-play-circle" /></Button>
 
-                                    <label> Add Component: </label>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Textbox" bsStyle="primary"
-                                        onClick={this.addTextbox} style={{ marginRight: 5, marginLeft: 6 }}><i className="fa fa-font" /></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Bar Chart" bsStyle="warning"
-                                        onClick={this.addBarChart} style={{ marginRight: 5 }}><i className="fa fa-bar-chart" /></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Line Chart" bsStyle="success"
-                                        onClick={this.addLineChart} style={{ marginRight: 5 }}><i className="fa fa-line-chart" /></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Table" bsStyle="danger"
-                                        onClick={this.addTable} style={{ marginRight: 5 }}><i className="fa fa-table" /> </Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Image"
-                                        onClick={this.addImage} style={{ backgroundColor: "#31B0D5", color: "white", border: "1px solid #31B0D5", marginRight: 5 }}><i className="fa fa-image" /></Button>
-                                    <Button data-toggle="tooltip" data-placement="bottom" title="Add Video"
-                                        onClick={this.addVideo} style={{ backgroundColor: "#D896FF", color: "white", border: "1px solid #D896FF", marginRight: 160 }}><i className="fa fa-play-circle" /></Button>
 
-                                    <span style={{ fontFamily: 'Georgia', fontSize: 18, textAlign: "center" }}>Page Number
-                                        <Button data-toggle="tooltip" data-placement="bottom" title="Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
-                                            style={{ marginRight: 10, marginLeft: 10 }}>
-                                            <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
-                                                <path d="M0-.5h24v24H0z" fill="none"></path>
-                                                <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" className="jWRuRT"></path>
-                                            </svg>
+                                            <Button  style={{  height: "fit-content", width: "fit-content", marginRight:5}} onClick={this.saveTemplate} block>
+                                            <i className="fa fa-save fa-lg" />
                                         </Button>
-                                        <span style={{ fontFamily: 'Georgia', fontSize: 18 }}>{this.state.pageNo + 1}</span>
+
+                                            <DropdownButton title="Export As" id="dropdown-size-medium" onSelect={this.export}>
+                                                <MenuItem eventKey="PDF">PDF</MenuItem>
+                                                <MenuItem eventKey="PPT">PPT</MenuItem>
+                                            </DropdownButton>
+                                            
+                                     
+                                        
+
+
+                                        <span style={{ fontFamily: 'Georgia', fontSize: 18, float: "right" }}>Page Number
                                         <Button data-toggle="tooltip" data-placement="bottom" title="Next Page" bsStyle="warning" bsSize="small" onClick={this.nextPage}
-                                            style={{ marginLeft: 10 }}>
-                                            <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
-                                                <path d="M0-.5h24v24H0z" fill="none"></path>
-                                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" className="jWRuRT"></path>
-                                            </svg>
-                                        </Button>
-                                        <Button bsStyle="default" bsSize="small" onClick={this.saveTemplate}
-                                            style={{ marginLeft: 10, color: 'orange', border: 'none' }}> <i className="fa fa-save fa-2x" />
-                                        </Button>
-                                    </span>
+                                                style={{ marginLeft: 10, float: "right"  }}>
+                                                <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
+                                                    <path d="M0-.5h24v24H0z" fill="none"></path>
+                                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" className="jWRuRT"></path>
+                                                </svg>
+                                            </Button>
+                                            <span style={{ fontFamily: 'Georgia', fontSize: 18, float:"right" }}>{this.state.pageNo + 1}</span>
+                                        <Button data-toggle="tooltip" data-placement="bottom" title="Previous Page" bsStyle="warning" bsSize="small" onClick={this.previousPage}
+                                                style={{ marginRight: 10, marginLeft: 10, float: "right"  }}>
+                                                <svg height="15" preserveAspectRatio="xMinYMax meet" viewBox="0 0 17 17" width="24">
+                                                    <path d="M0-.5h24v24H0z" fill="none"></path>
+                                                    <path d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z" className="jWRuRT"></path>
+                                                </svg>
+                                            </Button>
+                                            
+                                            
+                                        </span>
+                                        
+                                        </ButtonToolbar>
+                                        </span>
+
                                 </div>
 
                                 <div className="col-sm-12 col-xs-12" style={{ background: "#EEEEEE" }}>
                                     <div id="container" style={{
-                                        backgroundColor: 'white', height: window.innerHeight * 0.70, margin:0
+                                        backgroundColor: 'white', height: window.innerHeight * 0.70, margin: 0
                                     }}>
 
                                         {/* map does a for loop over all the components in the state */}
@@ -637,10 +684,10 @@ class App3 extends Component {
                                                         borderWidth: 2,
                                                         backgroundColor: "white",
                                                         borderColor: 'grey',
-                                                        width:"fit-content"
+                                                        width: "fit-content"
                                                     }}
-                                                    
-                                                    
+
+
                                                     // intialize components x,y,height and width
                                                     position={{ x: item.x, y: item.y }}
                                                     size={{ width: item.width, height: item.height }}

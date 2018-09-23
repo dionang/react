@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import Rnd from 'react-rnd';
 import request from 'request';
 import PptxGenJS from 'pptxgenjs';
 import ReportComponent from './components/ReportComponent';
-import { Button } from 'react-bootstrap';
 import './bootstrap.css';
 import './report.css';
-import DashboardForm from './components/DashboardForm';
-import DashboardChartForm from './components/DashboardChartForm';
 
 
 import apiData from './components/ApiData2';
