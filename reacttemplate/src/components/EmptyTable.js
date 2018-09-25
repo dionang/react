@@ -28,6 +28,7 @@ class EmptyTable extends Component {
                     text: 'Delete',
                     align: 'center',
                     editable: false,
+                    hidden: false,
                     formatter: function(cell, row, rowIndex){
                         return <i className="fa fa-trash" onClick={() => self.delRow(rowIndex)}/>
                     }
@@ -41,6 +42,14 @@ class EmptyTable extends Component {
                     col1: 'Some data',
                     col2: 'Some data'
                 }],
+        }
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.editMode != nextProps.editMode){
+            let columns = this.state.columns;
+            columns[columns.length - 1].hidden = !columns[columns.length - 1].hidden;
+            this.setState({columns});
         }
     }
 

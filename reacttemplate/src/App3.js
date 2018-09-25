@@ -108,9 +108,8 @@ class App3 extends Component {
             {
                 type: "video", x: 0, y: 0, height: 200, width: 400, display: true,
                 properties: {
-                    // using textbox properties for now
                     initialized: false,
-                    videoUrl: 'Enter video embed URL',
+                    videoUrl: '',
                 }
             }
         );
@@ -148,11 +147,15 @@ class App3 extends Component {
     }
 
     export = (e) => {
-        if (e === "PDF") {
-            this.savePDF();
-        } else {
-            this.savePresentation();
-        }
+        let self = this;
+        this.setState({editMode: false});
+        setTimeout(function () {
+            if (e === "PDF") {
+                self.savePDF();
+            } else {
+                self.savePresentation();
+            }
+        }, 100);
     }
 
     getComponentDetails = () => {
@@ -294,7 +297,7 @@ class App3 extends Component {
                             doc.addImage(dataUrl, 'JPEG', 0, 0, 297, 140);
 
                             // 20 is left margin, 200 is top margin
-                            doc.text(20, 200, "Page No: " + (pageNo + 1));
+                            doc.text(20, 200, "Page No: " + (i + 1));
 
                             // if not last page, add page
                             if (i != self.state.picArr.length - 1) {
@@ -345,13 +348,9 @@ class App3 extends Component {
                 if (component.type === "text") {
                     // remove the p tags
                     let text = component.properties.text.substring(3, component.properties.text.length - 4);
-                    // console.log(text);
-                    // let texts = text.split(/\r\n|\n|\r/);
-                    // console.log(texts); 
                     slide.addText(text, {
                         x: x, y: y, w: w, h: h,
                         fontSize: 14, color: '363636'
-                        // , bullet:{code:'25BA'} 
                     });
 
                 } else if (component.type === "image") {
@@ -506,6 +505,7 @@ class App3 extends Component {
                                                 <li><a href="dashboard.jsp"><i className="fa fa-bar-chart"></i>  View Dashboard</a></li>
                                                 <li><a href="createUserAccount.jsp"><i className="fa fa-group"></i>  Create User Account</a></li>
                                                 <li><a href="templateHome.jsp"><i className="fa fa-file-image-o"></i>  Template</a></li>
+                                                <li><a href="slideShow.jsp"><i className="fa fa-slideshare"></i>  Slide Show</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -525,7 +525,6 @@ class App3 extends Component {
                                                     <span className=" fa fa-angle-down"></span>
                                                 </a>
                                                 <ul className="dropdown-menu dropdown-usermenu pull-right">
-                                                    <li><a href="javascript:;"> Profile</a></li>
                                                     <li><a href="logout.jsp"><i className="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                                 </ul>
                                             </li>
@@ -673,13 +672,12 @@ class App3 extends Component {
                                                         width: "fit-content"
                                                     }}
 
-
-                                                    // intialize components x,y,height and width
+z                                                    // intialize components x,y,height and width
                                                     position={{ x: item.x, y: item.y }}
                                                     size={{ width: item.width, height: item.height }}
 
                                                     // min height and size
-                                                    minHeight={10} minWidth={10}
+                                                    minHeight={120} minWidth={135}
 
                                                     // to customize the dragging and resizing behavior
                                                     bounds={"parent"}
