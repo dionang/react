@@ -29,7 +29,8 @@ class ReportComponent extends Component {
             );
         } else if (this.props.type ==="table"){
             return(
-                <EmptyTable editMode={this.props.editMode}/>
+                <EmptyTable i={this.props.i} editMode={this.props.editMode} 
+                    properties={this.props.properties} updateProperties={this.props.updateProperties} />
             );
         } else if (this.props.type === "video") {
             return(

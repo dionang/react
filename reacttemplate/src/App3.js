@@ -80,8 +80,25 @@ class App3 extends Component {
         let components = this.state.components;
         components[this.state.pageNo].push(
             { 
-                type: "table", x: 0, y: 0, height: "fit-content", width: "fit-content", display: true, minWidth:500,
-                properties: {}
+                type: "table", x: 0, y: 0, height:140, width:300, display: true,
+                properties: {
+                    columns: [{
+                        dataField: 'col1',
+                        text: 'Header 1'
+                    }, {
+                        dataField: 'col2',
+                        text: 'Header 2'
+                    }],
+                    data: [{
+                        id: 'row1',
+                        col1: 'Some data',
+                        col2: 'Some data',
+                    },{
+                        id: 'row2',
+                        col1: 'Some data',
+                        col2: 'Some data'
+                    }]
+                }
             }
         );
 
@@ -106,7 +123,7 @@ class App3 extends Component {
         let components = this.state.components;
         components[this.state.pageNo].push(
             {
-                type: "video", x: 0, y: 0, height: 200, width: 400, display: true,
+                type: "video", x: 0, y: 0, height: 240, width: 400, display: true,
                 properties: {
                     initialized: false,
                     videoUrl: '',
@@ -672,7 +689,7 @@ class App3 extends Component {
                                                         width: "fit-content"
                                                     }}
 
-z                                                    // intialize components x,y,height and width
+                                                    // intialize components x,y,height and width
                                                     position={{ x: item.x, y: item.y }}
                                                     size={{ width: item.width, height: item.height }}
 

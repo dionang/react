@@ -9,20 +9,21 @@ class EmptyTable extends Component {
         super(props);
         let self = this;
         this.state = {
+            editMode: this.props.editMode,
             columns: [{
                     dataField: 'col1',
                     text: 'Header 1',
                     headerEvents: {
                         onClick: this.handleClick,
                         onBlur: this.handleBlur
-                    },
+                    }
                 }, {
                     dataField: 'col2',
                     text: 'Header 2',
                     headerEvents: {
                         onClick: this.handleClick,
                         onBlur: this.handleBlur
-                    },
+                    }
                 }, {
                     dataField: 'delete',
                     text: 'Delete',
@@ -36,13 +37,46 @@ class EmptyTable extends Component {
             data: [{
                     id: 'row1',
                     col1: 'Some data',
-                    col2: 'Some data',
+                    col2: 'Some data'
                 },{
                     id: 'row2',
                     col1: 'Some data',
                     col2: 'Some data'
                 }],
         }
+    }
+
+    componentWillMount(){
+        let self = this;
+        let headerEvents = {
+            onClick: this.handleClick,
+            onBlur: this.handleBlur
+        };
+
+        let columns = this.props.properties.columns;
+        let new_columns = [];
+
+        for (let i in columns) {
+            new_columns.push({
+                dataField:columns[i].dataField, 
+                text:columns[i].text, 
+                headerEvents:headerEvents
+            }) 
+        }
+
+        // add the delete column
+        new_columns.push({
+            dataField: 'delete',
+            text: 'Delete',
+            align: 'center',
+            editable: false,
+            hidden: false,
+            formatter: function(cell, row, rowIndex){
+                return <i className="fa fa-trash" onClick={() => self.delRow(rowIndex)}/>
+            }
+        });
+
+        this.setState({columns: new_columns, data:this.props.properties.data})
     }
 
     componentWillReceiveProps(nextProps){
@@ -54,8 +88,9 @@ class EmptyTable extends Component {
     }
 
     addRow = (e) => {
+        let self = this;
         let data = this.state.data;
-        let new_data = {id:'example' + (data.length+1)}
+        let new_data = {id:'row' + (data.length+1)}
 
         for (let i=1; i <= this.state.columns.length; i++){
             new_data["col" + i] = '';
@@ -63,6 +98,10 @@ class EmptyTable extends Component {
 
         data.push(new_data);
         this.setState({data})
+
+        setTimeout(function () {
+            self.updateProperties();
+        }, 100);
     }
 
     delRow(rowIndex){
@@ -77,6 +116,7 @@ class EmptyTable extends Component {
     }
 
     addCol = (e) => {
+        let self = this;
         let columns = this.state.columns;
         let data = this.state.data;
 
@@ -94,8 +134,12 @@ class EmptyTable extends Component {
                 onBlur: this.handleBlur
             }
         });
-        
-        this.setState({columns, data})
+
+        this.setState({columns, data});
+
+        setTimeout(function() {
+            self.updateProperties();
+        }, 100);
     }
 
     handleClick = (e) => {
@@ -107,14 +151,28 @@ class EmptyTable extends Component {
     handleBlur = (e) => {
         let parent = e.target.parentNode;
         parent.innerHTML = e.target.value;
+        this.updateProperties();
+    }
+
+    updateProperties() {
+        let columns = this.state.columns;
+        let new_columns = [];
+        for (let i in columns) {
+            let column = columns[i];
+            if(i != columns.length - 1) {
+                new_columns.push({dataField:column.dataField, text:column.text})
+            }
+        }
+
+        this.props.updateProperties({columns:new_columns, data:this.state.data}, this.props.i);
     }
 
     render(){
         return (
             <div className="draggable">
-                <Button bsSize="small" bsStyle="primary" style={{ padding:"4px 6px" }}
+                <Button bsSize="small" bsStyle="primary" style={{ display:this.state.editMode ? "inline-block" : "none", padding:"4px 6px" }}
                     onClick={this.addRow}>Add Row</Button>
-                <Button bsSize="small" bsStyle="primary" style={{ padding:"4px 6px" }}
+                <Button bsSize="small" bsStyle="primary" style={{ display:this.state.editMode ? "inline-block" : "none", padding:"4px 6px" }}
                     onClick={this.addCol}>Add Col</Button>
                 <BootstrapTable keyField='id' className="nonDraggable" 
                     striped responsive

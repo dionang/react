@@ -14,7 +14,6 @@ let datasets = jsonProcessor.getDatasetNames();
 class DashboardForm extends Component {
     render() {
         return (
-            
             <Formik 
                 // initialize values to use in form
                 initialValues={{
