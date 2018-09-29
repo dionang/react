@@ -83,7 +83,7 @@ class EmptyTable extends Component {
         if(this.props.editMode != nextProps.editMode){
             let columns = this.state.columns;
             columns[columns.length - 1].hidden = !columns[columns.length - 1].hidden;
-            this.setState({columns});
+            this.setState({columns, editMode:nextProps.editMode});
         }
     }
 
@@ -92,7 +92,7 @@ class EmptyTable extends Component {
         let data = this.state.data;
         let new_data = {id:'row' + (data.length+1)}
 
-        for (let i=1; i <= this.state.columns.length; i++){
+        for (let i=1; i < this.state.columns.length; i++){
             new_data["col" + i] = '';
         }
 
