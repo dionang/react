@@ -86,7 +86,7 @@ class Linechart extends Component {
 
     render() {
         return (
-            <div className="draggable" style={{ height: "100% " }}>
+            <div className="draggable" style={{ height: "100%" }}>
                 {this.state.initialized ?
                     <div style={{ height: "calc(70.5% + 1px)" }}>
                         <p style={{ fontFamily: 'Georgia', textAlign: "center", fontSize: 20, }}> {this.state.title} </p>

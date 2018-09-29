@@ -42,12 +42,15 @@ class Textbox extends Component {
 
         return(
             <RichTextEditor 
-                rootStyle={{height:"100%", minHeight:100, minWidth:150, border:0}}
+                rootStyle={{height:"100%", minHeight:100, minWidth:150, border:0, 
+                    backgroundColor:this.state.editMode ? "white" : "transparent"}}
+                editorStyle={{marginRight:20}}
                 value={this.state.value}
                 onChange={this.onChange}
                 toolbarConfig={toolbarConfig}
                 toolbarClassName={"draggable"}
-                toolbarStyle={{display: this.state.editMode ? "" : "none"}}
+                toolbarStyle={{display: this.state.editMode ? "" : "none", position:"absolute", margin:0, bottom:0, paddingLeft:10, 
+                    borderTop:"1px solid lightgray", width:"100%", backgroundColor:"whitesmoke"}}
             />
         );
     }

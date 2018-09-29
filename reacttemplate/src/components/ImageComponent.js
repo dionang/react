@@ -29,12 +29,12 @@ class ImageComponent extends React.Component {
 
     render() {
         return (
-            <div className="draggable" style={{height:"100%", width:"100%"}}>
+            <div className="draggable" style={{height:"100%", width:"100%", backgroundColor: this.props.editMode ? "white" : "transparent"}}>
                 {this.state.initialized ? 
                 <img style={{height:"calc(100% - 27.5px)", width:"100%"}} 
                     src={this.state.imageUrl} 
                 />
-                : <div style={{border: "1px dotted grey", height:"100%"}}>
+                : <div style={{border: "1px dotted grey", height:"100%", backgroundColor:"white"}}>
                     <input className="fileInput" type="file" onChange={this.imageChange} /><br/>
                     Please select an Image for Preview
                 </div>}

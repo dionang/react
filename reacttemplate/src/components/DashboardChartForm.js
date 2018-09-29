@@ -34,19 +34,19 @@ class DashboardChartForm extends Component {
                
                 // render form
                 render={formProps=>(
-                    <Form name="title" className="draggable" style={{textAlign: "center", zIndex: 100,height:"100%",width:"500px"}}>
+                    <Form name="title" className="draggable" style={{textAlign:"center",height:"100%",width:500}}>
                         <label>Chart Title</label>
-                        <Field type="text" name="title" placeholder="Chart Title" style={{position:"relative", 'border-radius': '20px'}} className = "cannotDrag"/>
+                        <Field type="text" name="title" placeholder="Chart Title" style={{position:"relative", borderRadius:20}} className = "cannotDrag"/>
                         <br/><br/>
                         <label>Choose the dataset</label>
-                        <Field component="select" name="dataset" style={{'border-radius': '20px'}}>
+                        <Field component="select" name="dataset" style={{borderRadius:20}}>
                             {datasets.map((dataset)=>
                                 <option key={dataset}>{dataset}</option>
                             )}
                         </Field>
                         <br/><br/>
                         <label>Choose the X-Axis</label> 
-                        <Field component="select" name="xAxis" style={{'border-radius': '20px'}}>
+                        <Field component="select" name="xAxis" style={{borderRadius:20}}>
                             {/* gets the option based on selected dataset */}
                             {jsonProcessor.getOptions(formProps.values.dataset)
                             .map((option)=>
@@ -55,7 +55,7 @@ class DashboardChartForm extends Component {
                         </Field>
                         <br/><br/>
                         <label>Choose the Y-Axis</label> 
-                        <Field component="select" name="yAxis" style={{'border-radius': '20px'}}>
+                        <Field component="select" name="yAxis" style={{borderRadius:20}}>
                             {jsonProcessor.getNumericalOptions(formProps.values.dataset)
                             .map((option)=> 
                                 <option key={option}>{option}</option>
