@@ -91,12 +91,12 @@ class App3 extends Component {
                     }],
                     data: [{
                         id: 'row1',
-                        col1: 'Some data',
-                        col2: 'Some data',
+                        col1: '',
+                        col2: '',
                     },{
                         id: 'row2',
-                        col1: 'Some data',
-                        col2: 'Some data'
+                        col1: '',
+                        col2: ''
                     }]
                 }
             }
@@ -289,7 +289,7 @@ class App3 extends Component {
                         // give time for page to rerender before calling the method
                         setTimeout(function () {
                             self.savePDF();
-                        }, 1500);
+                        }, 2000);
 
                         // reached the last page, proceed to export PDF
                     } else {

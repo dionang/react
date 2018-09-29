@@ -36,12 +36,12 @@ class EmptyTable extends Component {
                 }],
             data: [{
                     id: 'row1',
-                    col1: 'Some data',
-                    col2: 'Some data'
+                    col1: '',
+                    col2: ''
                 },{
                     id: 'row2',
-                    col1: 'Some data',
-                    col2: 'Some data'
+                    col1: '',
+                    col2: ''
                 }],
         }
     }
@@ -181,7 +181,7 @@ class EmptyTable extends Component {
                     cellEdit={ 
                         cellEditFactory({ 
                             blurToSave: true,
-                            mode:'dbclick'
+                            mode:'click'
                         }) 
                     }
                 />

@@ -26,12 +26,12 @@ class VideoComponent extends React.Component {
 
     render() {
         return (
-            <div className="draggable" style={{height:"100%", width:"100%"}}>
+            <div className="draggable" style={{height:"100%", width:"100%", background:this.props.editMode ? "white" : "transparent"}}>
                 {this.state.initialized ? 
                     <iframe style={{width:"100%", height:"calc(100% - 27.5px)"}} 
                         src={this.state.videoUrl} frameBorder="0" allow="encrypted-media" allowFullScreen>
                     </iframe>
-                : <div style={{height:"100%", display:"flex"}}>
+                : <div style={{height:"100%", width:"100%", display:"flex"}}>
                     <input id="videoUrl" className="nonDraggable" placeholder="Please enter a embed video URL" 
                         style={{margin:"auto", width:"80%"}}/>
                     <button style={{margin:"auto"}} onClick={this.loadVideo}>Submit</button>
