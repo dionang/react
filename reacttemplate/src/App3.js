@@ -394,7 +394,7 @@ class App3 extends Component {
         let templateId = parseInt(document.getElementById("templateId").value, 10);
         let companyId = parseInt(document.getElementById("companyId").value, 10);
         let userName = document.getElementById("userName").value;
-        if (templateId === 0 || templateId === 9) {
+        if (templateId === 0 || templateId === 1) {
             request.post({
                 url: api + 'createTemplate',
                 form: {
