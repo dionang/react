@@ -15,14 +15,14 @@ class EmptyTable extends Component {
                     text: 'Header 1',
                     headerEvents: {
                         onClick: this.handleClick,
-                        onBlur: this.handleBlur
+                        onBlur: (e) => this.handleBlur(e,0)
                     }
                 }, {
                     dataField: 'col2',
                     text: 'Header 2',
                     headerEvents: {
                         onClick: this.handleClick,
-                        onBlur: this.handleBlur
+                        onBlur: (e) => this.handleBlur(e,1)
                     }
                 }, {
                     dataField: 'delete',
@@ -48,11 +48,6 @@ class EmptyTable extends Component {
 
     componentWillMount(){
         let self = this;
-        let headerEvents = {
-            onClick: this.handleClick,
-            onBlur: this.handleBlur
-        };
-
         let columns = this.props.properties.columns;
         let new_columns = [];
 
@@ -60,7 +55,10 @@ class EmptyTable extends Component {
             new_columns.push({
                 dataField:columns[i].dataField, 
                 text:columns[i].text, 
-                headerEvents:headerEvents
+                headerEvents:{
+                    onClick: this.handleClick,
+                    onBlur: (e) => this.handleBlur(e,i)
+                }
             }) 
         }
 
@@ -109,7 +107,7 @@ class EmptyTable extends Component {
         data.splice(rowIndex,1);
         
         // fix id referencing error        
-        for(let i in data) {
+        for(let i=0; i < data.length; i++) {
             data[i].id = "row" + (i+1);
         }
         this.setState({data});
@@ -131,7 +129,7 @@ class EmptyTable extends Component {
             text: 'Header ' + columns.length,
             headerEvents: {
                 onClick: this.handleClick,
-                onBlur: this.handleBlur
+                onBlur: (e) => this.handleBlur(e,columns.length-1)
             }
         });
 
@@ -148,10 +146,18 @@ class EmptyTable extends Component {
         e.target.childNodes[0].focus();
     }
 
-    handleBlur = (e) => {
+    handleBlur(e, i) {
+        let self = this;
         let parent = e.target.parentNode;
+        let columns = this.state.columns;
+
         parent.innerHTML = e.target.value;
-        this.updateProperties();
+        columns[i].text = e.target.value;
+
+        this.setState({columns});
+        setTimeout(function() {
+            self.updateProperties();
+        }, 100);
     }
 
     updateProperties() {
@@ -163,7 +169,6 @@ class EmptyTable extends Component {
                 new_columns.push({dataField:column.dataField, text:column.text})
             }
         }
-
         this.props.updateProperties({columns:new_columns, data:this.state.data}, this.props.i);
     }
 

@@ -356,6 +356,11 @@ class App3 extends Component {
             let components = this.state.components[pageNo];
             let slide = pptx.addNewSlide();
             for (let component of components) {
+                // if component is not displayed, skip the entry
+                if (!component.display) {
+                    continue;
+                }
+
                 // convert px to inches
                 let x = component.x / 96;
                 let y = component.y / 96;
@@ -377,10 +382,37 @@ class App3 extends Component {
                     y = (component.y + 27.5) / 96;
                     h = (component.height - 27.5) / 96;
                     slide.addImage({ data: imageUrl, x: x, y: y, w: w, h: h });
+                } else if (component.type === "table") {
+                    // remove height of toolbar
+                    y = (component.y + 27.5) / 96;
+                    h = (component.height - 27.5) / 96;
+                    let headerNames = [];
+                    let headerData = [];
+
+                    // store the header names and data
+                    for (let col of component.properties.columns) {
+                        headerNames.push(col.dataField);
+                        headerData.push(col.text);
+                    }
+
+                    let tableData = [];
+                    tableData.push(headerData);
+
+                    // insert table data
+                    for (let row of component.properties.data) {
+                        let rowData = [];
+                        for (let name of headerNames) {
+                            rowData.push(row[name]);
+                        }
+
+                        tableData.push(rowData);
+                    }
+
+                    let tableOpts = { x:x, y:y, w:w }
+                    slide.addTable(tableData, tableOpts);
                 } else if (component.type === "video") {
                     // remove the p tags
                     let videoUrl = component.properties.videoUrl.trim();
-                    console.log(videoUrl);
                     slide.addMedia({ type: 'online', link: videoUrl, x: x, y: y, w: w, h: h });
                 }
             }
