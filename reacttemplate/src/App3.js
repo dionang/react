@@ -368,13 +368,56 @@ class App3 extends Component {
                 let h = (component.height) / 96;
 
                 if (component.type === "text") {
-                    // remove the p tags
-                    let text = component.properties.text.substring(3, component.properties.text.length - 4);
-                    slide.addText(text, {
+                    let text = component.properties.text;
+                    // remove non breaking spaces
+                    text = text.replace(/&nbsp;/g, " ");
+                    // replace break tag
+                    text = text.replace(new RegExp("<br>","g"), "\n");
+                    // extract all tokens
+                    let tokens = text.split(/(<strong>|<\/strong>|<em>|<\/em>|<u>|<\/u>|<p>|<\/p>|<ul>|<\/ul>|<ol>|<\/ol>|<li>|<\/li>)/);
+
+                    let texts = [];
+                    let bold = false;
+                    let underline = false;
+                    let italic = false;
+                    let breakLine = true;
+                    let bulletType = false;
+                    let bullet = false;
+                    for (let text of tokens){
+                        if (text === "" || text === "\n" || text === "\n  ") {
+                            continue;
+                        } else if (text === "<strong>" || text === "</strong>"){
+                            bold = !bold;
+                        } else if (text === "<em>" || text === "</em>"){
+                            italic = !italic;
+                        } else if (text === "<u>" || text === "</u>"){
+                            underline = !underline;
+                        } else if (text === "<p>" || text === "</p>") {
+                            breakLine = !breakLine;
+                            // push a line break if p tag end was hit
+                            if (breakLine) {
+                                texts.push({text:"\n"});
+                            }
+                        } else if (text === "<ul>" || text === "</ul>") {
+                            bulletType = true;
+                        } else if (text === "<ol>" || text === "</ol>") {
+                            bulletType = {type:"number"};
+                        } else if (text === "<li>" || text === "</li>") {
+                            bullet = !bullet;
+                        } else {
+                            let textItem = { text:text, options:{ bold:bold, underline:underline, italic:italic }};
+                            // only introduce the bullet attribute if necessary, as this starts a new line
+                            if (bullet) {
+                                textItem.options.bullet = bulletType;
+                            }
+                            texts.push(textItem);
+                        }
+                    }
+
+                    slide.addText(texts, {
                         x: x, y: y, w: w, h: h,
                         fontSize: 14, color: '363636'
                     });
-
                 } else if (component.type === "image") {
                     let imageUrl = component.properties.imageUrl;
 
@@ -418,7 +461,7 @@ class App3 extends Component {
             }
         }
 
-        pptx.save('Sample Presentation');
+        pptx.save(this.state.templateName);
     }
 
     saveTemplate = () => {

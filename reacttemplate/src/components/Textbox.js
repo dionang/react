@@ -42,7 +42,7 @@ class Textbox extends Component {
 
         return(
             <RichTextEditor 
-                rootStyle={{height:"100%", minHeight:100, minWidth:150, border:0, 
+                rootStyle={{height:"100%", minHeight:100, minWidth:150, border:0, fontFamily: "Arial",
                     backgroundColor:this.state.editMode ? "white" : "transparent"}}
                 editorStyle={{marginRight:20}}
                 value={this.state.value}

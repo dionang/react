@@ -151,7 +151,7 @@ class EmptyTable extends Component {
 
     handleClick = (e) => {
         let value = e.target.innerHTML;
-        e.target.innerHTML = '<input value="' + value + '"/>';
+        e.target.innerHTML = '<input class="nonDraggable" value="' + value + '"/>';
         e.target.childNodes[0].focus();
     }
 
