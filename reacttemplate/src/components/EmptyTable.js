@@ -116,6 +116,7 @@ class EmptyTable extends Component {
     addCol = (e) => {
         let self = this;
         let columns = this.state.columns;
+        let new_columns = [];
         let data = this.state.data;
 
         // add new item to end of each table row (or else code will crash)
@@ -123,17 +124,25 @@ class EmptyTable extends Component {
             obj["col" + columns.length] = '';
         }
 
-        // add column to column, before the cancel column
-        columns.splice(columns.length-1,0,{
-            dataField: 'col' + columns.length,
-            text: 'Header ' + columns.length,
-            headerEvents: {
-                onClick: this.handleClick,
-                onBlur: (e) => this.handleBlur(e,columns.length-1)
-            }
-        });
+        for (let i in columns) {
+            let column = columns[i];
 
-        this.setState({columns, data});
+            // push the new column before the cancel column
+            if(i == columns.length - 1) {
+                new_columns.push({
+                    dataField: 'col' + columns.length,
+                    text: 'Header ' + columns.length,
+                    headerEvents: {
+                        onClick: this.handleClick,
+                        onBlur: (e) => this.handleBlur(e,columns.length-1)
+                    }
+                })
+            }
+
+            new_columns.push(column);
+        }
+
+        this.setState({columns: new_columns, data});
 
         setTimeout(function() {
             self.updateProperties();

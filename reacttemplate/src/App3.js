@@ -392,7 +392,7 @@ class App3 extends Component {
                     // store the header names and data
                     for (let col of component.properties.columns) {
                         headerNames.push(col.dataField);
-                        headerData.push(col.text);
+                        headerData.push({text: col.text, options: {bold: true}});
                     }
 
                     let tableData = [];
