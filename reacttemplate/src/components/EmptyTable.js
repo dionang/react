@@ -1,4 +1,5 @@
 import '../bootstrap.css';
+import '../report.css';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -61,14 +62,13 @@ class EmptyTable extends Component {
                 }
             }) 
         }
-
         // add the delete column
         new_columns.push({
             dataField: 'delete',
             text: 'Delete',
             align: 'center',
             editable: false,
-            hidden: false,
+            hidden: !self.props.editMode,
             formatter: function(cell, row, rowIndex){
                 return <i className="fa fa-trash" onClick={() => self.delRow(rowIndex)}/>
             }
@@ -189,7 +189,7 @@ class EmptyTable extends Component {
                 <Button bsSize="small" bsStyle="primary" style={{ display:this.state.editMode ? "inline-block" : "none", padding:"4px 6px" }}
                     onClick={this.addCol}>Add Col</Button>
                 <BootstrapTable keyField='id' className="nonDraggable" 
-                    striped responsive
+                    striped responsive 
                     data={ this.state.data } 
                     columns={ this.state.columns } 
                     cellEdit={ 

@@ -755,7 +755,7 @@ class App3 extends Component {
                                                     style={{
                                                         borderStyle: this.state.editMode ? "dotted" : "hidden",
                                                         borderWidth: 2,
-                                                        backgroundColor: (item.type === "text" || item.type === "image" || item.type === "video") 
+                                                        backgroundColor: (item.type === "text" || item.type === "image" || item.type === "video" || item.type === "table") 
                                                                           ? "transparent" : "white",
                                                         borderColor: 'grey',
                                                         width: "fit-content"

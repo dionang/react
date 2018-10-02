@@ -935,3 +935,7 @@ page {
 .recharts-responsive-container {
     z-index: -1;
 }
+
+.table.table-striped.table-bordered {
+    background-color: white;
+}
