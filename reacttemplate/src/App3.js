@@ -51,7 +51,7 @@ class App3 extends Component {
         // adds new component to state
         components[this.state.pageNo].push(
             {
-                type: "bar", x: 0, y: 0, height: 300, width: 500, display: true,
+                type: "bar", x: 0, y: 0, height: 370, width: 450, display: true,
                 properties: {
                     initialized: false,
                 }
@@ -66,7 +66,7 @@ class App3 extends Component {
         let components = this.state.components;
         components[this.state.pageNo].push(
             {
-                type: "line", x: 0, y: 0, height: 300, width: 500, display: true,
+                type: "line", x: 0, y: 0, height: 370, width: 450, display: true,
                 properties: {
                     initialized: false,
                 }

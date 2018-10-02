@@ -111,51 +111,71 @@ class ChartForm extends Component {
 
                 // render form
                 render={formProps=>(
-                    <Form className="draggable" style={{textAlign:"center", height:"100%", width:"100%", backgroundColor:"white"}}>
-                        <label>Chart Title</label>
-                        <Field className="nonDraggable" type="text" name="title" placeholder="Chart Title" />
-                        <br/><br/>
-                        <label>Choose the datasource</label>
-                        <Field component="select" name="datasource" onChange={(e)=>this.loadDataset(e.target.value, formProps)}>
-                            {self.state.datasources.map((datasource)=>
-                                <option key={"datasource" + datasource.id} value={datasource.id}>{datasource.name}</option>
-                            )}
-                        </Field>
-                        <br/><br/>
-                        <label>Choose the dataset</label>
-                        <Field component="select" name="path" onChange={(e)=>this.loadListOptions(e.target.value, formProps)}>
-                            {self.state.datasets.map((dataset)=>
-                                <option key={"path" + dataset.id} value={dataset.id}>{dataset.name}</option>
-                            )}  
-                        </Field>
-                        <br/><br/>
-                        <label>Choose the X-Axis</label> 
-                        <Field component="select" name="xAxis">
-                            {/* gets the option based on selected dataset */}
-                            {self.state.listOptions.map((listOption)=>
-                                {if(listOption.infoType === "categorical") {
-                                    return <option key={"listOption" + listOption.value} value={listOption.value}>{listOption.name}</option>
-                                }}
-                            )}
-                        </Field>
-                        <br/><br/>
-                        <label>Choose the Y-Axis</label> 
-                        <Field component="select" name="yAxis">
-                            {self.state.listOptions.map((listOption)=>
-                                {if(listOption.infoType === "numerical") {
-                                    return <option key={"listOption" + listOption.value} value={listOption.value}>{listOption.name}</option>
-                                }}
-                            )}
-                        </Field>
-                        <br/><br/>
-                        <span style={{marginRight:10}}>Show Summary Statistics</span>
-                        <input type="checkbox" name="summary" onChange={function(){
-                            formProps.values.summary = !formProps.values.summary;
-                        }}>
-                            
-                        </input>
-                        <br/><br/>
-                        <Button type="submit">Submit</Button>
+                    <Form className="form-horizontal draggable" style={{ height:"100%", width:"100%", backgroundColor:"white"}}>
+                        <div className="form-group">
+                            <label className="col-md-3 control-label">Chart Title</label>
+                            <div className="col-md-7">
+                                <Field className="form-control nonDraggable" type="text" name="title" placeholder="Chart Title" />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="col-md-3 control-label">Choose the datasource</label>
+                            <div className="col-md-7">
+                                <Field className="form-control" component="select" name="datasource" onChange={(e)=>this.loadDataset(e.target.value, formProps)}>
+                                    {self.state.datasources.map((datasource)=>
+                                        <option key={"datasource" + datasource.id} value={datasource.id}>{datasource.name}</option>
+                                    )}
+                                </Field>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="col-md-3 control-label">Choose the dataset</label>
+                            <div className="col-md-7">
+                                <Field className="form-control" component="select" name="path" onChange={(e)=>this.loadListOptions(e.target.value, formProps)}>
+                                    {self.state.datasets.map((dataset)=>
+                                        <option key={"path" + dataset.id} value={dataset.id}>{dataset.name}</option>
+                                    )}  
+                                </Field>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="col-md-3 control-label">Choose the X&#8209;Axis</label>
+                            <div className="col-md-7">
+                                <Field className="form-control" component="select" name="xAxis">
+                                    {/* gets the option based on selected dataset */}
+                                    {self.state.listOptions.map((listOption)=>
+                                        {if(listOption.infoType === "categorical") {
+                                            return <option key={"listOption" + listOption.value} value={listOption.value}>{listOption.name}</option>
+                                        }}
+                                    )}
+                                </Field>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="col-md-3 control-label">Choose the Y&#8209;Axis</label>
+                            <div className="col-md-7">
+                                <Field className="form-control" component="select" name="yAxis">
+                                    {self.state.listOptions.map((listOption)=>
+                                        {if(listOption.infoType === "numerical") {
+                                            return <option key={"listOption" + listOption.value} value={listOption.value}>{listOption.name}</option>
+                                        }}
+                                    )}
+                                </Field>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="col-md-offset-3 col-md-7">
+                                <div className="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="summary" onChange={function(){
+                                            formProps.values.summary = !formProps.values.summary;
+                                        }}/> Show Summary Statistics
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <Button className="col-md-offset-5 col-md-2" type="submit">Submit</Button>
+                        
                         {/* <DisplayFormikState {...this.props}/> */}
                     </Form>
                 )}
